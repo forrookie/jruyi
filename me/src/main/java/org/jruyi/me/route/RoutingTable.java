@@ -67,7 +67,7 @@ public final class RoutingTable implements IRoutingTable, IRouterManager {
 			return router;
 
 		router = new Router(id);
-		Router oldRouter = m_routers.putIfAbsent(id, router);
+		Router oldRouter = m_routers.putIfAbsent(router.from(), router);
 		if (oldRouter != null)
 			router = oldRouter;
 
@@ -112,7 +112,7 @@ public final class RoutingTable implements IRoutingTable, IRouterManager {
 				size);
 		for (File file : files) {
 			Router router = Router.load(file);
-			routers.put(router.getFrom(), router);
+			routers.put(router.from(), router);
 		}
 
 		return routers;

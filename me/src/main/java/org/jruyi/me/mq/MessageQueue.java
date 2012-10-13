@@ -376,7 +376,7 @@ public final class MessageQueue implements ITimeoutListener {
 			return null;
 		}
 
-		return id;
+		return id.intern();
 	}
 
 	private void setHandlers(Endpoint endpoint, Map<String, ?> props) {

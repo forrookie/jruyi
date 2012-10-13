@@ -42,7 +42,7 @@ final class Router implements IRouter {
 	private boolean m_modified;
 
 	Router(String from) {
-		m_from = from;
+		m_from = from.intern();
 		m_routeList = new ArrayList<Route>();
 		m_lock = new ReentrantLock();
 	}
@@ -154,7 +154,7 @@ final class Router implements IRouter {
 	}
 
 	@Override
-	public String getFrom() {
+	public String from() {
 		return m_from;
 	}
 
@@ -169,7 +169,7 @@ final class Router implements IRouter {
 		try {
 			int n = routeList.size();
 			for (int i = 0; i < n; ++i) {
-				if (to.equals(routeList.get(i).getTo())) {
+				if (to.equals(routeList.get(i).to())) {
 					m_routeList.remove(i);
 					m_routes = NONE;
 					m_modified = true;
@@ -208,7 +208,7 @@ final class Router implements IRouter {
 				out.writeInt(size);
 				Route[] routes = m_routes;
 				for (Route route : routes) {
-					out.writeObject(route.getTo());
+					out.writeObject(route.to());
 					out.writeObject(route.getFilter());
 				}
 			} finally {
@@ -244,7 +244,7 @@ final class Router implements IRouter {
 		int n = routeList.size();
 		for (int i = 0; i < n; ++i) {
 			Route route = routeList.get(i);
-			if (to.equals(route.getTo()))
+			if (to.equals(route.to()))
 				return route;
 		}
 

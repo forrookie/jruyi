@@ -32,7 +32,7 @@ public interface IRouteSet {
 	 * 
 	 * @return the ID of the source end point
 	 */
-	public String getFrom();
+	public String from();
 
 	/**
 	 * Return the route whose destination end point is the specified {@code to}.

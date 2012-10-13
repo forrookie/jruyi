@@ -50,7 +50,7 @@ final class RouteConverter implements Converter {
 	}
 
 	private void format(StringBuilder builder, IRoute route) {
-		builder.append('[').append(route.getFrom()).append("] -> [")
-				.append(route.getTo()).append("]: ").append(route.getFilter());
+		builder.append('[').append(route.from()).append("] -> [")
+				.append(route.to()).append("]: ").append(route.filter());
 	}
 }

@@ -65,7 +65,7 @@ final class Route implements IRoute, IDumpable {
 
 	Route(Router router, String to) {
 		m_router = router;
-		m_to = to;
+		m_to = to.intern();
 	}
 
 	Route(Router router, String to, String filter)
@@ -80,17 +80,17 @@ final class Route implements IRoute, IDumpable {
 	}
 
 	@Override
-	public String getFilter() {
+	public String filter() {
 		return m_filter.toString();
 	}
 
 	@Override
-	public String getFrom() {
-		return m_router.getFrom();
+	public String from() {
+		return m_router.from();
 	}
 
 	@Override
-	public String getTo() {
+	public String to() {
 		return m_to;
 	}
 
@@ -101,13 +101,13 @@ final class Route implements IRoute, IDumpable {
 
 	@Override
 	public String toString() {
-		return StrUtil.buildString("Route[(", m_router.getFrom(), ")->(", m_to,
+		return StrUtil.buildString("Route[(", m_router.from(), ")->(", m_to,
 				"):", m_filter, "]");
 	}
 
 	@Override
 	public void dump(StringBuilder builder) {
-		builder.append("Route[(").append(m_router.getFrom()).append(")->(")
+		builder.append("Route[(").append(m_router.from()).append(")->(")
 				.append(m_to).append("):").append(m_filter).append(']');
 	}
 
@@ -126,7 +126,7 @@ final class Route implements IRoute, IDumpable {
 		m_filter = filter;
 	}
 
-	Filter filter() {
+	Filter getFilter() {
 		return m_filter;
 	}
 }

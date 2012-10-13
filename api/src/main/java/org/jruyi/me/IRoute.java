@@ -30,21 +30,21 @@ public interface IRoute {
 	 * 
 	 * @return the ID of the source end point
 	 */
-	public String getFrom();
+	public String from();
 
 	/**
 	 * Get the ID of the destination end point.
 	 * 
 	 * @return the ID of the destination end point
 	 */
-	public String getTo();
+	public String to();
 
 	/**
 	 * Get the filter string which defines a rule for filtering messages.
 	 * 
 	 * @return the filter string
 	 */
-	public String getFilter();
+	public String filter();
 
 	/**
 	 * Test if the filter is the one matched regardlessly by all the messages.

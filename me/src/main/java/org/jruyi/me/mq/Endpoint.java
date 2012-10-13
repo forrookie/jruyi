@@ -72,7 +72,7 @@ class Endpoint implements IProducer, IDumpable {
 						msg.close();
 						return;
 					}
-					msg.to(entry.getTo());
+					msg.to(entry.to());
 				}
 
 				endpoint.mq().dispatch(msg);
@@ -91,7 +91,7 @@ class Endpoint implements IProducer, IDumpable {
 	Endpoint(String id, MessageQueue mq) {
 		m_id = id;
 		m_mq = mq;
-		m_router = mq.getRouter(m_id);
+		m_router = mq.getRouter(id);
 
 		String[] preHandlerIds = StrUtil.getEmptyStringArray();
 		String[] postHandlerIds = StrUtil.getEmptyStringArray();
