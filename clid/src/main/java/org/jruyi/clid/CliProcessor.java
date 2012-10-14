@@ -35,8 +35,8 @@ import org.jruyi.common.IService;
 import org.jruyi.common.InsufficientDataException;
 import org.jruyi.common.IntStack;
 import org.jruyi.common.Properties;
-import org.jruyi.common.StringBuilder;
 import org.jruyi.common.StrUtil;
+import org.jruyi.common.StringBuilder;
 import org.jruyi.io.IFilter;
 import org.jruyi.io.IFilterOutput;
 import org.jruyi.io.ISession;
@@ -50,9 +50,13 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.ComponentFactory;
 import org.osgi.service.component.ComponentInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class CliProcessor implements IProcessor, IFilter {
 
+	private static final Logger c_logger = LoggerFactory
+			.getLogger(CliProcessor.class);
 	private static final String BRANDING_URL = "org.jruyi.clid.branding.url";
 	private static final String BINDADDR = "org.jruyi.clid.bindAddr";
 	private static final String PORT = "org.jruyi.clid.port";
@@ -91,14 +95,16 @@ public final class CliProcessor implements IProcessor, IFilter {
 	}
 
 	@Override
-	public boolean onMsgArrive(ISession session, Object msg, IFilterOutput output) {
+	public boolean onMsgArrive(ISession session, Object msg,
+			IFilterOutput output) {
 		((IBuffer) msg).compact();
 		output.add(msg);
 		return true;
 	}
 
 	@Override
-	public boolean onMsgDepart(ISession session, Object msg, IFilterOutput output) {
+	public boolean onMsgDepart(ISession session, Object msg,
+			IFilterOutput output) {
 		IBuffer data = (IBuffer) msg;
 		int n = data.length();
 		data.headWriteByte((byte) (n & 0x7F));
@@ -146,6 +152,7 @@ public final class CliProcessor implements IProcessor, IFilter {
 					buffer.write(cs.format(result, Converter.INSPECT),
 							CharsetCodec.UTF_8);
 			} catch (Exception e) {
+				c_logger.warn(cmdline, e);
 				buffer.write(e.getMessage(), CharsetCodec.UTF_8);
 			}
 
@@ -302,14 +309,17 @@ public final class CliProcessor implements IProcessor, IFilter {
 
 	private void loadBrandingInfo(String url, BundleContext context)
 			throws Exception {
-		java.util.Properties brandingInfo = loadBrandingProps(
-				CliProcessor.class.getResourceAsStream("branding.properties"));
+		java.util.Properties brandingInfo = loadBrandingProps(CliProcessor.class
+				.getResourceAsStream("branding.properties"));
 		if (url != null)
 			brandingInfo.putAll(loadBrandingProps(new URL(url).openStream()));
 
-		m_welcome = CharsetCodec.get(CharsetCodec.UTF_8).toBytes(
-				StrUtil.filterProps(brandingInfo.getProperty(WELCOME), context));
-		m_prompt = StrUtil.filterProps(brandingInfo.getProperty(PROMPT), context);
+		m_welcome = CharsetCodec.get(CharsetCodec.UTF_8)
+				.toBytes(
+						StrUtil.filterProps(brandingInfo.getProperty(WELCOME),
+								context));
+		m_prompt = StrUtil.filterProps(brandingInfo.getProperty(PROMPT),
+				context);
 	}
 
 	private static java.util.Properties loadBrandingProps(InputStream in)

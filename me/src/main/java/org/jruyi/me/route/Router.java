@@ -209,7 +209,7 @@ final class Router implements IRouter {
 				Route[] routes = m_routes;
 				for (Route route : routes) {
 					out.writeObject(route.to());
-					out.writeObject(route.getFilter());
+					out.writeObject(route.filter());
 				}
 			} finally {
 				out.close();
