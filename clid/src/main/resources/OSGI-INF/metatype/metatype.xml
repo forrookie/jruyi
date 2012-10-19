@@ -28,7 +28,7 @@
 		<AD id="debug" name="Debug" type="Boolean" default="false"/>
 	</OCD>
 
-	<Designate pid="org.jruyi.clid">
+	<Designate pid="jruyi.clid">
 		<Object ocdref="clid"/>
 	</Designate>
 

@@ -24,7 +24,7 @@
 		<AD id="msgTimeout" name="Message Timeout" type="Integer" default="10" />
 	</OCD>
 
-	<Designate pid="org.jruyi.me.mq">
+	<Designate pid="jruyi.me.mq">
 		<Object ocdref="mq" />
 	</Designate>
 

@@ -38,7 +38,7 @@ public final class MsgLog extends Filter {
 
 	public static Dictionary<String, ?> getProperties() {
 		Properties properties = new Properties();
-		properties.put(IoConstants.FILTER_ID, "org.jruyi.io.filter.msglog");
+		properties.put(IoConstants.FILTER_ID, "jruyi.io.filter.msglog");
 		return properties;
 	}
 

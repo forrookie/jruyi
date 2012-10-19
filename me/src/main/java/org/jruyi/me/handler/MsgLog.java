@@ -36,7 +36,7 @@ public final class MsgLog implements IPreHandler, IPostHandler {
 
 	public static Dictionary<String, ?> getProperties() {
 		Properties properties = new Properties();
-		properties.put(MeConstants.HANDLER_ID, "org.jruyi.me.handler.msglog");
+		properties.put(MeConstants.HANDLER_ID, "jruyi.me.handler.msglog");
 		return properties;
 	}
 

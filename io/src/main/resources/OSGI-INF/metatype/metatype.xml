@@ -195,39 +195,39 @@
 		<AD id="secureRandomProvider" name="SecureRandom Provider" type="String" required="false" />
 	</OCD>
 
-	<Designate pid="org.jruyi.io.tcpserver" factoryPid="org.jruyi.io.tcpserver">
+	<Designate pid="jruyi.io.tcpserver" factoryPid="jruyi.io.tcpserver">
 		<Object ocdref="tcpServer"/>
 	</Designate>
 
-	<Designate pid="org.jruyi.io.tcpclient.shortconn" factoryPid="org.jruyi.io.tcpclient.shortconn">
+	<Designate pid="jruyi.io.tcpclient.shortconn" factoryPid="jruyi.io.tcpclient.shortconn">
 		<Object ocdref="tcpShortConn"/>
 	</Designate>
 
-	<Designate pid="org.jruyi.io.tcpclient.connpool" factoryPid="org.jruyi.io.tcpclient.connpool">
+	<Designate pid="jruyi.io.tcpclient.connpool" factoryPid="jruyi.io.tcpclient.connpool">
 		<Object ocdref="tcpConnPool"/>
 	</Designate>
 
-	<Designate pid="org.jruyi.io.tcpclient.longconn" factoryPid="org.jruyi.io.tcpclient.longconn">
+	<Designate pid="jruyi.io.tcpclient.longconn" factoryPid="jruyi.io.tcpclient.longconn">
 		<Object ocdref="tcpLongConn"/>
 	</Designate>
 
-	<Designate pid="org.jruyi.io.udpserver" factoryPid="org.jruyi.io.udpserver">
+	<Designate pid="jruyi.io.udpserver" factoryPid="jruyi.io.udpserver">
 		<Object ocdref="udpServer"/>
 	</Designate>
 
-	<Designate pid="org.jruyi.io.udpclient" factoryPid="org.jruyi.io.udpclient">
+	<Designate pid="jruyi.io.udpclient" factoryPid="jruyi.io.udpclient">
 		<Object ocdref="udpClient"/>
 	</Designate>
 
-	<Designate pid="org.jruyi.io.filter.textline" factoryPid="org.jruyi.io.filter.textline">
+	<Designate pid="jruyi.io.filter.textline" factoryPid="jruyi.io.filter.textline">
 		<Object ocdref="textLineFilter" />
 	</Designate>
 
-	<Designate pid="org.jruyi.io.filter.ssl" factoryPid="org.jruyi.io.filter.ssl">
+	<Designate pid="jruyi.io.filter.ssl" factoryPid="jruyi.io.filter.ssl">
 		<Object ocdref="sslFilter" />
 	</Designate>
 
-	<Designate pid="org.jruyi.io.sslci.keystore" factoryPid="org.jruyi.io.sslci.keystore">
+	<Designate pid="jruyi.io.sslci.keystore" factoryPid="jruyi.io.sslci.keystore">
 		<Object ocdref="sslciKeyStore" />
 	</Designate>
 

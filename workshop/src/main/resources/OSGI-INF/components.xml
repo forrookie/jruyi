@@ -16,7 +16,7 @@
 	limitations under the License.
 -->
 
-<component name="org.jruyi.workshop" modified="modified"
+<component name="jruyi.workshop" modified="modified"
 	xmlns="http://www.osgi.org/xmlns/scr/v1.1.0">
 	<implementation class="org.jruyi.workshop.impl.Worker"/>
 	<property name="corePoolSize" type="Integer" value="10"/>

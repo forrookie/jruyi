@@ -18,7 +18,7 @@
 
 <components xmlns="http://felix.apache.org/xmlns/scr/v1.1.0-felix">
 
-	<component name="org.jruyi.me.route" configuration-policy="ignore">
+	<component name="jruyi.me.route" configuration-policy="ignore">
 		<implementation class="org.jruyi.me.route.RoutingTable"/>
 		<service>
 			<provide interface="org.jruyi.me.IRoutingTable"/>
@@ -26,7 +26,7 @@
 		</service>
 	</component>
 
-	<component name="org.jruyi.me.mq" modified="modified">
+	<component name="jruyi.me.mq" modified="modified">
 		<implementation class="org.jruyi.me.mq.MessageQueue"/>
 		<property name="msgTimeout" type="Integer" value="10"/>
 		<reference

@@ -28,7 +28,7 @@
 		<AD id="terminationWaitTime" name="Termination Wait Time" type="Integer" default="300" />
 	</OCD>
 
-	<Designate pid="org.jruyi.workshop">
+	<Designate pid="jruyi.workshop">
 		<Object ocdref="workshop" />
 	</Designate>
 

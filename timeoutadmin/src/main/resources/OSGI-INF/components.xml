@@ -16,7 +16,7 @@
 	limitations under the License.
 -->
 
-<component name="org.jruyi.timeoutadmin"
+<component name="jruyi.timeoutadmin"
 	xmlns="http://www.osgi.org/xmlns/scr/v1.1.0">
 	<implementation class="org.jruyi.timeoutadmin.impl.TimeoutAdmin"/>
 	<service>

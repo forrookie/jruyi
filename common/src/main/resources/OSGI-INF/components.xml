@@ -18,7 +18,7 @@
 
 <components xmlns="http://www.osgi.org/xmlns/scr/v1.1.0">
 
-	<component name="org.jruyi.common.buffer" modified="modified">
+	<component name="jruyi.common.buffer" modified="modified">
 		<implementation class="org.jruyi.common.buffer.BufferFactory"/>
 		<property name="unitCapacity" type="Integer" value="8192"/>
 		<service>

@@ -18,7 +18,7 @@
 
 <components xmlns="http://www.osgi.org/xmlns/scr/v1.1.0">
 
-	<component name="org.jruyi.cmd.conf" configuration-policy="ignore">
+	<component name="jruyi.cmd.conf" configuration-policy="ignore">
 		<implementation class="org.jruyi.cmd.conf.Conf"/>
 		<service>
 			<provide interface="org.jruyi.cmd.conf.Conf"/>
@@ -38,7 +38,7 @@
 			unbind="unsetConfigurationAdmin"/>
 	</component>
 	
-	<component name="org.jruyi.cmd.route" configuration-policy="ignore">
+	<component name="jruyi.cmd.route" configuration-policy="ignore">
 		<implementation class="org.jruyi.cmd.route.Route"/>
 		<service>
 			<provide interface="org.jruyi.cmd.route.Route"/>

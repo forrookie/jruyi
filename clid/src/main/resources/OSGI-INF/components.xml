@@ -18,7 +18,7 @@
 
 <components xmlns="http://www.osgi.org/xmlns/scr/v1.1.0">
 
-	<component name="org.jruyi.clid" immediate="true" modified="modified">
+	<component name="jruyi.clid" immediate="true" modified="modified">
 		<implementation class="org.jruyi.clid.CliProcessor"/>
 		<service>
 			<provide interface="org.jruyi.io.IFilter"/>
@@ -42,13 +42,13 @@
 		<reference
 			name="tcpServerFactory"
 			interface="org.osgi.service.component.ComponentFactory"
-			target="(component.factory=org.jruyi.io.tcpserver.factory)"/>
+			target="(component.factory=jruyi.io.tcpserver.factory)"/>
 		<reference
 			name="routingTable"
 			interface="org.jruyi.me.IRoutingTable"/>
 	</component>
 
-	<component name="org.jruyi.clid.converter" configuration-policy="ignore">
+	<component name="jruyi.clid.converter" configuration-policy="ignore">
 		<implementation class="org.jruyi.clid.ConverterImpl"/>
 		<service>
 			<provide interface="org.apache.felix.service.command.Converter"/>
