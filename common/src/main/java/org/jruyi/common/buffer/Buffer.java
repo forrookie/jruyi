@@ -1071,19 +1071,21 @@ final class Buffer implements IBuffer {
 		ByteBuffer getByteBufferForRead() {
 			ByteBuffer bb = m_bb;
 			int start = m_start;
-			bb.position(start + m_position);
 			bb.limit(start + m_size);
+			bb.position(start + m_position);
 			return bb;
 		}
 
 		ByteBuffer getByteBufferForRead(int offset, int length) {
 			ByteBuffer bb = m_bb;
-			int start = m_start;
-			bb.position(start + offset);
+			bb.rewind();
 			length += offset;
 			if (length > m_size)
 				length = m_size;
+			
+			int start = m_start;
 			bb.limit(start + length);
+			bb.position(start + offset);
 			return bb;
 		}
 
@@ -1588,7 +1590,7 @@ final class Buffer implements IBuffer {
 		ByteBufferArray bba = ByteBufferArray.get();
 		try {
 			Unit unit = getCurrentUnitToRead();
-			bba.add(unit.getByteBufferForRead());
+			bba.add(unit.getByteBufferForRead(unit.position(), length));
 			while ((length -= unit.skip(length)) > 0) {
 				unit = getNextUnitToRead();
 				bba.add(unit.getByteBufferForRead(unit.position(), length));

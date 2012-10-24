@@ -235,14 +235,21 @@ public class BufferTest {
 
 	@Test
 	public void test_writeReadString() throws UnsupportedEncodingException {
-		String testStr = "Test Buffer.readString/Buffer.writeString;对read和write的测试";
-		byte[] bytes = testStr.getBytes("UTF-8");
+		String testStr1 = "Test Buffer.";
+		String testStr2 = "readString/Buffer.writeString;对read和write的测试";
+		String testStr = testStr1 + testStr2;
+		byte[] bytes1 = testStr1.getBytes("UTF-8");
+		byte[] bytes2 = testStr2.getBytes("UTF-8");
+		final int n1 = bytes1.length;
+		final int n2 = bytes2.length;
 		for (int i = 1; i < testStr.length() + 2; ++i) {
 			BufferFactory factory = initializeFactory(i);
 			IBuffer buffer = factory.create();
-			buffer.writeBytes(bytes);
+			buffer.writeBytes(bytes1);
+			buffer.writeBytes(bytes2);
 
-			String result = buffer.getString(0, "UTF-8");
+			String result = buffer.getString(0, n1, "UTF-8")
+					+ buffer.getString(n1, n2, "UTF-8");
 			Assert.assertEquals(result, testStr);
 
 			IBuffer buffer2 = factory.create();
@@ -250,10 +257,10 @@ public class BufferTest {
 			String result2 = buffer2.getString(0, "UTF-8");
 			Assert.assertEquals(result2, testStr);
 
-			result = buffer.readString("UTF-8");
+			result = buffer.readString(n1, "UTF-8") + buffer.readString(n2, "UTF-8");
 			Assert.assertEquals(result, testStr);
 
-			result2 = buffer2.readString("UTF-8");
+			result2 = buffer2.readString(n1, "UTF-8") + buffer2.readString(n2, "UTF-8");
 			Assert.assertEquals(result2, testStr);
 		}
 	}
