@@ -59,7 +59,7 @@
 	<properties>
 		<!-- Third-Party Artifacts -->
 		<commons-cli.version>1.2</commons-cli.version>
-		<slf4j-api.version>1.7.1</slf4j-api.version>
+		<slf4j-api.version>1.7.2</slf4j-api.version>
 		<logback-core.version>1.0.7</logback-core.version>
 		<logback-classic.version>1.0.7</logback-classic.version>
 		<org.apache.felix.framework.version>4.0.3</org.apache.felix.framework.version>

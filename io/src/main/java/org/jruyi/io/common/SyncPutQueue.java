@@ -25,7 +25,7 @@ import org.jruyi.common.ListNode;
 public final class SyncPutQueue<E> {
 
 	private ListNode<E> m_head;
-	private ListNode<E> m_tail;
+	private volatile ListNode<E> m_tail;
 	private final ReentrantLock m_putLock;
 
 	public SyncPutQueue() {
@@ -50,10 +50,10 @@ public final class SyncPutQueue<E> {
 		if (m_head == m_tail)
 			return null;
 
-		ListNode<E> head = m_head.next();
-		E e = head.get();
-		head.set(null);
-		m_head = head;
+		ListNode<E> node = m_head.next();
+		E e = node.get();
+		node.set(null);
+		m_head = node;
 		return e;
 	}
 }
