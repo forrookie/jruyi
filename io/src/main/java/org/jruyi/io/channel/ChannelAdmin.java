@@ -43,7 +43,6 @@ public final class ChannelAdmin implements IChannelAdmin {
 
 	final class SelectorThread implements Runnable {
 
-		private final String m_name;
 		private SyncPutQueue<ISelectableChannel> m_registerQueue;
 		private SyncPutQueue<ISelectableChannel> m_connectQueue;
 		private SyncPutQueue<ISelectableChannel> m_readQueue;
@@ -51,36 +50,36 @@ public final class ChannelAdmin implements IChannelAdmin {
 		private Thread m_thread;
 		private Selector m_selector;
 
-		public SelectorThread(int id) {
-			m_name = StrUtil.buildString("Selector-", id);
-		}
-
-		public void open() throws Exception {
+		public void open(int id) throws Exception {
 			m_registerQueue = new SyncPutQueue<ISelectableChannel>();
 			m_connectQueue = new SyncPutQueue<ISelectableChannel>();
 			m_readQueue = new SyncPutQueue<ISelectableChannel>();
 			m_writeQueue = new SyncPutQueue<ISelectableChannel>();
 
 			m_selector = Selector.open();
-			m_thread = new Thread(this, "ChannelAdmin");
+			m_thread = new Thread(this, "SelectorThread-" + id);
 			m_thread.start();
 		}
 
 		public void close() {
-			m_thread.interrupt();
-			try {
-				m_thread.join();
-			} catch (InterruptedException e) {
-			} finally {
-				m_thread = null;
+			if (m_thread != null) {
+				m_thread.interrupt();
+				try {
+					m_thread.join();
+				} catch (InterruptedException e) {
+				} finally {
+					m_thread = null;
+				}
 			}
 
-			try {
-				m_selector.close();
-			} catch (Exception e) {
-				c_logger.error("Failed to close the selector", e);
+			if (m_selector != null) {
+				try {
+					m_selector.close();
+				} catch (Exception e) {
+					c_logger.error("Failed to close the selector", e);
+				}
+				m_selector = null;
 			}
-			m_selector = null;
 
 			m_writeQueue = null;
 			m_readQueue = null;
@@ -90,11 +89,12 @@ public final class ChannelAdmin implements IChannelAdmin {
 
 		@Override
 		public void run() {
-			c_logger.info(m_name, ": thread started");
+			Thread currentThread = Thread.currentThread();
+
+			c_logger.info("{} started", currentThread.getName());
 
 			IWorker worker = m_worker;
 			Selector selector = m_selector;
-			Thread currentThread = Thread.currentThread();
 			try {
 				for (;;) {
 					int n = selector.select();
@@ -138,24 +138,23 @@ public final class ChannelAdmin implements IChannelAdmin {
 						} catch (RejectedExecutionException e) {
 						} catch (CancelledKeyException e) {
 						} catch (Exception e) {
-							c_logger.warn(
-									StrUtil.buildString(m_name, ": ", channel),
-									e);
+							c_logger.warn(StrUtil.buildString(
+									currentThread.getName(), ": ", channel), e);
 						}
 					}
 				}
 			} catch (ClosedSelectorException e) {
-				c_logger.error(StrUtil.buildString(m_name,
+				c_logger.error(StrUtil.buildString(currentThread.getName(),
 						": selector closed unexpectedly"), e);
 			} catch (IOException e) {
-				c_logger.error(StrUtil.buildString(m_name, ": selector error"),
-						e);
+				c_logger.error(StrUtil.buildString(currentThread.getName(),
+						": selector error"), e);
 			} catch (Throwable t) {
-				c_logger.error(
-						StrUtil.buildString(m_name, ": unexpected error"), t);
+				c_logger.error(StrUtil.buildString(currentThread.getName(),
+						": unexpected error"), t);
 			}
 
-			c_logger.info(m_name, ": thread stopped");
+			c_logger.info("{} stopped", currentThread.getName());
 		}
 
 		public void onRegisterRequired(ISelectableChannel channel) {
@@ -271,10 +270,11 @@ public final class ChannelAdmin implements IChannelAdmin {
 			count <<= 1;
 		SelectorThread[] sts = new SelectorThread[count];
 		for (i = 0; i < count; ++i) {
-			SelectorThread st = new SelectorThread(i);
+			SelectorThread st = new SelectorThread();
 			try {
-				st.open();
+				st.open(i);
 			} catch (Exception e) {
+				st.close();
 				while (i > 0)
 					sts[--i].close();
 				throw e;
