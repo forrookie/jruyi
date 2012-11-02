@@ -21,6 +21,8 @@ import org.jruyi.common.ICloseable;
 
 public interface ISelectableChannel extends ICloseable {
 
+	public Long id();
+
 	public void onConnect();
 	
 	public Runnable onRead();

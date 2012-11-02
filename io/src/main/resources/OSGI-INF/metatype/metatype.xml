@@ -219,15 +219,15 @@
 		<Object ocdref="udpClient"/>
 	</Designate>
 
-	<Designate pid="jruyi.io.filter.textline" factoryPid="jruyi.io.filter.textline">
+	<Designate factoryPid="jruyi.io.textline.filter">
 		<Object ocdref="textLineFilter" />
 	</Designate>
 
-	<Designate pid="jruyi.io.filter.ssl" factoryPid="jruyi.io.filter.ssl">
+	<Designate factoryPid="jruyi.io.ssl.filter">
 		<Object ocdref="sslFilter" />
 	</Designate>
 
-	<Designate pid="jruyi.io.sslci.keystore" factoryPid="jruyi.io.sslci.keystore">
+	<Designate factoryPid="jruyi.io.sslci.keystore">
 		<Object ocdref="sslciKeyStore" />
 	</Designate>
 

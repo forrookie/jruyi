@@ -368,18 +368,18 @@
 			unbind="unsetChannelAdmin"/>
 	</component>
 
-	<component name="jruyi.io.filter.textline">
-		<implementation class="org.jruyi.io.filter.TextLine"/>
-		<property name="jruyi.io.filter.id" value="org.jruyi.io.filter.textline"/>
+	<component name="jruyi.io.textline.filter">
+		<implementation class="org.jruyi.io.textline.TextLineFilter"/>
+		<property name="jruyi.io.filter.id" value="jruyi.io.textline.filter"/>
 		<service>
 			<provide interface="org.jruyi.io.IFilter"/>
 		</service>
 	</component>
 
-	<component name="jruyi.io.filter.ssl" modified="modified">
-		<implementation class="org.jruyi.io.filter.Ssl"/>
-		<property name="jruyi.io.filter.id" value="org.jruyi.io.filter.ssl"/>
-		<property name="sslci.target" value="(jruyi.io.sslci.id=org.jruyi.io.sslci.null)"/>
+	<component name="jruyi.io.ssl.filter" modified="modified">
+		<implementation class="org.jruyi.io.ssl.SslFilter"/>
+		<property name="jruyi.io.filter.id" value="jruyi.io.ssl.filter"/>
+		<property name="sslci.target" value="(jruyi.io.sslci.id=jruyi.io.sslci.null)"/>
 		<service>
 			<provide interface="org.jruyi.io.IFilter"/>
 		</service>
@@ -392,8 +392,8 @@
 	</component>
 
 	<component name="jruyi.io.sslci.keystore">
-		<implementation class="org.jruyi.io.sslci.Keystore"/>
-		<property name="jruyi.io.sslci.id" value="org.jruyi.io.sslci.null"/>
+		<implementation class="org.jruyi.io.ssl.Keystore"/>
+		<property name="jruyi.io.sslci.id" value="jruyi.io.sslci.null"/>
 		<property name="certValidation" type="Boolean" value="false"/>
 		<service>
 			<provide interface="org.jruyi.io.ISslContextInfo"/>

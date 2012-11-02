@@ -32,105 +32,213 @@ import org.jruyi.workshop.IWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ChannelAdmin implements IChannelAdmin, Runnable {
+public final class ChannelAdmin implements IChannelAdmin {
 
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(ChannelAdmin.class);
-	private SyncPutQueue<ISelectableChannel> m_registerQueue;
-	private SyncPutQueue<ISelectableChannel> m_connectQueue;
-	private SyncPutQueue<ISelectableChannel> m_readQueue;
-	private SyncPutQueue<ISelectableChannel> m_writeQueue;
-	private Thread m_thread;
-	private Selector m_selector;
+	private SelectorThread[] m_sts;
+	private int m_mask;
 	private IWorker m_worker;
 	private ITimeoutAdmin m_tm;
 
-	@Override
-	public void run() {
-		c_logger.info("ChannelAdmin thread started");
+	final class SelectorThread implements Runnable {
 
-		IWorker worker = m_worker;
-		Selector selector = m_selector;
-		Thread currentThread = Thread.currentThread();
-		try {
-			for (;;) {
-				int n = selector.select();
-				if (currentThread.isInterrupted())
-					break;
+		private final String m_name;
+		private SyncPutQueue<ISelectableChannel> m_registerQueue;
+		private SyncPutQueue<ISelectableChannel> m_connectQueue;
+		private SyncPutQueue<ISelectableChannel> m_readQueue;
+		private SyncPutQueue<ISelectableChannel> m_writeQueue;
+		private Thread m_thread;
+		private Selector m_selector;
 
-				procConnect();
-				procRegister();
-				procRead();
-				procWrite();
-
-				if (n < 1)
-					continue;
-
-				Iterator<SelectionKey> iter = selector.selectedKeys().iterator();
-				while (iter.hasNext()) {
-					SelectionKey key = iter.next();
-					iter.remove();
-
-					ISelectableChannel channel = (ISelectableChannel) key
-							.attachment();
-					try {
-						if (key.isConnectable()) {
-							key.interestOps(key.interestOps()
-									& ~SelectionKey.OP_CONNECT);
-							channel.onConnect();
-						} else {
-							if (key.isReadable()) {
-								key.interestOps(key.interestOps()
-										& ~SelectionKey.OP_READ);
-								worker.run(channel.onRead());
-							}
-
-							if (key.isWritable()) {
-								key.interestOps(key.interestOps()
-										& ~SelectionKey.OP_WRITE);
-								worker.run(channel.onWrite());
-							}
-						}
-					} catch (RejectedExecutionException e) {
-					} catch (CancelledKeyException e) {
-					} catch (Exception e) {
-						c_logger.warn(StrUtil.buildString("Error - ", channel), e);
-					}
-				}
-			}
-		} catch (ClosedSelectorException e) {
-			c_logger.error("Selector closed unexpectedly", e);
-		} catch (IOException e) {
-			c_logger.error("Selector Error", e);
-		} catch (Throwable t) {
-			c_logger.error("Unexpected Error", t);
+		public SelectorThread(int id) {
+			m_name = StrUtil.buildString("Selector-", id);
 		}
 
-		c_logger.info("ChannelAdmin thread stopped");
+		public void open() throws Exception {
+			m_registerQueue = new SyncPutQueue<ISelectableChannel>();
+			m_connectQueue = new SyncPutQueue<ISelectableChannel>();
+			m_readQueue = new SyncPutQueue<ISelectableChannel>();
+			m_writeQueue = new SyncPutQueue<ISelectableChannel>();
+
+			m_selector = Selector.open();
+			m_thread = new Thread(this, "ChannelAdmin");
+			m_thread.start();
+		}
+
+		public void close() {
+			m_thread.interrupt();
+			try {
+				m_thread.join();
+			} catch (InterruptedException e) {
+			} finally {
+				m_thread = null;
+			}
+
+			try {
+				m_selector.close();
+			} catch (Exception e) {
+				c_logger.error("Failed to close the selector", e);
+			}
+			m_selector = null;
+
+			m_writeQueue = null;
+			m_readQueue = null;
+			m_connectQueue = null;
+			m_registerQueue = null;
+		}
+
+		@Override
+		public void run() {
+			c_logger.info(m_name, ": thread started");
+
+			IWorker worker = m_worker;
+			Selector selector = m_selector;
+			Thread currentThread = Thread.currentThread();
+			try {
+				for (;;) {
+					int n = selector.select();
+					if (currentThread.isInterrupted())
+						break;
+
+					procConnect();
+					procRegister();
+					procRead();
+					procWrite();
+
+					if (n < 1)
+						continue;
+
+					Iterator<SelectionKey> iter = selector.selectedKeys()
+							.iterator();
+					while (iter.hasNext()) {
+						SelectionKey key = iter.next();
+						iter.remove();
+
+						ISelectableChannel channel = (ISelectableChannel) key
+								.attachment();
+						try {
+							if (key.isConnectable()) {
+								key.interestOps(key.interestOps()
+										& ~SelectionKey.OP_CONNECT);
+								channel.onConnect();
+							} else {
+								if (key.isReadable()) {
+									key.interestOps(key.interestOps()
+											& ~SelectionKey.OP_READ);
+									worker.run(channel.onRead());
+								}
+
+								if (key.isWritable()) {
+									key.interestOps(key.interestOps()
+											& ~SelectionKey.OP_WRITE);
+									worker.run(channel.onWrite());
+								}
+							}
+						} catch (RejectedExecutionException e) {
+						} catch (CancelledKeyException e) {
+						} catch (Exception e) {
+							c_logger.warn(
+									StrUtil.buildString(m_name, ": ", channel),
+									e);
+						}
+					}
+				}
+			} catch (ClosedSelectorException e) {
+				c_logger.error(StrUtil.buildString(m_name,
+						": selector closed unexpectedly"), e);
+			} catch (IOException e) {
+				c_logger.error(StrUtil.buildString(m_name, ": selector error"),
+						e);
+			} catch (Throwable t) {
+				c_logger.error(
+						StrUtil.buildString(m_name, ": unexpected error"), t);
+			}
+
+			c_logger.info(m_name, ": thread stopped");
+		}
+
+		public void onRegisterRequired(ISelectableChannel channel) {
+			m_registerQueue.put(channel);
+			m_selector.wakeup();
+		}
+
+		public void onConnectRequired(ISelectableChannel channel) {
+			m_connectQueue.put(channel);
+			m_selector.wakeup();
+		}
+
+		public void onReadRequired(ISelectableChannel channel) {
+			m_readQueue.put(channel);
+			m_selector.wakeup();
+		}
+
+		public void onWriteRequired(ISelectableChannel channel) {
+			m_writeQueue.put(channel);
+			m_selector.wakeup();
+		}
+
+		private void procRegister() {
+			ISelectableChannel channel = null;
+			SyncPutQueue<ISelectableChannel> registerQueue = m_registerQueue;
+			Selector selector = m_selector;
+			while ((channel = registerQueue.poll()) != null)
+				channel.register(selector, SelectionKey.OP_READ);
+		}
+
+		private void procConnect() {
+			ISelectableChannel channel = null;
+			SyncPutQueue<ISelectableChannel> connectQueue = m_connectQueue;
+			Selector selector = m_selector;
+			while ((channel = connectQueue.poll()) != null)
+				channel.register(selector, SelectionKey.OP_CONNECT);
+		}
+
+		private void procRead() {
+			ISelectableChannel channel = null;
+			SyncPutQueue<ISelectableChannel> readQueue = m_readQueue;
+			while ((channel = readQueue.poll()) != null) {
+				try {
+					channel.interestOps(SelectionKey.OP_READ);
+				} catch (CancelledKeyException e) {
+				} catch (Exception e) {
+					channel.onException(e);
+				}
+			}
+		}
+
+		private void procWrite() {
+			ISelectableChannel channel = null;
+			SyncPutQueue<ISelectableChannel> writeQueue = m_writeQueue;
+			while ((channel = writeQueue.poll()) != null) {
+				try {
+					channel.interestOps(SelectionKey.OP_WRITE);
+				} catch (CancelledKeyException e) {
+				} catch (Exception e) {
+					channel.onException(e);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void onRegisterRequired(ISelectableChannel channel) {
-		m_registerQueue.put(channel);
-		m_selector.wakeup();
+		getSelectorThread(channel).onRegisterRequired(channel);
 	}
 
 	@Override
 	public void onConnectRequired(ISelectableChannel channel) {
-		m_connectQueue.put(channel);
-		m_selector.wakeup();
+		getSelectorThread(channel).onConnectRequired(channel);
 	}
 
 	@Override
 	public void onReadRequired(ISelectableChannel channel) {
-		m_readQueue.put(channel);
-		m_selector.wakeup();
+		getSelectorThread(channel).onReadRequired(channel);
 	}
 
 	@Override
 	public void onWriteRequired(ISelectableChannel channel) {
-		m_writeQueue.put(channel);
-		m_selector.wakeup();
+		getSelectorThread(channel).onWriteRequired(channel);
 	}
 
 	@Override
@@ -157,14 +265,26 @@ public final class ChannelAdmin implements IChannelAdmin, Runnable {
 	protected void activate(Map<String, ?> properties) throws Exception {
 		c_logger.info("Activating ChannelAdmin...");
 
-		m_registerQueue = new SyncPutQueue<ISelectableChannel>();
-		m_connectQueue = new SyncPutQueue<ISelectableChannel>();
-		m_readQueue = new SyncPutQueue<ISelectableChannel>();
-		m_writeQueue = new SyncPutQueue<ISelectableChannel>();
+		int i = Runtime.getRuntime().availableProcessors();
+		int count = 1;
+		while (i > count)
+			count <<= 1;
+		SelectorThread[] sts = new SelectorThread[count];
+		for (i = 0; i < count; ++i) {
+			SelectorThread st = new SelectorThread(i);
+			try {
+				st.open();
+			} catch (Exception e) {
+				while (i > 0)
+					sts[--i].close();
+				throw e;
+			}
 
-		m_selector = Selector.open();
-		m_thread = new Thread(this, "ChannelAdmin");
-		m_thread.start();
+			sts[i] = st;
+		}
+
+		m_mask = count - 1;
+		m_sts = sts;
 
 		c_logger.info("ChannelAdmin activated");
 	}
@@ -172,25 +292,10 @@ public final class ChannelAdmin implements IChannelAdmin, Runnable {
 	protected void deactivate() {
 		c_logger.info("Deactivating ChannelAdmin...");
 
-		m_thread.interrupt();
-		try {
-			m_thread.join();
-		} catch (InterruptedException e) {
-		} finally {
-			m_thread = null;
-		}
-
-		try {
-			m_selector.close();
-		} catch (Exception e) {
-			c_logger.error("Failed to close the selector", e);
-		}
-		m_selector = null;
-
-		m_writeQueue = null;
-		m_readQueue = null;
-		m_connectQueue = null;
-		m_registerQueue = null;
+		SelectorThread[] sts = m_sts;
+		m_sts = null;
+		for (SelectorThread st : sts)
+			st.close();
 
 		c_logger.info("ChannelAdmin deactivated");
 	}
@@ -199,45 +304,7 @@ public final class ChannelAdmin implements IChannelAdmin, Runnable {
 		return m_worker;
 	}
 
-	private void procRegister() {
-		ISelectableChannel channel = null;
-		SyncPutQueue<ISelectableChannel> registerQueue = m_registerQueue;
-		Selector selector = m_selector;
-		while ((channel = registerQueue.poll()) != null)
-			channel.register(selector, SelectionKey.OP_READ);
-	}
-
-	private void procConnect() {
-		ISelectableChannel channel = null;
-		SyncPutQueue<ISelectableChannel> connectQueue = m_connectQueue;
-		Selector selector = m_selector;
-		while ((channel = connectQueue.poll()) != null)
-			channel.register(selector, SelectionKey.OP_CONNECT);
-	}
-
-	private void procRead() {
-		ISelectableChannel channel = null;
-		SyncPutQueue<ISelectableChannel> readQueue = m_readQueue;
-		while ((channel = readQueue.poll()) != null) {
-			try {
-				channel.interestOps(SelectionKey.OP_READ);
-			} catch (CancelledKeyException e) {
-			} catch (Exception e) {
-				channel.onException(e);
-			}
-		}
-	}
-
-	private void procWrite() {
-		ISelectableChannel channel = null;
-		SyncPutQueue<ISelectableChannel> writeQueue = m_writeQueue;
-		while ((channel = writeQueue.poll()) != null) {
-			try {
-				channel.interestOps(SelectionKey.OP_WRITE);
-			} catch (CancelledKeyException e) {
-			} catch (Exception e) {
-				channel.onException(e);
-			}
-		}
+	private SelectorThread getSelectorThread(ISelectableChannel channel) {
+		return m_sts[channel.id().intValue() & m_mask];
 	}
 }

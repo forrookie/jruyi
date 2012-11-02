@@ -33,10 +33,17 @@ final class UdpServerChannel implements ISelectableChannel, Runnable {
 
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(UdpServerChannel.class);
+	private static final Long ID = 0L;
 	private final UdpServer m_udpServer;
 	private final DatagramChannel m_datagramChannel;
 	private final SocketAddress m_localAddr;
 	private SelectionKey m_selectionKey;
+
+	
+	@Override
+	public Long id() {
+		return ID;
+	}
 
 	// runs on read
 	@Override

@@ -15,7 +15,7 @@
  */
 package org.jruyi.io.internal;
 
-import org.jruyi.io.filter.MsgLog;
+import org.jruyi.io.msglog.MsgLogFilter;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -23,7 +23,7 @@ public final class Activator implements BundleActivator {
 
 	@Override
 	public void start(BundleContext bc) throws Exception {
-		bc.registerService(MsgLog.getInterfaces(), new MsgLog(), MsgLog.getProperties());
+		bc.registerService(MsgLogFilter.getInterfaces(), new MsgLogFilter(), MsgLogFilter.getProperties());
 	}
 
 	@Override
