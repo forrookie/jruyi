@@ -104,8 +104,15 @@ public final class RuyiCmd {
 		Bundle bundle = reference.getBundle();
 		URL url = bundle.getEntry(StrUtil.buildString("/HELP-INF/", scope, "/",
 				function));
-		if (url == null)
-			return;
+		if (url == null) {
+			if (bundle.equals(context.getBundle()))
+				return;
+			bundle = context.getBundle();
+			url = bundle.getEntry(StrUtil.buildString("/HELP-INF/", scope, "/",
+					function));
+			if (url == null)
+				return;
+		}
 
 		byte[] buffer = new byte[512];
 		int n = 0;

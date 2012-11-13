@@ -1,0 +1,7 @@
+Usage: scr:list [bundleId]
+
+List registered components of the bundle specified by 'bundleId' or list all
+components if 'bundleId' is not given.  Each component is listed with its
+component ID, state and name.
+
+'bundleId' may be either the ID of a bundle or the symbolic name of a bundle.

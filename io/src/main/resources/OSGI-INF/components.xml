@@ -16,7 +16,7 @@
 	limitations under the License.
 -->
 
-<components xmlns="http://felix.apache.org/xmlns/scr/v1.1.0-felix">
+<components xmlns="http://www.osgi.org/xmlns/scr/v1.2.0">
 
 	<component name="jruyi.io.filter" configuration-policy="ignore">
 		<implementation class="org.jruyi.io.filter.FilterManager"/>
@@ -84,7 +84,7 @@
 			unbind="unsetTcpAcceptor"/>
 	</component>
 	
-	<component factory="jruyi.io.tcpserver.factory">
+	<component name="jruyi.io.tcpserver.factory" factory="tcpserver">
 		<implementation class="org.jruyi.io.tcpserver.TcpServer"/>
 		<service>
 			<provide interface="org.jruyi.common.IService"/>
@@ -138,7 +138,8 @@
 			unbind="unsetChannelAdmin"/>
 	</component>
 
-	<component factory="jruyi.io.tcpclient.shortconn.factory">
+	<component name="jruyi.io.tcpclient.shortconn.factory"
+		factory="tcpclient.shortconn">
 		<implementation class="org.jruyi.io.tcpclient.ShortConn"/>
 		<service>
 			<provide interface="org.jruyi.common.IService"/>
@@ -192,7 +193,8 @@
 			unbind="unsetWorker"/>
 	</component>
 
-	<component factory="jruyi.io.tcpclient.connpool.factory">
+	<component name="jruyi.io.tcpclient.connpool.factory"
+			factory="tcpclient.connpool">
 		<implementation class="org.jruyi.io.tcpclient.ConnPool"/>
 		<service>
 			<provide interface="org.jruyi.common.IService"/>
@@ -246,7 +248,8 @@
 			unbind="unsetChannelAdmin"/>
 	</component>
 
-	<component factory="jruyi.io.tcpclient.longconn.factory">
+	<component name="jruyi.io.tcpclient.longconn.factory"
+			factory="tcpclient.longconn">
 		<implementation class="org.jruyi.io.tcpclient.LongConn"/>
 		<service>
 			<provide interface="org.jruyi.common.IService"/>
@@ -295,7 +298,7 @@
 			unbind="unsetChannelAdmin"/>
 	</component>
 
-	<component factory="jruyi.io.udpserver.factory">
+	<component name="jruyi.io.udpserver.factory" factory="udpserver">
 		<implementation class="org.jruyi.io.udpserver.UdpServer"/>
 		<service>
 			<provide interface="org.jruyi.common.IService"/>
@@ -344,7 +347,7 @@
 			unbind="unsetChannelAdmin"/>
 	</component>
 
-	<component factory="jruyi.io.udpclient.factory">
+	<component name="jruyi.io.udpclient.factory" factory="udpclient">
 		<implementation class="org.jruyi.io.udpclient.UdpClient"/>
 		<service>
 			<provide interface="org.jruyi.common.IService"/>

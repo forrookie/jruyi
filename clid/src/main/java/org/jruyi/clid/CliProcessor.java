@@ -57,10 +57,10 @@ public final class CliProcessor implements IProcessor, IFilter {
 
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(CliProcessor.class);
-	private static final String BRANDING_URL = "org.jruyi.clid.branding.url";
-	private static final String BINDADDR = "org.jruyi.clid.bindAddr";
-	private static final String PORT = "org.jruyi.clid.port";
-	private static final String SESSIONIDLETIMEOUT = "org.jruyi.clid.sessionIdleTimeout";
+	private static final String BRANDING_URL = "jruyi.clid.branding.url";
+	private static final String BINDADDR = "jruyi.clid.bindAddr";
+	private static final String PORT = "jruyi.clid.port";
+	private static final String SESSIONIDLETIMEOUT = "jruyi.clid.sessionIdleTimeout";
 	private static final String NOTIFY_SESSION_EVENTS = "notifySessionEvents";
 	private static final String SRC_ID = "jruyi.clid.tcpsvr";
 	private static final String THIS_ID = "jruyi.clid.proc";
@@ -262,8 +262,8 @@ public final class CliProcessor implements IProcessor, IFilter {
 			conf.putAll(properties);
 
 		String[] filters = (Boolean) conf.get("debug") ? new String[] {
-				"org.jruyi.clid.filter", "org.jruyi.io.filter.msglog" }
-				: new String[] { "org.jruyi.clid.filter" };
+				"jruyi.clid.filter", "jruyi.io.msglog.filter" }
+				: new String[] { "jruyi.clid.filter" };
 		conf.put(MeConstants.EP_ID, SRC_ID);
 		conf.put("initCapacityOfChannelMap", 8);
 		conf.put("filters", filters);

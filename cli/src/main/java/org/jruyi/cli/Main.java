@@ -70,7 +70,7 @@ public final class Main {
 		try {
 			init();
 
-			if (args.length > 0 && !INST.processCommandLines(args))
+			if (args.length > 0 && INST.processCommandLines(args))
 				return;
 
 			Runtime.getRuntime().addShutdownHook(new ShutdownHook());
@@ -145,17 +145,16 @@ public final class Main {
 		options.addOption("h", "host", true, null);
 		options.addOption("p", "port", true, null);
 		options.addOption("t", "timeout", true, null);
+		options.addOption("r", "run", true, null);
 
 		CommandLine line = new PosixParser().parse(options, args);
 
+		String command = null;
 		Option[] opts = line.getOptions();
 		for (Option option : opts) {
 			String opt = option.getOpt();
 			if (opt.equals("?")) {
 				printHelp();
-				return false;
-			} else if (opt.equals("v")) {
-				printVersion();
 				return false;
 			} else if (opt.equals("h")) {
 				String v = option.getValue();
@@ -169,17 +168,20 @@ public final class Main {
 				String v = option.getValue();
 				if (v != null)
 					m_timeout = Integer.parseInt(v) * 1000;
+			} else if (opt.equals("r")) {
+				String v = option.getValue();
+				if (v != null && (v = v.trim()).length() > 0)
+					command = v;
 			} else
 				throw new Exception("Unknown option: " + option);
 		}
+		
+		String[] scripts = line.getArgs();
+		if (command == null && (scripts == null || scripts.length < 1))
+			return false;
 
-		final String[] scripts = line.getArgs();
-		if (scripts.length < 1)
-			return true;
-
-		run(scripts);
-
-		return false;
+		run(command, scripts);
+		return true;
 	}
 
 	private void printHelp() {
@@ -192,61 +194,67 @@ public final class Main {
 		System.out
 				.println("    -?, --help                print this help message");
 		System.out
-				.println("    -v, --version             print version information");
-		System.out
 				.println("    -h, --host=<host_name>    the remote host to connect");
 		System.out
 				.println("    -p, --port=<port_num>     the remote port to connect");
 		System.out
 				.println("    -t, --timeout=<seconds>   the time to wait for response");
+		System.out
+				.println("    -r, --run=<command>       run the specified command");
 		System.out.println();
 	}
 
-	private void printVersion() {
-	}
-
-	private void run(String[] scripts) throws Exception {
+	private void run(String command, String[] scripts) throws Exception {
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
-		session.recv(DummyWriter.INST);
+		try {
+			session.recv(DummyWriter.INST);
 
-		String cmd = "prompt=''";
-		session.send(cmd);
+			String cmd = "prompt=''";
+			session.send(cmd);
+			if (command != null)
+				session.send(command);
 
-		Writer writer = System.console().writer();
-		byte[] buffer = new byte[1024 * 16];
-		for (String name : scripts) {
-			File script = new File(name);
-			if (!script.exists())
-				throw new Exception("File Not Found: " + name);
+			if (scripts == null || scripts.length < 1)
+				return;
 
-			if (!script.isFile())
-				throw new Exception("Invalid script file: " + name);
+			Writer writer = System.console().writer();
+			byte[] buffer = new byte[1024 * 16];
+			for (String name : scripts) {
+				File script = new File(name);
+				if (!script.exists())
+					throw new Exception("File Not Found: " + name);
 
-			int n = (int) script.length();
-			if (n < 1)
-				continue;
+				if (!script.isFile())
+					throw new Exception("Invalid script file: " + name);
 
-			session.writeLength(n);
+				int n = (int) script.length();
+				if (n < 1)
+					continue;
 
-			InputStream in = new FileInputStream(script);
-			try {
-				do {
-					int len = buffer.length;
-					int off = 0;
-					while (len > 0 && (n = in.read(buffer, off, len)) > 0) {
-						off += n;
-						len -= n;
-					}
-					session.writeChunk(buffer, 0, off);
-				} while (n > 0);
+				session.writeLength(n);
 
-				session.flush();
-			} finally {
-				in.close();
+				InputStream in = new FileInputStream(script);
+				try {
+					do {
+						int len = buffer.length;
+						int off = 0;
+						while (len > 0 && (n = in.read(buffer, off, len)) > 0) {
+							off += n;
+							len -= n;
+						}
+						session.writeChunk(buffer, 0, off);
+					} while (n > 0);
+
+					session.flush();
+				} finally {
+					in.close();
+				}
+
+				session.recv(writer);
 			}
-
-			session.recv(writer);
+		} finally {
+			session.close();
 		}
 	}
 }

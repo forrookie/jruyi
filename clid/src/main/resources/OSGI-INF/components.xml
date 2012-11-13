@@ -25,7 +25,7 @@
 			<provide interface="org.jruyi.me.IProcessor"/>
 		</service>
 		<property name="jruyi.me.endpoint.id" value="jruyi.clid.proc"/>
-		<property name="jruyi.io.filter.id" value="org.jruyi.clid.filter"/>
+		<property name="jruyi.io.filter.id" value="jruyi.clid.filter"/>
 		<property name="sessionIdleTimeout" type="Integer" value="300"/>
 		<property name="debug" type="Boolean" value="false"/>
 		<reference
@@ -42,7 +42,7 @@
 		<reference
 			name="tcpServerFactory"
 			interface="org.osgi.service.component.ComponentFactory"
-			target="(component.factory=jruyi.io.tcpserver.factory)"/>
+			target="(component.name=jruyi.io.tcpserver.factory)"/>
 		<reference
 			name="routingTable"
 			interface="org.jruyi.me.IRoutingTable"/>

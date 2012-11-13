@@ -16,7 +16,7 @@
 	limitations under the License.
 -->
 
-<components xmlns="http://felix.apache.org/xmlns/scr/v1.1.0-felix">
+<components xmlns="http://www.osgi.org/xmlns/scr/v1.2.0">
 
 	<component name="jruyi.me.route" configuration-policy="ignore">
 		<implementation class="org.jruyi.me.route.RoutingTable"/>

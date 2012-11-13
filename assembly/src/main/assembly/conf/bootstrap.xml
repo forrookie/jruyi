@@ -11,12 +11,12 @@
 		-->
 		<!-- CLI bindAddr -->
 		<!--
-		<property name="org.jruyi.clid.bindAddr">localhost</property>
-		<property name="org.jruyi.clid.port">6060</property>
+		<property name="jruyi.clid.bindAddr">localhost</property>
+		<property name="jruyi.clid.port">6060</property>
 		-->
 		<!-- customized brand -->
 		<!--
-		<property name="org.jruyi.clid.branding.url">${jruyi.inst.conf.url}branding.properties</property>
+		<property name="jruyi.clid.branding.url">${jruyi.inst.conf.url}branding.properties</property>
 		-->
 	</framework>
 
