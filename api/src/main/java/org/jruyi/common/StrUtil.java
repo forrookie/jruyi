@@ -75,7 +75,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a constant empty {@code String} array.
+	 * Returns a constant empty {@code String} array.
 	 * 
 	 * @return an empty {@code String} array.
 	 */
@@ -84,7 +84,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return the system property <i>line.separator</i>.
+	 * Returns the system property <i>line.separator</i>.
 	 * 
 	 * @return the line separator of the local system.
 	 */
@@ -93,7 +93,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return the number of the characters that the string value of the given
+	 * Returns the number of the characters that the string value of the given
 	 * int {@code i} has.
 	 * 
 	 * @param i
@@ -108,7 +108,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return the number of the characters that the string value of the given
+	 * Returns the number of the characters that the string value of the given
 	 * long {@code l} has.
 	 * 
 	 * @param l
@@ -123,7 +123,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a copy of the given string {@code target}, with the system
+	 * Returns a copy of the given string {@code target}, with the system
 	 * properties substituted using syntax <i>${<property name>}</i>. The
 	 * property substitution can be nested.
 	 * 
@@ -141,7 +141,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a copy of the given string {@code target}, with the given
+	 * Returns a copy of the given string {@code target}, with the given
 	 * {@code properties} and system properties substituted using syntax
 	 * <i>${<property name>}</i>. The property substitution can be nested. The
 	 * given {@code properties} have higher precedence than system properties.
@@ -163,10 +163,10 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a copy of the given string {@code target}, with the OSGi framework
-	 * properties and system properties substituted using syntax <i>${<property
-	 * name>}</i>. The property substitution can be nested. The OSGi framework
-	 * properties have higher precedence than system properties.
+	 * Returns a copy of the given string {@code target}, with the OSGi
+	 * framework properties and system properties substituted using syntax
+	 * <i>${<property name>}</i>. The property substitution can be nested. The
+	 * OSGi framework properties have higher precedence than system properties.
 	 * 
 	 * <p>
 	 * This string itself will be returned, if it has no properties to be
@@ -182,9 +182,9 @@ public final class StrUtil {
 	public static String filterProps(String target, BundleContext context) {
 		return filterProps(target, null, context);
 	}
-	
+
 	/**
-	 * Return a copy of the given string {@code target}, with the given
+	 * Returns a copy of the given string {@code target}, with the given
 	 * {@code properties}, OSGi framework properties and system properties
 	 * substituted using syntax <i>${<property name>}</i>. The property
 	 * substitution can be nested. The precedence of properties to be taken for
@@ -255,7 +255,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().append(obj0).append(obj1).toStringAndRelease()}
@@ -277,7 +277,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().append(obj0)...append(obj2).toStringAndRelease()}
@@ -301,9 +301,9 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Concatenate the string values of the 4 given {@code obj}s by using the
+	 * Concatenates the string values of the 4 given {@code obj}s by using the
 	 * {@link StringBuilder} object associated with the current thread, and
-	 * return the constructed {@code String}.
+	 * returns the constructed {@code String}.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().append(obj0)...append(obj3).toStringAndRelease()}
@@ -331,9 +331,9 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Concatenate the string values of the 5 given {@code obj}s by using the
+	 * Concatenates the string values of the 5 given {@code obj}s by using the
 	 * {@link StringBuilder} object associated with the current thread, and
-	 * return the constructed {@code String}.
+	 * returns the constructed {@code String}.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().append(obj0)...append(obj4).toStringAndRelease()}
@@ -363,9 +363,9 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Concatenate the string values of the 6 given {@code obj}s by using the
+	 * Concatenates the string values of the 6 given {@code obj}s by using the
 	 * {@link StringBuilder} object associated with the current thread, and
-	 * return the constructed {@code String}.
+	 * returns the constructed {@code String}.
 	 * 
 	 * The {@code String} is constructed as follows.
 	 * 
@@ -399,9 +399,9 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Concatenate the string values of the 7 given {@code obj}s by using the
+	 * Concatenates the string values of the 7 given {@code obj}s by using the
 	 * {@link StringBuilder} object associated with the current thread, and
-	 * return the constructed {@code String}.
+	 * returns the constructed {@code String}.
 	 * 
 	 * The {@code String} is constructed as follows.
 	 * 
@@ -437,7 +437,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().append(obj).append(objs[0])...append(objs[objs.length -1]).toStringAndRelease()}
@@ -463,7 +463,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(obj).toStringAndRelease()}
@@ -486,7 +486,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(obj0).deeplyAppend(obj1).toStringAndRelease()}
@@ -508,7 +508,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj2).toStringAndRelease()}
@@ -533,7 +533,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj3).toStringAndRelease()}
@@ -561,7 +561,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj4).toStringAndRelease()}
@@ -592,7 +592,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj5).toStringAndRelease()}
@@ -625,7 +625,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj6).toStringAndRelease()}
@@ -660,7 +660,7 @@ public final class StrUtil {
 	}
 
 	/**
-	 * Return a {@code String} constructed as follows.
+	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
 	 * {@code StringBuilder.get().deeplyAppend(objs[0])...deeplyAppend(objs[objs.length -1]).toString()}

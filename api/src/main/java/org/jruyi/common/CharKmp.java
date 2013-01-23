@@ -26,8 +26,8 @@ public final class CharKmp {
 	private int[] m_pmk;
 
 	/**
-	 * Construct a KMP pattern with the given {@code pattern} as the sequence to
-	 * be searched for.
+	 * Constructs a KMP pattern with the given {@code pattern} as the sequence
+	 * to be searched for.
 	 * 
 	 * @param pattern
 	 *            the character sequence to be searched for
@@ -37,7 +37,7 @@ public final class CharKmp {
 	}
 
 	/**
-	 * Construct a KMP pattern with the given {@code pattern} starting at
+	 * Constructs a KMP pattern with the given {@code pattern} starting at
 	 * {@code offset} ending at {@code (offset + length)} to be searched for.
 	 * 
 	 * @param pattern
@@ -55,8 +55,8 @@ public final class CharKmp {
 	}
 
 	/**
-	 * Construct a KMP pattern with the given {@code pattern} as the sequence to
-	 * be searched for.
+	 * Constructs a KMP pattern with the given {@code pattern} as the sequence
+	 * to be searched for.
 	 * 
 	 * @param pattern
 	 *            the character sequence to be searched for
@@ -66,7 +66,7 @@ public final class CharKmp {
 	}
 
 	/**
-	 * Construct a KMP pattern with the given {@code pattern} starting at
+	 * Constructs a KMP pattern with the given {@code pattern} starting at
 	 * {@code offset} ending at {@code (offset + length)} to be searched for.
 	 * 
 	 * @param pattern
@@ -84,7 +84,7 @@ public final class CharKmp {
 	}
 
 	/**
-	 * Return the index of the first occurrence of this KMP sequence in the
+	 * Returns the index of the first occurrence of this KMP sequence in the
 	 * given sequence {@code target} starting at {@code offset} ending at
 	 * {@code (offset + length)}.
 	 * 
@@ -132,7 +132,7 @@ public final class CharKmp {
 	}
 
 	/**
-	 * Return the index of the rightmost occurrence of this KMP sequence in the
+	 * Returns the index of the rightmost occurrence of this KMP sequence in the
 	 * given sequence {@code target} starting at {@code offset} ending at
 	 * {@code (offset + length)}.
 	 * 
@@ -182,7 +182,7 @@ public final class CharKmp {
 	}
 
 	/**
-	 * Return the length of this sequence.
+	 * Returns the length of this sequence.
 	 * 
 	 * @return the length of this sequence
 	 */

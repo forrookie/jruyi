@@ -30,7 +30,7 @@ public final class Activator implements BundleActivator {
 		RuyiCmd.INST.context(context);
 		properties.put(CommandProcessor.COMMAND_SCOPE, "jruyi");
 		properties.put(CommandProcessor.COMMAND_FUNCTION, new String[] {
-				"help", "echo", "grep" });
+				"help", "echo", "grep", "shutdown" });
 		context.registerService(RuyiCmd.class.getName(), RuyiCmd.INST,
 				properties);
 

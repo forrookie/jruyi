@@ -29,10 +29,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.jruyi.common.IBufferFactory;
 import org.jruyi.common.ICloseable;
 import org.jruyi.common.Service;
 import org.jruyi.common.StrUtil;
+import org.jruyi.io.IBufferFactory;
 import org.jruyi.io.IFilter;
 import org.jruyi.io.channel.IChannel;
 import org.jruyi.io.channel.IChannelAdmin;

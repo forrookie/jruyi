@@ -15,7 +15,6 @@
  */
 package org.jruyi.io;
 
-import org.jruyi.common.IBufferReader;
 
 /**
  * A filter is in charge of splitting the incoming data into messages, and
@@ -24,7 +23,7 @@ import org.jruyi.common.IBufferReader;
 public interface IFilter {
 
 	/**
-	 * Indicate that more data is needed to parse out the length of a message.
+	 * Indicates that more data is needed to parse out the length of a message.
 	 */
 	public static final int E_UNDERFLOW = 0;
 	/**
@@ -33,7 +32,7 @@ public interface IFilter {
 	public static final int E_ERROR = -1;
 
 	/**
-	 * Return the message length by reading and parsing the specified
+	 * Returns the message length by reading and parsing the specified
 	 * {@code bufferReader}.
 	 * 
 	 * @param session
@@ -47,10 +46,10 @@ public interface IFilter {
 	 *         {@code in} is not sufficient to parse out the message length,
 	 *         which means that more data needs to be read<br>
 	 */
-	public int tellBoundary(ISession session, IBufferReader in);
+	public int tellBoundary(ISession session, IBuffer in);
 
 	/**
-	 * Filter the incoming data. The filtered output is passed onto the next
+	 * Filters the incoming data. The filtered output is passed onto the next
 	 * filter in the filter chain via the given {@code output}.
 	 * <p>
 	 * If this method returns true and the output is not empty, then the output
@@ -80,7 +79,7 @@ public interface IFilter {
 			IFilterOutput output);
 
 	/**
-	 * Filter the outgoing data. The filtered output is passed on to the
+	 * Filters the outgoing data. The filtered output is passed on to the
 	 * previous filter in the filter chain via the given {@code output}.
 	 * <p>
 	 * If this method returns true and the output is not empty, then the output

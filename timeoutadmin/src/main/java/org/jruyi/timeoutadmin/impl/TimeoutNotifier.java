@@ -53,6 +53,9 @@ final class TimeoutNotifier implements ITimeoutNotifier {
 
 		public static final IState INST = new Scheduled();
 
+		private Scheduled() {
+		}
+
 		@Override
 		public boolean schedule(TimeoutNotifier notifier, int timeout) {
 			notifier.getTimeoutAdmin().reschedule(notifier, timeout);
@@ -87,6 +90,9 @@ final class TimeoutNotifier implements ITimeoutNotifier {
 
 		public static final IState INST = new Unscheduled();
 
+		private Unscheduled() {
+		}
+
 		@Override
 		public boolean schedule(TimeoutNotifier notifier, int timeout) {
 			notifier.getTimeoutAdmin().schedule(notifier, timeout);
@@ -119,6 +125,9 @@ final class TimeoutNotifier implements ITimeoutNotifier {
 
 		public static final IState INST = new TimedOut();
 
+		private TimedOut() {
+		}
+
 		@Override
 		public boolean schedule(TimeoutNotifier notifier, int timeout) {
 			return false;
@@ -149,6 +158,9 @@ final class TimeoutNotifier implements ITimeoutNotifier {
 	static final class Closed implements IState {
 
 		public static final IState INST = new Closed();
+
+		private Closed() {
+		}
 
 		@Override
 		public boolean cancel(TimeoutNotifier notifier) {
@@ -184,7 +196,7 @@ final class TimeoutNotifier implements ITimeoutNotifier {
 	public int state() {
 		return m_state.state();
 	}
-	
+
 	@Override
 	public boolean schedule(int timeout) {
 		if (timeout < 1)

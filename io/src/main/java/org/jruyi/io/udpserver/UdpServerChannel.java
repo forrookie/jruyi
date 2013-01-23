@@ -15,21 +15,28 @@
  */
 package org.jruyi.io.udpserver;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 
-import org.jruyi.common.IBuffer;
 import org.jruyi.common.StrUtil;
+import org.jruyi.io.AbstractCodec;
+import org.jruyi.io.IBuffer;
+import org.jruyi.io.IUnit;
+import org.jruyi.io.IUnitChain;
+import org.jruyi.io.buffer.Util;
 import org.jruyi.io.channel.IChannel;
 import org.jruyi.io.channel.ISelectableChannel;
 import org.jruyi.io.udp.UdpChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class UdpServerChannel implements ISelectableChannel, Runnable {
+final class UdpServerChannel extends AbstractCodec<SocketAddress> implements
+		ISelectableChannel, Runnable {
 
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(UdpServerChannel.class);
@@ -39,10 +46,23 @@ final class UdpServerChannel implements ISelectableChannel, Runnable {
 	private final SocketAddress m_localAddr;
 	private SelectionKey m_selectionKey;
 
-	
 	@Override
 	public Long id() {
 		return ID;
+	}
+
+	@Override
+	public SocketAddress read(IUnitChain unitChain) {
+		try {
+			IUnit unit = Util.lastUnit(unitChain);
+			ByteBuffer bb = unit.getByteBufferForWrite();
+			int n = bb.position();
+			SocketAddress address = m_datagramChannel.receive(bb);
+			unit.size(unit.size() + bb.position() - n);
+			return address;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	// runs on read
@@ -51,7 +71,7 @@ final class UdpServerChannel implements ISelectableChannel, Runnable {
 		UdpServer server = m_udpServer;
 		try {
 			IBuffer in = server.getBufferFactory().create();
-			SocketAddress remoteAddr = in.receive(m_datagramChannel);
+			SocketAddress remoteAddr = in.read(this);
 
 			IChannel channel = server.getChannel(remoteAddr);
 			if (channel == null) {

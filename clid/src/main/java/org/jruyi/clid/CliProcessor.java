@@ -19,6 +19,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
+import java.nio.BufferUnderflowException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,15 +29,14 @@ import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
 import org.apache.felix.service.command.Converter;
 import org.jruyi.common.CharsetCodec;
-import org.jruyi.common.IBuffer;
-import org.jruyi.common.IBufferFactory;
-import org.jruyi.common.IBufferReader;
 import org.jruyi.common.IService;
-import org.jruyi.common.InsufficientDataException;
 import org.jruyi.common.IntStack;
 import org.jruyi.common.Properties;
 import org.jruyi.common.StrUtil;
 import org.jruyi.common.StringBuilder;
+import org.jruyi.io.Codec;
+import org.jruyi.io.IBuffer;
+import org.jruyi.io.IBufferFactory;
 import org.jruyi.io.IFilter;
 import org.jruyi.io.IFilterOutput;
 import org.jruyi.io.ISession;
@@ -79,16 +79,16 @@ public final class CliProcessor implements IProcessor, IFilter {
 	private String m_prompt;
 
 	@Override
-	public int tellBoundary(ISession session, IBufferReader in) {
+	public int tellBoundary(ISession session, IBuffer in) {
 		int b;
 		int n = 0;
 		try {
 			do {
-				b = in.readByte();
+				b = in.read();
 				n = (n << 7) | (b & 0x7F);
 			} while (b < 0);
 			return n + in.position();
-		} catch (InsufficientDataException e) {
+		} catch (BufferUnderflowException e) {
 			in.rewind();
 			return IFilter.E_UNDERFLOW;
 		}
@@ -107,9 +107,9 @@ public final class CliProcessor implements IProcessor, IFilter {
 			IFilterOutput output) {
 		IBuffer data = (IBuffer) msg;
 		int n = data.length();
-		data.headWriteByte((byte) (n & 0x7F));
+		data.prepend((byte) (n & 0x7F));
 		while ((n >>= 7) > 0)
-			data.headWriteByte((byte) ((n & 0x7F) | 0x80));
+			data.prepend((byte) ((n & 0x7F) | 0x80));
 
 		output.add(data);
 		return true;
@@ -130,8 +130,8 @@ public final class CliProcessor implements IProcessor, IFilter {
 		}
 
 		IBuffer buffer = (IBuffer) message.attachment();
-		String cmdline = buffer.remaining() > 0 ? buffer
-				.readString(CharsetCodec.UTF_8) : null;
+		String cmdline = buffer.remaining() > 0 ? buffer.read(Codec.utf_8())
+				: null;
 		buffer.drain();
 		buffer.reserveHead(HEAD_RESERVE_SIZE);
 
@@ -150,10 +150,10 @@ public final class CliProcessor implements IProcessor, IFilter {
 				Object result = cs.execute(cmdline);
 				if (result != null)
 					buffer.write(cs.format(result, Converter.INSPECT),
-							CharsetCodec.UTF_8);
+							Codec.utf_8_sequence());
 			} catch (Exception e) {
 				c_logger.warn(cmdline, e);
-				buffer.write(e.getMessage(), CharsetCodec.UTF_8);
+				buffer.write(e.getMessage(), Codec.utf_8());
 			}
 
 			bs.buffer(null);
@@ -289,7 +289,8 @@ public final class CliProcessor implements IProcessor, IFilter {
 
 		IBuffer buffer = m_bf.create();
 		buffer.reserveHead(HEAD_RESERVE_SIZE);
-		buffer.writeBytes(m_welcome).write(m_prompt, CharsetCodec.UTF_8);
+		buffer.write(m_welcome, Codec.byteArray()).write(m_prompt,
+				Codec.utf_8());
 		message.attach(buffer);
 	}
 
@@ -303,8 +304,8 @@ public final class CliProcessor implements IProcessor, IFilter {
 
 	private void writeOut(IBuffer out, String prompt) {
 		if (out.size() > 0 && !out.endsWith(CRLF))
-			out.writeBytes(CRLF);
-		out.write(prompt, CharsetCodec.UTF_8);
+			out.write(CRLF, Codec.byteArray());
+		out.write(prompt, Codec.utf_8());
 	}
 
 	private void loadBrandingInfo(String url, BundleContext context)

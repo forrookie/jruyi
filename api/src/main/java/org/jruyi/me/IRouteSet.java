@@ -28,14 +28,15 @@ import org.osgi.framework.InvalidSyntaxException;
 public interface IRouteSet {
 
 	/**
-	 * Get the ID of the source end point.
+	 * Gets the ID of the source end point.
 	 * 
 	 * @return the ID of the source end point
 	 */
 	public String from();
 
 	/**
-	 * Return the route whose destination end point is the specified {@code to}.
+	 * Returns the route whose destination end point is the specified {@code to}
+	 * .
 	 * 
 	 * @param to
 	 *            the ID of the destination end point of the route need return
@@ -44,8 +45,8 @@ public interface IRouteSet {
 	public IRoute getRoute(String to);
 
 	/**
-	 * Define a route {@literal [from -> to]} with the specified {@code filter}.
-	 * And put this route into this route set.
+	 * Defines a route {@literal [from -> to]} with the specified {@code filter}
+	 * . And put this route into this route set.
 	 * <p>
 	 * If a message is produced by the <i>from</i> of this route set and its
 	 * properties matches the specified {@code filter}, then it will be routed
@@ -65,9 +66,9 @@ public interface IRouteSet {
 			throws InvalidSyntaxException;
 
 	/**
-	 * Define a route {@literal [from -> to]} with the specified {@code filter}.
-	 * And put this route into this route set. If the route ever exists, the old
-	 * filter will be overwritten.
+	 * Defines a route {@literal [from -> to]} with the specified {@code filter}
+	 * . And put this route into this route set. If the route ever exists, the
+	 * old filter will be overwritten.
 	 * <p>
 	 * If a message is produced by the <i>from</i> of this route set and its
 	 * properties matches the specified {@code filter}, then it will be routed
@@ -84,8 +85,8 @@ public interface IRouteSet {
 	public IRoute setRoute(String to, Filter filter);
 
 	/**
-	 * Define a route {@literal [from -> to]}. And put this route into the route
-	 * set. If the route ever exists, the old filter will be removed.
+	 * Defines a route {@literal [from -> to]}. And put this route into the
+	 * route set. If the route ever exists, the old filter will be removed.
 	 * <p>
 	 * Any message produced by the <i>from</i> of this route set will be routed
 	 * to the specified {@code to}.
@@ -99,14 +100,14 @@ public interface IRouteSet {
 	public IRoute setRoute(String to);
 
 	/**
-	 * Get all the routes in this route set.
+	 * Gets all the routes in this route set.
 	 * 
 	 * @return all the routes in this route set
 	 */
 	public IRoute[] getRoutes();
 
 	/**
-	 * Remove the route {@literal [from -> to]}.
+	 * Removes the route {@literal [from -> to]}.
 	 * 
 	 * @param to
 	 *            the ID of the destination end point
@@ -114,12 +115,12 @@ public interface IRouteSet {
 	public void removeRoute(String to);
 
 	/**
-	 * Clear all the routes in this route set.
+	 * Clears all the routes in this route set.
 	 */
 	public void clear();
 
 	/**
-	 * Persist the current route set. So all the route definitions will be kept
+	 * Persists the current route set. So all the route definitions will be kept
 	 * across application's life.
 	 * 
 	 * @throws IOException

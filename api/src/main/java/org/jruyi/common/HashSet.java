@@ -29,7 +29,7 @@ public final class HashSet extends java.util.HashSet<Object> implements
 			.weakArrayCache();
 
 	/**
-	 * Get an {@code HashSet} object from the local cache of the current thread
+	 * Gets an {@code HashSet} object from the local cache of the current thread
 	 * if the cache is not empty. Otherwise a new object is created and
 	 * returned.
 	 * 
@@ -43,7 +43,7 @@ public final class HashSet extends java.util.HashSet<Object> implements
 	}
 
 	/**
-	 * Clear this {@code HashSet} and puts it to the local cache of the current
+	 * Clears this {@code HashSet} and puts it to the local cache of the current
 	 * thread.
 	 */
 	@Override

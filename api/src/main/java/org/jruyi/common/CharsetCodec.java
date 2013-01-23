@@ -61,15 +61,16 @@ public final class CharsetCodec {
 	public interface IFactory {
 
 		/**
-		 * Get an instance of {@code ICharsetCodec} using the platform's default
-		 * charset.
+		 * Gets an instance of {@code ICharsetCodec} using the platform's
+		 * default charset.
 		 * 
 		 * @return an instance of {@code ICharsetCodec}
 		 */
 		public ICharsetCodec get();
 
 		/**
-		 * Get an instance of {@code ICharsetCodec} using the specified charset.
+		 * Gets an instance of {@code ICharsetCodec} using the specified
+		 * charset.
 		 * 
 		 * @param charsetName
 		 *            the name of the charset to codec
@@ -78,7 +79,7 @@ public final class CharsetCodec {
 		public ICharsetCodec get(String charsetName);
 
 		/**
-		 * Get an instance of {@code ICharsetCodec} using the specified
+		 * Gets an instance of {@code ICharsetCodec} using the specified
 		 * {@code charset}.
 		 * 
 		 * @param charset
@@ -89,7 +90,7 @@ public final class CharsetCodec {
 	}
 
 	/**
-	 * Get an instance of {@code ICharsetCodec} using the platform's default
+	 * Gets an instance of {@code ICharsetCodec} using the platform's default
 	 * charset.
 	 * 
 	 * @return an instance of {@code ICharsetCodec}
@@ -99,7 +100,7 @@ public final class CharsetCodec {
 	}
 
 	/**
-	 * Get an instance of {@code ICharsetCodec} using the specified charset.
+	 * Gets an instance of {@code ICharsetCodec} using the specified charset.
 	 * 
 	 * @param charsetName
 	 *            the name of the charset to codec
@@ -110,7 +111,7 @@ public final class CharsetCodec {
 	}
 
 	/**
-	 * Get an instance of {@code ICharsetCodec} using the specified
+	 * Gets an instance of {@code ICharsetCodec} using the specified
 	 * {@code charset}.
 	 * 
 	 * @param charset

@@ -26,14 +26,14 @@ package org.jruyi.common;
 public interface IThreadLocalCache<E> {
 
 	/**
-	 * Get a cached object from the local cache of the current thread.
+	 * Gets a cached object from the local cache of the current thread.
 	 * 
 	 * @return a cached object or {@code null} if no cached objects
 	 */
 	public E take();
 
 	/**
-	 * Put the specified {@code e} into the local cache of the current thread.
+	 * Puts the specified {@code e} into the local cache of the current thread.
 	 * 
 	 * @param e
 	 *            the object to cache

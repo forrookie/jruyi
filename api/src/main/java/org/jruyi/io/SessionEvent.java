@@ -21,27 +21,27 @@ package org.jruyi.io;
 public enum SessionEvent {
 
 	/**
-	 * Indicate that session is opened.
+	 * Indicates that session is opened.
 	 */
 	OPENED,
 	/**
-	 * Indicate that session is closed.
+	 * Indicates that session is closed.
 	 */
 	CLOSED,
 	/**
-	 * Indicate that connect operation timed out.
+	 * Indicates that connect operation timed out.
 	 */
 	CONN_TIMEDOUT,
 	/**
-	 * Indicate that read operation timed out.
+	 * Indicates that read operation timed out.
 	 */
 	READ_TIMEDOUT,
 	/**
-	 * Indicate an IO error on connecting.
+	 * Indicates an IO error on connecting.
 	 */
 	CONN_ERROR,
 	/**
-	 * Indicate an IO error on reading or writing.
+	 * Indicates an IO error on reading or writing.
 	 */
 	RW_ERROR;
 }

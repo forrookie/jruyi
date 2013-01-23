@@ -35,7 +35,7 @@
 			unbind="unsetCommandProcessor"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>

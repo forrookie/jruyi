@@ -21,7 +21,7 @@ package org.jruyi.timeoutadmin;
 public interface ITimeoutAdmin {
 
 	/**
-	 * Create a notifier with the specified {@code subject}.
+	 * Creates a notifier with the specified {@code subject}.
 	 * 
 	 * @param subject
 	 *            the subject of the timeout event sent by this notifier

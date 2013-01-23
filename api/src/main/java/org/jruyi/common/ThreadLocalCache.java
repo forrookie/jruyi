@@ -34,7 +34,7 @@ public final class ThreadLocalCache {
 	public interface IFactory {
 
 		/**
-		 * Create a thread local cache which is softly referenced and backed by
+		 * Creates a thread local cache which is softly referenced and backed by
 		 * an array with 6 as the initial capacity.
 		 * 
 		 * @return a thread local cache
@@ -42,7 +42,7 @@ public final class ThreadLocalCache {
 		public <E> IThreadLocalCache<E> softArrayCache();
 
 		/**
-		 * Create a thread local cache which is softly referenced and backed by
+		 * Creates a thread local cache which is softly referenced and backed by
 		 * an array with the specified initial capacity.
 		 * 
 		 * @param initialCapacity
@@ -52,15 +52,15 @@ public final class ThreadLocalCache {
 		public <E> IThreadLocalCache<E> softArrayCache(int initialCapacity);
 
 		/**
-		 * Create a thread local cache which is softly reference and backed by a
-		 * linked list.
+		 * Creates a thread local cache which is softly reference and backed by
+		 * a linked list.
 		 * 
 		 * @return a thread local cache
 		 */
 		public <E> IThreadLocalCache<E> softLinkedCache();
 
 		/**
-		 * Create a thread local cache which is weakly referenced and backed by
+		 * Creates a thread local cache which is weakly referenced and backed by
 		 * an array with 6 as the initial capacity.
 		 * 
 		 * @return a thread local cache
@@ -68,7 +68,7 @@ public final class ThreadLocalCache {
 		public <E> IThreadLocalCache<E> weakArrayCache();
 
 		/**
-		 * Create a thread local cache which is weakly referenced and backed by
+		 * Creates a thread local cache which is weakly referenced and backed by
 		 * an array with the specified initial capacity.
 		 * 
 		 * @param initialCapacity
@@ -78,7 +78,7 @@ public final class ThreadLocalCache {
 		public <E> IThreadLocalCache<E> weakArrayCache(int initialCapacity);
 
 		/**
-		 * Create a thread local cache which is weakly referenced and backed by
+		 * Creates a thread local cache which is weakly referenced and backed by
 		 * a linked list.
 		 * 
 		 * @return a thread local cache
@@ -90,7 +90,7 @@ public final class ThreadLocalCache {
 	}
 
 	/**
-	 * Create a thread local cache which is softly referenced and backed by an
+	 * Creates a thread local cache which is softly referenced and backed by an
 	 * array with 6 as the initial capacity.
 	 * 
 	 * @return a thread local cache
@@ -100,7 +100,7 @@ public final class ThreadLocalCache {
 	}
 
 	/**
-	 * Create a thread local cache which is softly referenced and backed by an
+	 * Creates a thread local cache which is softly referenced and backed by an
 	 * array with the specified initial capacity.
 	 * 
 	 * @param initialCapacity
@@ -112,7 +112,7 @@ public final class ThreadLocalCache {
 	}
 
 	/**
-	 * Create a thread local cache which is softly reference and backed by a
+	 * Creates a thread local cache which is softly reference and backed by a
 	 * linked list.
 	 * 
 	 * @return a thread local cache
@@ -122,7 +122,7 @@ public final class ThreadLocalCache {
 	}
 
 	/**
-	 * Create a thread local cache which is weakly referenced and backed by an
+	 * Creates a thread local cache which is weakly referenced and backed by an
 	 * array with 6 as the initial capacity.
 	 * 
 	 * @return a thread local cache
@@ -132,7 +132,7 @@ public final class ThreadLocalCache {
 	}
 
 	/**
-	 * Create a thread local cache which is weakly referenced and backed by an
+	 * Creates a thread local cache which is weakly referenced and backed by an
 	 * array with the specified initial capacity.
 	 * 
 	 * @param initialCapacity
@@ -144,7 +144,7 @@ public final class ThreadLocalCache {
 	}
 
 	/**
-	 * Create a thread local cache which is weakly referenced and backed by a
+	 * Creates a thread local cache which is weakly referenced and backed by a
 	 * linked list.
 	 * 
 	 * @return a thread local cache

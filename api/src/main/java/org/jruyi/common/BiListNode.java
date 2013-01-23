@@ -18,7 +18,7 @@ package org.jruyi.common;
 import java.lang.ref.WeakReference;
 
 /**
- * A node contains 2 references to point to previous node and next node
+ * A node that contains 2 references to point to previous node and next node
  * respectively, and a reference to hold a data element. It is used to form a
  * doubly linked list.
  * 
@@ -85,7 +85,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Return a {@code BiListNode} instance fetched from the current thread's
+	 * Returns a {@code BiListNode} instance fetched from the current thread's
 	 * local cache if the cache is not empty. Otherwise a new instance will be
 	 * created and returned.
 	 * 
@@ -99,7 +99,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Return the data element.
+	 * Returns the data element.
 	 * 
 	 * @return the data element
 	 */
@@ -108,7 +108,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Return the next node.
+	 * Returns the next node.
 	 * 
 	 * @return the next node
 	 */
@@ -117,7 +117,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Set the next node to the specified {@code node}.
+	 * Sets the next node to the specified {@code node}.
 	 * 
 	 * @param node
 	 *            the next node to be pointed to
@@ -127,7 +127,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Return the previous node.
+	 * Returns the previous node.
 	 * 
 	 * @return the previous node
 	 */
@@ -136,7 +136,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Set the previous node to the specified {@code node}.
+	 * Sets the previous node to the specified {@code node}.
 	 * 
 	 * @param node
 	 *            the previous node to be pointed to
@@ -146,7 +146,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Set the data element to the specified {@code e}.
+	 * Sets the data element to the specified {@code e}.
 	 * 
 	 * @param e
 	 *            the data element to be held
@@ -156,7 +156,7 @@ public final class BiListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Recycle this object to the current thread's local cache.
+	 * Recycles this object to the current thread's local cache.
 	 */
 	@Override
 	public void close() {

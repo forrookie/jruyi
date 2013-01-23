@@ -25,7 +25,7 @@ import org.jruyi.common.IArgList;
 public interface IWorker {
 
 	/**
-	 * Assign the given {@code job} to a worker thread to run at some time in
+	 * Assigns the given {@code job} to a worker thread to run at some time in
 	 * the future.
 	 * 
 	 * @param job
@@ -39,7 +39,7 @@ public interface IWorker {
 	public void run(Runnable job);
 
 	/**
-	 * Assign the given {@code job} to a worker thread to run at some time in
+	 * Assigns the given {@code job} to a worker thread to run at some time in
 	 * the future. The given {@code argList} will be passed to {@code job.run}.
 	 * 
 	 * @param job

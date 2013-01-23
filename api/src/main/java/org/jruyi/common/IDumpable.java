@@ -21,7 +21,7 @@ package org.jruyi.common;
 public interface IDumpable {
 
 	/**
-	 * Append the dumped characters into the specified {@code builder}.
+	 * Appends the dumped characters into the specified {@code builder}.
 	 * 
 	 * @param builder
 	 *            the {@code StringBuilder} to append

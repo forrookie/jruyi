@@ -24,7 +24,7 @@ import java.io.Closeable;
 public interface ICloseable extends Closeable {
 
 	/**
-	 * Close this object to release resources it holds.
+	 * Closes this object to release resources that it holds.
 	 */
 	@Override
 	public void close();

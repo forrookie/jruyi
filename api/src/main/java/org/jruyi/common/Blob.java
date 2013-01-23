@@ -16,37 +16,33 @@
 package org.jruyi.common;
 
 /**
- * A {@code Blob} consists of a list of byte arrays. The content of a
+ * A {@code Blob} that consists of a list of byte sequences. The content of a
  * {@code Blob} can be looked at as a linear byte array.
- * 
- * <p>
- * Any changes made to those byte arrays added to a {@code Blob} will be
- * reflected in that {@code Blob} immediately.
  */
 public final class Blob implements IDumpable, ICloseable {
 
 	private static final int DEFAULT_CAPACITY = 16;
 	private static final IThreadLocalCache<Blob> c_cache = ThreadLocalCache
 			.weakArrayCache();
-	private byte[][] m_data;
+	private IByteSequence[] m_data;
 	private int[] m_offsets;
 	private int[] m_lengths;
 	private int m_size;
 
 	private Blob() {
-		m_data = new byte[DEFAULT_CAPACITY][];
+		m_data = new IByteSequence[DEFAULT_CAPACITY];
 		m_offsets = new int[DEFAULT_CAPACITY];
 		m_lengths = new int[DEFAULT_CAPACITY];
 	}
 
 	private Blob(int capacity) {
-		m_data = new byte[capacity][];
+		m_data = new IByteSequence[capacity];
 		m_offsets = new int[capacity];
 		m_lengths = new int[capacity];
 	}
 
 	/**
-	 * Return a {@code Blob} instance fetched from the current thread's local
+	 * Returns a {@code Blob} instance fetched from the current thread's local
 	 * cache if it is not empty. Otherwise, a new instance will be created and
 	 * returned.
 	 * 
@@ -61,7 +57,7 @@ public final class Blob implements IDumpable, ICloseable {
 	}
 
 	/**
-	 * Return a {@code Blob} instance fetched from the current thread's local
+	 * Returns a {@code Blob} instance fetched from the current thread's local
 	 * cache if it is not empty. Otherwise, a new instance will be created and
 	 * returned. The initial capacity of the returned instance is ensured to be
 	 * the specified {@code capacity}.
@@ -81,13 +77,13 @@ public final class Blob implements IDumpable, ICloseable {
 	}
 
 	/**
-	 * Recycle this instance into the local cache of the current thread. Any
+	 * Recycles this instance into the local cache of the current thread. Any
 	 * further operation made to this instance is undefined.
 	 */
 	@Override
 	public void close() {
 		int n = m_size;
-		byte[][] data = m_data;
+		IByteSequence[] data = m_data;
 		for (int i = 0; i < n; ++i)
 			data[i] = null;
 
@@ -97,35 +93,35 @@ public final class Blob implements IDumpable, ICloseable {
 	}
 
 	/**
-	 * Insert the given byte array {@code b} into this blob at the given
+	 * Inserts the given {@code sequence} into this blob at the given
 	 * {@code index}.
 	 * 
 	 * <p>
 	 * This method behaves exactly the same as follows.
 	 * 
 	 * <pre>
-	 * {@code insert(index, b, 0, b.length)}
+	 * {@code insert(index, sequence, 0, sequence.length())}
 	 * </pre>
 	 * 
 	 * @param index
 	 *            the index at which the given {@code b} is to be inserted
-	 * @param b
-	 *            the byte array to be inserted.
+	 * @param sequence
+	 *            the byte sequence to be inserted.
 	 * @throws IndexOutOfBoundsException
 	 *             if {@code index} is negative or greater than {@code size()}
 	 */
-	public void insert(int index, byte[] b) {
-		insert(index, b, 0, b.length);
+	public void insert(int index, IByteSequence sequence) {
+		insert(index, sequence, 0, sequence.length());
 	}
 
 	/**
-	 * Insert {@code length} bytes of the given {@code b} starting at the given
-	 * {@code offset} into this blob at the given {@code index}.
+	 * Inserts {@code length} bytes of the given {@code sequence} starting at the
+	 * given {@code offset} into this blob at the given {@code index}.
 	 * 
 	 * @param index
 	 *            the index at which the given {@code b} is to be inserted.
-	 * @param b
-	 *            the byte array to be inserted
+	 * @param sequence
+	 *            the byte sequence to be inserted
 	 * @param offset
 	 *            the index of the first byte to be inserted
 	 * @param length
@@ -134,27 +130,28 @@ public final class Blob implements IDumpable, ICloseable {
 	 *             if {@code index} is negative or greater than {@code size()}
 	 * @throws IllegalArgumentException
 	 *             if {@code offset} is negative, or {@code length} is negative,
-	 *             or {@code (offset + length)} is greater than {@code b.length}
+	 *             or {@code (offset + length)} is greater than
+	 *             {@code sequence.length()}
 	 */
-	public void insert(int index, byte[] b, int offset, int length) {
+	public void insert(int index, IByteSequence sequence, int offset, int length) {
 		int size = m_size;
 		if (index > size)
 			throw new IndexOutOfBoundsException();
 
-		if (offset < 0 || length < 0 || offset > b.length - length)
+		if (offset < 0 || length < 0 || offset > sequence.length() - length)
 			throw new IllegalArgumentException();
 
 		ensureCapacity(size + 1);
 
 		size -= index;
 		int toIndex = index + 1;
-		byte[][] data = m_data;
+		IByteSequence[] data = m_data;
 		int[] offsets = m_offsets;
 		int[] lengths = m_lengths;
 		System.arraycopy(data, index, data, toIndex, size);
 		System.arraycopy(offsets, index, offsets, toIndex, size);
 		System.arraycopy(lengths, index, lengths, toIndex, size);
-		data[index] = b;
+		data[index] = sequence;
 		offsets[index] = offset;
 		lengths[index] = length;
 
@@ -162,38 +159,39 @@ public final class Blob implements IDumpable, ICloseable {
 	}
 
 	/**
-	 * Add the whole given byte array {@code b} into this blob.
+	 * Adds the whole given byte sequence {@code sequence} into this blob.
 	 * 
 	 * <p>
 	 * This method behaves exactly the same as follows.
 	 * 
 	 * <pre>
-	 * {@code add(b, 0, b.length)}
+	 * {@code add(sequence, 0, sequence.length())}
 	 * </pre>
 	 * 
-	 * @param b
-	 *            the byte array to be added
+	 * @param sequence
+	 *            the byte sequence to be added
 	 */
-	public void add(byte[] b) {
-		add(b, 0, b.length);
+	public void add(IByteSequence sequence) {
+		add(sequence, 0, sequence.length());
 	}
 
 	/**
-	 * Add {@code length} bytes of the given byte array {@code b} starting at
-	 * {@code offset} into this blob.
+	 * Adds {@code length} bytes of the given byte sequence {@code sequence}
+	 * starting at {@code offset} into this blob.
 	 * 
-	 * @param b
-	 *            the byte array to be added
+	 * @param sequence
+	 *            the byte sequence to be added
 	 * @param offset
 	 *            the index of the first byte to be added
 	 * @param length
-	 *            the number of bytes of the given {@code b} to be added
+	 *            the number of bytes of the given {@code sequence} to be added
 	 * @throws IllegalArgumentException
 	 *             if {@code offset} is negative, or {@code length} is negative,
-	 *             or {@code (offset + length)} is greater than {@code b.length}
+	 *             or {@code (offset + length)} is greater than
+	 *             {@code sequence.length()}
 	 */
-	public void add(byte[] b, int offset, int length) {
-		if (offset < 0 || length < 0 || offset > b.length - length)
+	public void add(IByteSequence sequence, int offset, int length) {
+		if (offset < 0 || length < 0 || offset > sequence.length() - length)
 			throw new IllegalArgumentException();
 
 		if (length < 1)
@@ -201,13 +199,13 @@ public final class Blob implements IDumpable, ICloseable {
 
 		int n = m_size++;
 		ensureCapacity(m_size);
-		m_data[n] = b;
+		m_data[n] = sequence;
 		m_offsets[n] = offset;
 		m_lengths[n] = length;
 	}
 
 	/**
-	 * Append a hex dump to the given {@code builder}.
+	 * Appends a hex dump to the given {@code builder}.
 	 * 
 	 * @param builder
 	 *            the {@code StringBuilder} to be appended to
@@ -218,7 +216,7 @@ public final class Blob implements IDumpable, ICloseable {
 	}
 
 	/**
-	 * Increase the capacity if necessary, to ensure that at least the number of
+	 * Increases the capacity if necessary, to ensure that at least the number of
 	 * byte arrays specified by the given {@code minCapacity} can be hold.
 	 * 
 	 * @param minCapacity
@@ -228,11 +226,11 @@ public final class Blob implements IDumpable, ICloseable {
 		int oldCapacity = m_data.length;
 		if (minCapacity > oldCapacity) {
 			int newCapacity = (oldCapacity * 3) / 2 + 1;
-			byte[][] oldData = m_data;
+			IByteSequence[] oldData = m_data;
 			int[] oldOffsets = m_offsets;
 			int[] oldLengths = m_lengths;
 
-			byte[][] data = new byte[newCapacity][];
+			IByteSequence[] data = new IByteSequence[newCapacity];
 			int[] offsets = new int[newCapacity];
 			int[] lengths = new int[newCapacity];
 
@@ -247,7 +245,7 @@ public final class Blob implements IDumpable, ICloseable {
 	}
 
 	/**
-	 * Return the index of the first occurrence of the specified byte sequence
+	 * Returns the index of the first occurrence of the specified byte sequence
 	 * {@code kmp}.
 	 * 
 	 * @param kmp
@@ -260,7 +258,7 @@ public final class Blob implements IDumpable, ICloseable {
 	}
 
 	/**
-	 * Return the index within this sequence of the rightmost occurrence of the
+	 * Returns the index within this sequence of the rightmost occurrence of the
 	 * specified byte sequence {@code kmp}.
 	 * 
 	 * @param kmp

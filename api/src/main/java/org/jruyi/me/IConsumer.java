@@ -21,7 +21,7 @@ package org.jruyi.me;
 public interface IConsumer {
 
 	/**
-	 * Consume the given {@code message}. This method has to be re-enterable.
+	 * Consumes the given {@code message}. This method has to be re-enterable.
 	 * 
 	 * @param message
 	 *            the message to consume

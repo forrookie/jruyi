@@ -18,7 +18,8 @@ package org.jruyi.clid;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.jruyi.common.IBuffer;
+import org.jruyi.io.Codec;
+import org.jruyi.io.IBuffer;
 
 final class BufferStream extends OutputStream {
 
@@ -39,16 +40,16 @@ final class BufferStream extends OutputStream {
 
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
-		m_buffer.writeBytes(b, off, len);
+		m_buffer.write(b, off, len, Codec.byteArray());
 	}
 
 	@Override
 	public void write(byte[] b) throws IOException {
-		m_buffer.writeBytes(b);
+		m_buffer.write(b, Codec.byteArray());
 	}
 
 	@Override
 	public void write(int b) throws IOException {
-		m_buffer.writeByte((byte) b);
+		m_buffer.write((byte) b);
 	}
 }

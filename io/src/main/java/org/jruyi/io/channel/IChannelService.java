@@ -15,7 +15,7 @@
  */
 package org.jruyi.io.channel;
 
-import org.jruyi.common.IBufferFactory;
+import org.jruyi.io.IBufferFactory;
 import org.jruyi.io.IFilter;
 
 public interface IChannelService {

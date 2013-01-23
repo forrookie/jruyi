@@ -18,6 +18,14 @@
 
 <components xmlns="http://www.osgi.org/xmlns/scr/v1.2.0">
 
+	<component name="jruyi.io.buffer" modified="modified">
+		<implementation class="org.jruyi.io.buffer.BufferFactory"/>
+		<property name="unitCapacity" type="Integer" value="8192"/>
+		<service>
+			<provide interface="org.jruyi.io.IBufferFactory"/>
+		</service>
+	</component>
+
 	<component name="jruyi.io.filter" configuration-policy="ignore">
 		<implementation class="org.jruyi.io.filter.FilterManager"/>
 		<service>
@@ -68,7 +76,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -97,7 +105,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -127,7 +135,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -152,7 +160,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -177,7 +185,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -207,7 +215,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -237,7 +245,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -262,7 +270,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -287,7 +295,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -311,7 +319,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -336,7 +344,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -360,7 +368,7 @@
 			unbind="unsetFilterManager"/>
 		<reference
 			name="buffer"
-			interface="org.jruyi.common.IBufferFactory"
+			interface="org.jruyi.io.IBufferFactory"
 			policy="dynamic"
 			bind="setBufferFactory"
 			unbind="unsetBufferFactory"/>
@@ -394,7 +402,7 @@
 			updated="updatedSslContextInfo"/>
 	</component>
 
-	<component name="jruyi.io.sslci.keystore">
+	<component name="jruyi.io.ssl.keystore">
 		<implementation class="org.jruyi.io.ssl.Keystore"/>
 		<property name="jruyi.io.sslci.id" value="jruyi.io.sslci.null"/>
 		<property name="certValidation" type="Boolean" value="false"/>

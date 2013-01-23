@@ -37,7 +37,7 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Get an object of {@code IntStack} from the local cache of the current
+	 * Gets an object of {@code IntStack} from the local cache of the current
 	 * thread, if the cache is not empty. Otherwise a new object is created and
 	 * returned.
 	 * 
@@ -52,7 +52,7 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Get an object of {@code IntStack} from the local cache of the current
+	 * Gets an object of {@code IntStack} from the local cache of the current
 	 * thread, if the cache is not empty. Otherwise a new object is created and
 	 * returned.
 	 * <p>
@@ -74,8 +74,8 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Clear this {@code IntStack} and put it to the local cache of the current
-	 * thread.
+	 * Clears this {@code IntStack} and puts it to the local cache of the
+	 * current thread.
 	 */
 	@Override
 	public void close() {
@@ -84,7 +84,7 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Push the given {@code i} onto the top of this stack. The size of this
+	 * Pushes the given {@code i} onto the top of this stack. The size of this
 	 * stack is increased by 1.
 	 * 
 	 * @param i
@@ -98,7 +98,7 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Return and remove the {@code int} at the top of this stack. The size of
+	 * Returns and removes the {@code int} at the top of this stack. The size of
 	 * this stack is reduced by 1.
 	 * 
 	 * @return the {@code int} at the top of this stack.
@@ -112,7 +112,7 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Return the {@code int} at the top of this stack without removing it.
+	 * Returns the {@code int} at the top of this stack without removing it.
 	 * 
 	 * @return the {@code int} at the top of this stack.
 	 * @throws EmptyStackException
@@ -125,7 +125,7 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Return the current size of this stack.
+	 * Returns the current size of this stack.
 	 * 
 	 * @return the size of this stack.
 	 */
@@ -134,14 +134,14 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Empty this stack.
+	 * Empties this stack.
 	 */
 	public void clear() {
 		m_size = 0;
 	}
 
 	/**
-	 * Test if this stack is empty.
+	 * Tests if this stack is empty.
 	 * 
 	 * @return {@code true} if this stack is empty. Otherwise {@code false}.
 	 */
@@ -150,7 +150,7 @@ public final class IntStack implements ICloseable {
 	}
 
 	/**
-	 * Ensure this stack to have the minimum capacity of {@code minCapacity}.
+	 * Ensures this stack to have the minimum capacity of {@code minCapacity}.
 	 * 
 	 * @param minCapacity
 	 *            the minimum capacity of this stack to be ensured.

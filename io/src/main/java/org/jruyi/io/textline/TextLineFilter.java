@@ -18,9 +18,9 @@ package org.jruyi.io.textline;
 import java.util.Map;
 
 import org.jruyi.common.CharsetCodec;
-import org.jruyi.common.IBufferReader;
 import org.jruyi.common.ICharsetCodec;
 import org.jruyi.io.Filter;
+import org.jruyi.io.IBuffer;
 import org.jruyi.io.ISession;
 
 public final class TextLineFilter extends Filter {
@@ -28,7 +28,7 @@ public final class TextLineFilter extends Filter {
 	private byte[] m_lineTerminator;
 
 	@Override
-	public int tellBoundary(ISession session, IBufferReader in) {
+	public int tellBoundary(ISession session, IBuffer in) {
 		byte[] lineTerminator = m_lineTerminator;
 		int i = in.indexOf(lineTerminator, in.position());
 		if (i >= 0) {

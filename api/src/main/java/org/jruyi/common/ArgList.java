@@ -34,7 +34,7 @@ public final class ArgList {
 	public interface IFactory {
 
 		/**
-		 * Create an argument list with the specified {@code arg} as the only
+		 * Creates an argument list with the specified {@code arg} as the only
 		 * one element.
 		 * 
 		 * @param arg
@@ -44,7 +44,7 @@ public final class ArgList {
 		public IArgList create(Object arg);
 
 		/**
-		 * Create an argument list with the given 2 arguments as the elements in
+		 * Creates an argument list with the given 2 arguments as the elements in
 		 * order.
 		 * 
 		 * @param arg0
@@ -56,7 +56,7 @@ public final class ArgList {
 		public IArgList create(Object arg0, Object arg1);
 
 		/**
-		 * Create an argument list with the given 3 arguments as the elements in
+		 * Creates an argument list with the given 3 arguments as the elements in
 		 * order.
 		 * 
 		 * @param arg0
@@ -70,7 +70,7 @@ public final class ArgList {
 		public IArgList create(Object arg0, Object arg1, Object arg2);
 
 		/**
-		 * Create an argument list with the given 4 arguments as the elements in
+		 * Creates an argument list with the given 4 arguments as the elements in
 		 * order.
 		 * 
 		 * @param arg0
@@ -87,7 +87,7 @@ public final class ArgList {
 				Object arg3);
 
 		/**
-		 * Create an argument list with the given 5 arguments as the elements in
+		 * Creates an argument list with the given 5 arguments as the elements in
 		 * order.
 		 * 
 		 * @param arg0
@@ -106,7 +106,7 @@ public final class ArgList {
 				Object arg3, Object arg4);
 
 		/**
-		 * Create an argument list with the given 6 arguments as the elements in
+		 * Creates an argument list with the given 6 arguments as the elements in
 		 * order.
 		 * 
 		 * @param arg0
@@ -127,7 +127,7 @@ public final class ArgList {
 				Object arg3, Object arg4, Object arg5);
 
 		/**
-		 * Create an argument list with the given 7 arguments as the elements in
+		 * Creates an argument list with the given 7 arguments as the elements in
 		 * order.
 		 * 
 		 * @param arg0
@@ -150,7 +150,7 @@ public final class ArgList {
 				Object arg3, Object arg4, Object arg5, Object arg6);
 
 		/**
-		 * Create an argument list with the given 8 arguments as the elements in
+		 * Creates an argument list with the given 8 arguments as the elements in
 		 * order.
 		 * 
 		 * @param arg0
@@ -175,7 +175,7 @@ public final class ArgList {
 				Object arg3, Object arg4, Object arg5, Object arg6, Object arg7);
 
 		/**
-		 * Create an argument list with the given 1+ arguments as the elements
+		 * Creates an argument list with the given 1+ arguments as the elements
 		 * in order.
 		 * 
 		 * @param arg0
@@ -191,7 +191,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the specified {@code arg} as the only one
+	 * Creates an argument list with the specified {@code arg} as the only one
 	 * element.
 	 * 
 	 * @param arg
@@ -203,7 +203,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 2 arguments as the elements in
+	 * Creates an argument list with the given 2 arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0
@@ -217,7 +217,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 3 arguments as the elements in
+	 * Creates an argument list with the given 3 arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0
@@ -233,7 +233,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 4 arguments as the elements in
+	 * Creates an argument list with the given 4 arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0
@@ -252,7 +252,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 5 arguments as the elements in
+	 * Creates an argument list with the given 5 arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0
@@ -273,7 +273,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 6 arguments as the elements in
+	 * Creates an argument list with the given 6 arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0
@@ -296,7 +296,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 7 arguments as the elements in
+	 * Creates an argument list with the given 7 arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0
@@ -321,7 +321,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 8 arguments as the elements in
+	 * Creates an argument list with the given 8 arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0
@@ -348,7 +348,7 @@ public final class ArgList {
 	}
 
 	/**
-	 * Create an argument list with the given 1+ arguments as the elements in
+	 * Creates an argument list with the given 1+ arguments as the elements in
 	 * order.
 	 * 
 	 * @param arg0

@@ -26,7 +26,7 @@ import javax.net.ssl.TrustManager;
 public interface ISslContextInfo {
 
 	/**
-	 * Return key managers for initializing an SSL context.
+	 * Returns key managers for initializing an SSL context.
 	 * 
 	 * @return key managers
 	 * @throws Exception
@@ -35,7 +35,7 @@ public interface ISslContextInfo {
 	public KeyManager[] getKeyManagers() throws Exception;
 
 	/**
-	 * Return trust managers for initializing an SSL context.
+	 * Returns trust managers for initializing an SSL context.
 	 * 
 	 * @return trust managers
 	 * @throws Exception
@@ -44,7 +44,7 @@ public interface ISslContextInfo {
 	public TrustManager[] getCertManagers() throws Exception;
 
 	/**
-	 * Return a {@code SecureRandom} for initializing an SSL context.
+	 * Returns a {@code SecureRandom} for initializing an SSL context.
 	 * 
 	 * @return a {@code SecureRandom} object
 	 * @throws Exception

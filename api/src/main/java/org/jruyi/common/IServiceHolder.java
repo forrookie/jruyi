@@ -24,14 +24,14 @@ package org.jruyi.common;
 public interface IServiceHolder<T> {
 
 	/**
-	 * Get the ID of the service.
+	 * Gets the ID of the service.
 	 * 
 	 * @return the service ID.
 	 */
 	public String getId();
 
 	/**
-	 * Get the held service.
+	 * Gets the held service.
 	 * 
 	 * @return the held service
 	 */

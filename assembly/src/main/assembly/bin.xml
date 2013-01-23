@@ -28,6 +28,7 @@
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>main</outputDirectory>
+			<outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
 			<unpack>false</unpack>
 			<useTransitiveDependencies>false</useTransitiveDependencies>
 			<includes>
@@ -37,6 +38,7 @@
 		</dependencySet>
 		<dependencySet>
 			<outputDirectory>lib</outputDirectory>
+			<outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
 			<unpack>false</unpack>
 			<useTransitiveDependencies>false</useTransitiveDependencies>
 			<includes>
@@ -49,6 +51,7 @@
 		</dependencySet>
 		<dependencySet>
 			<outputDirectory>bundles</outputDirectory>
+			<outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
 			<unpack>false</unpack>
 			<useTransitiveDependencies>false</useTransitiveDependencies>
 			<includes>

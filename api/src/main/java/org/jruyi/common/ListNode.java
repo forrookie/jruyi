@@ -18,8 +18,8 @@ package org.jruyi.common;
 import java.lang.ref.WeakReference;
 
 /**
- * A node contains a reference to point to the next node and a reference to hold
- * the element data. It is used to form a singly linked list.
+ * A node contains a reference to the next node and a reference to the element
+ * data. It is used to form a singly linked list.
  * 
  * <p>
  * This class has a thread local cache mechanism for node instances.
@@ -79,7 +79,7 @@ public final class ListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Return a {@code ListNode} instance fetched from the current thread's
+	 * Returns a {@code ListNode} instance fetched from the current thread's
 	 * local cache if the cache is not empty. Otherwise a new instance will be
 	 * created and returned.
 	 * 
@@ -93,7 +93,7 @@ public final class ListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Return the data element.
+	 * Returns the data element.
 	 * 
 	 * @return the data element
 	 */
@@ -102,7 +102,7 @@ public final class ListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Set the data element to the specified {@code e}.
+	 * Sets the data element to the specified {@code e}.
 	 * 
 	 * @param e
 	 *            the data element to be held
@@ -112,7 +112,7 @@ public final class ListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Return the next node.
+	 * Returns the next node.
 	 * 
 	 * @return the next node
 	 */
@@ -121,7 +121,7 @@ public final class ListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Set the next node to the specified {@code node}.
+	 * Sets the next node to the specified {@code node}.
 	 * 
 	 * @param node
 	 *            the next node to be pointed to
@@ -131,7 +131,7 @@ public final class ListNode<E> implements ICloseable {
 	}
 
 	/**
-	 * Recycle this object to the current thread's local cache.
+	 * Recycles this object to the current thread's local cache.
 	 */
 	@Override
 	public void close() {

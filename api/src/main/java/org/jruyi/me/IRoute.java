@@ -26,28 +26,28 @@ package org.jruyi.me;
 public interface IRoute {
 
 	/**
-	 * Get the ID of the source end point.
+	 * Gets the ID of the source end point.
 	 * 
 	 * @return the ID of the source end point
 	 */
 	public String from();
 
 	/**
-	 * Get the ID of the destination end point.
+	 * Gets the ID of the destination end point.
 	 * 
 	 * @return the ID of the destination end point
 	 */
 	public String to();
 
 	/**
-	 * Get the filter string which defines a rule for filtering messages.
+	 * Gets the filter string which defines a rule for filtering messages.
 	 * 
 	 * @return the filter string
 	 */
 	public String filter();
 
 	/**
-	 * Test if the filter is the one matched regardlessly by all the messages.
+	 * Tests if the filter is the one matched regardlessly by all the messages.
 	 * 
 	 * @return true if the filter is the one matched regardlessly by all the
 	 *         messages, otherwise false

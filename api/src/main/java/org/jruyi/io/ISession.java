@@ -21,28 +21,28 @@ package org.jruyi.io;
 public interface ISession {
 
 	/**
-	 * Return the session ID.
+	 * Returns the session ID.
 	 * 
 	 * @return the session ID
 	 */
 	public Long id();
 
 	/**
-	 * Return the address of the local peer.
+	 * Returns the address of the local peer.
 	 * 
 	 * @return the local address
 	 */
 	public Object localAddress();
 
 	/**
-	 * Return the address of the remote peer.
+	 * Returns the address of the remote peer.
 	 * 
 	 * @return the remote address
 	 */
 	public Object remoteAddress();
 
 	/**
-	 * Put an attribute, which maps the specified {@code name} to the specified
+	 * Puts an attribute, which maps the specified {@code name} to the specified
 	 * {@code value}, into this session.
 	 * 
 	 * @param name
@@ -55,7 +55,7 @@ public interface ISession {
 	public Object put(String name, Object value);
 
 	/**
-	 * Get the value of the session attribute whose name is the specified
+	 * Gets the value of the session attribute whose name is the specified
 	 * {@code name}.
 	 * 
 	 * @param name
@@ -65,7 +65,7 @@ public interface ISession {
 	public Object get(String name);
 
 	/**
-	 * Remove the attribute whose name is the specified {@code name} from this
+	 * Removes the attribute whose name is the specified {@code name} from this
 	 * session.
 	 * 
 	 * @param name
@@ -75,7 +75,7 @@ public interface ISession {
 	public Object remove(String name);
 
 	/**
-	 * Deposit the specified {@code something} to this session with the
+	 * Deposits the specified {@code something} to this session with the
 	 * specified {@code id} as the reference-equality key.
 	 * 
 	 * @param id
@@ -87,7 +87,7 @@ public interface ISession {
 	public Object deposit(Object id, Object something);
 
 	/**
-	 * Withdraw the object deposited with the specified {@code id} as the
+	 * Withdraws the object deposited with the specified {@code id} as the
 	 * reference-equality key.
 	 * 
 	 * @param id
@@ -98,7 +98,7 @@ public interface ISession {
 	public Object withdraw(Object id);
 
 	/**
-	 * Return the object deposited with the specified {@code id} as the
+	 * Returns the object deposited with the specified {@code id} as the
 	 * reference-equality key.
 	 * 
 	 * @param id
@@ -108,7 +108,7 @@ public interface ISession {
 	public Object inquiry(Object id);
 
 	/**
-	 * Test whether this session is closed.
+	 * Tests whether this session is closed.
 	 * 
 	 * @return {@code true} if this session is closed, otherwise {@code false}
 	 */

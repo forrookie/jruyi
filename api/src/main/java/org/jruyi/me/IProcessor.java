@@ -25,7 +25,7 @@ package org.jruyi.me;
 public interface IProcessor {
 
 	/**
-	 * Process the specified {@code message}.
+	 * Processes the specified {@code message}.
 	 * 
 	 * @param message
 	 *            the message to be processed

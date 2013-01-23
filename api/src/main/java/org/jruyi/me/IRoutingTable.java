@@ -24,7 +24,7 @@ package org.jruyi.me;
 public interface IRoutingTable {
 
 	/**
-	 * Get an existing {@code IRouteSet} object or create a new one if not
+	 * Gets an existing {@code IRouteSet} object or creates a new one if not
 	 * exists.
 	 * 
 	 * @param from
@@ -34,8 +34,8 @@ public interface IRoutingTable {
 	public IRouteSet getRouteSet(String from);
 
 	/**
-	 * Get the existing {@code IRouteSet} object whose source endpoint ID is the
-	 * specified {@code from}.
+	 * Gets the existing {@code IRouteSet} object whose source endpoint ID is
+	 * the specified {@code from}.
 	 * 
 	 * @param from
 	 *            the source endpoint ID
@@ -44,7 +44,7 @@ public interface IRoutingTable {
 	public IRouteSet queryRouteSet(String from);
 
 	/**
-	 * Get all the {@code IRouteSet} objects in the routing table.
+	 * Gets all the {@code IRouteSet} objects in the routing table.
 	 * 
 	 * @return all the existing {@code IRouteSet} objects, or an empty array if
 	 *         there aren't any

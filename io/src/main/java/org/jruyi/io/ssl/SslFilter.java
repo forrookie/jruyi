@@ -24,46 +24,25 @@ import javax.net.ssl.SSLEngineResult;
 import javax.net.ssl.SSLEngineResult.HandshakeStatus;
 import javax.net.ssl.SSLEngineResult.Status;
 
-import org.jruyi.common.IBuffer;
-import org.jruyi.common.IBufferReader;
 import org.jruyi.common.StrUtil;
+import org.jruyi.io.IBuffer;
 import org.jruyi.io.IFilter;
 import org.jruyi.io.IFilterOutput;
 import org.jruyi.io.ISession;
 import org.jruyi.io.ISslContextInfo;
+import org.jruyi.io.ShortCodec;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class SslFilter implements IFilter {
 
-	private static final Logger c_logger = LoggerFactory.getLogger(SslFilter.class);
-	private static final Object SSL_VAR = new Object();
+	private static final Logger c_logger = LoggerFactory
+			.getLogger(SslFilter.class);
+	private static final Object SSL_CODEC = new Object();
 	private SSLContext m_sslContext;
 	private Configuration m_conf;
 	private ISslContextInfo m_sslci;
-
-	static final class Var {
-
-		private final SSLEngine m_engine;
-		private IBuffer m_inception;
-
-		Var(SSLEngine engine) {
-			m_engine = engine;
-		}
-
-		SSLEngine engine() {
-			return m_engine;
-		}
-
-		IBuffer inception() {
-			return m_inception;
-		}
-
-		void inception(IBuffer inception) {
-			m_inception = inception;
-		}
-	}
 
 	static final class Configuration {
 
@@ -165,45 +144,46 @@ public final class SslFilter implements IFilter {
 	// Bytes 3-4 = Length of data in the record (excluding the header itself).
 	// The maximum SSL supports is 16384 (16K).
 	@Override
-	public int tellBoundary(ISession session, IBufferReader in) {
-		int type = in.getUByte(0);
+	public int tellBoundary(ISession session, IBuffer in) {
+		int type = in.byteAt(0) & 0xFF;
 		if (type > 0x17) { // SSLv2
 			if (in.length() < 2)
 				return E_UNDERFLOW;
 
 			int mask = type < 0x80 ? 0x3F : 0x7F;
-			return ((type & mask) << 8 | in.getUByte(1)) + 2;
+			return ((type & mask) << 8 | (in.byteAt(1) & 0xFF)) + 2;
 		}
 
 		if (in.length() < 5)
 			return E_UNDERFLOW;
 
-		return in.getUShortB(3) + 5;
+		return in.getUnsignedShort(3, ShortCodec.bigEndian()) + 5;
 	}
 
 	@Override
 	public boolean onMsgArrive(ISession session, Object msg,
 			IFilterOutput output) {
-		IBuffer data;
+		IBuffer netData;
 		try {
-			data = (IBuffer) msg;
+			netData = (IBuffer) msg;
 		} catch (ClassCastException e) {
 			throw new RuntimeException(
 					"SSL filter only handles data of type IBuffer");
 		}
 
-		Var var = (Var) session.inquiry(SSL_VAR);
-		if (var == null) {
+		SslCodec sslCodec = (SslCodec) session.inquiry(SSL_CODEC);
+		if (sslCodec == null) {
 			// server mode
-			var = new Var(createEngine(false));
-			session.deposit(SSL_VAR, var);
+			sslCodec = new SslCodec(createEngine(false));
+			session.deposit(SSL_CODEC, sslCodec);
 		}
 
-		IBuffer appBuf = data.newBuffer();
+		IBuffer appBuf = netData.newBuffer();
 		try {
-			SSLEngine engine = var.engine();
+			SSLEngine engine = sslCodec.engine();
 			for (;;) {
-				SSLEngineResult result = appBuf.unwrap(data, engine);
+				appBuf.write(netData, sslCodec);
+				SSLEngineResult result = sslCodec.unwrapResult();
 				Status status = result.getStatus();
 				if (status == Status.OK) {
 					HandshakeStatus hs = result.getHandshakeStatus();
@@ -212,66 +192,66 @@ public final class SslFilter implements IFilter {
 						continue;
 					}
 
-					if (hs == HandshakeStatus.NEED_UNWRAP)
+					if (hs == HandshakeStatus.NEED_UNWRAP) {
+						appBuf.close();
 						return true;
-					else if (hs == HandshakeStatus.FINISHED) {
-						IBuffer inception = var.inception();
+					} else if (hs == HandshakeStatus.FINISHED) {
+						appBuf.close();
+						IBuffer inception = sslCodec.inception();
 						if (inception == null)
 							return true;
-						var.inception(null);
 
-						appBuf.close();
+						sslCodec.inception(null);
+
 						appBuf = inception;
 					}
 
 					break;
 				}
 
+				appBuf.close();
 				// BUFFER_UNDERFLOW, CLOSED
 				return true;
 			}
 
-			boolean ret = appBuf.size() > 0;
 			output.add(appBuf);
-			appBuf = null;
-			return ret;
+			return !appBuf.isEmpty();
 		} catch (Exception e) {
 			c_logger.error(StrUtil.buildString(session, " failed to unwrap"), e);
+			appBuf.close();
 			return false;
 		} finally {
-			data.close();
-
-			if (appBuf != null)
-				appBuf.close();
+			netData.close();
 		}
 	}
 
 	@Override
 	public boolean onMsgDepart(ISession session, Object msg,
 			IFilterOutput output) {
-		IBuffer data;
+		IBuffer appData;
 		try {
-			data = (IBuffer) msg;
+			appData = (IBuffer) msg;
 		} catch (ClassCastException e) {
 			throw new RuntimeException(
 					"SSL filter only handles data of type IBuffer");
 		}
 
-		Var var = (Var) session.inquiry(SSL_VAR);
-		if (var == null) {
+		SslCodec sslCodec = (SslCodec) session.inquiry(SSL_CODEC);
+		if (sslCodec == null) {
 			// client mode
-			var = new Var(createEngine(true));
-			session.deposit(SSL_VAR, var);
+			sslCodec = new SslCodec(createEngine(true));
+			session.deposit(SSL_CODEC, sslCodec);
 
-			if (!data.isEmpty())
-				var.inception(data.split(data.size()));
+			if (!appData.isEmpty())
+				sslCodec.inception(appData.split(appData.size()));
 		}
 
-		IBuffer netBuf = data.newBuffer();
+		IBuffer netBuf = appData.newBuffer();
 		try {
-			SSLEngine engine = var.engine();
+			SSLEngine engine = sslCodec.engine();
 			for (;;) {
-				SSLEngineResult result = data.wrap(netBuf, engine);
+				appData.read(netBuf, sslCodec);
+				SSLEngineResult result = sslCodec.wrapResult();
 				Status status = result.getStatus();
 				if (status == Status.OK) {
 					HandshakeStatus hs = result.getHandshakeStatus();
@@ -281,28 +261,26 @@ public final class SslFilter implements IFilter {
 					}
 
 					if (hs == HandshakeStatus.NEED_WRAP) {
-						data.compact();
+						appData.compact();
 						continue;
 					}
 
 					break;
 				}
 
+				netBuf.close();
 				return status == Status.BUFFER_UNDERFLOW;
 			}
 
 			output.add(netBuf);
-			netBuf = null;
+			return true;
 		} catch (Exception e) {
 			c_logger.error(StrUtil.buildString(session, " failed to wrap"), e);
+			netBuf.close();
 			return false;
 		} finally {
-			data.close();
-			if (netBuf != null)
-				netBuf.close();
+			appData.close();
 		}
-
-		return true;
 	}
 
 	protected void setSslContextInfo(ISslContextInfo sslci) {

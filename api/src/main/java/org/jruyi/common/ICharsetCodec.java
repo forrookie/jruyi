@@ -28,14 +28,14 @@ import java.nio.charset.CharsetEncoder;
 public interface ICharsetCodec {
 
 	/**
-	 * Get the charset of this codec.
+	 * Gets the charset of this codec.
 	 * 
 	 * @return the charset of this codec
 	 */
 	public Charset getCharset();
 
 	/**
-	 * Encode the characters in the specified {@code in} and append the result
+	 * Encodes the characters in the specified {@code in} and appends the result
 	 * to the specified {@code out}.
 	 * 
 	 * @param in
@@ -46,9 +46,9 @@ public interface ICharsetCodec {
 	public void encode(StringBuilder in, BytesBuilder out);
 
 	/**
-	 * Encode the characters in the specified {@code in} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and append the result
-	 * to the specified {@code out}.
+	 * Encodes the characters in the specified {@code in} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and appends the
+	 * result to the specified {@code out}.
 	 * 
 	 * @param in
 	 *            the {@code StrBuilder} holding the characters to be encoded
@@ -60,11 +60,12 @@ public interface ICharsetCodec {
 	 * @param out
 	 *            the {@code BytesBuilder} to append the encoded bytes
 	 */
-	public void encode(StringBuilder in, int offset, int length, BytesBuilder out);
+	public void encode(StringBuilder in, int offset, int length,
+			BytesBuilder out);
 
 	/**
-	 * Encode the characters in specified {@code chars} and append the result to
-	 * the specified {@code out}.
+	 * Encodes the characters in specified {@code chars} and appends the result
+	 * to the specified {@code out}.
 	 * 
 	 * @param chars
 	 *            the char array to be encoded
@@ -74,9 +75,9 @@ public interface ICharsetCodec {
 	public void encode(char[] chars, BytesBuilder out);
 
 	/**
-	 * Encode the characters in the specified {@code chars} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and append the result
-	 * to the specified {@code out}.
+	 * Encodes the characters in the specified {@code chars} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and appends the
+	 * result to the specified {@code out}.
 	 * 
 	 * @param chars
 	 *            the char array to be encoded
@@ -91,8 +92,8 @@ public interface ICharsetCodec {
 	public void encode(char[] chars, int offset, int length, BytesBuilder out);
 
 	/**
-	 * Encode characters in the specified char buffer {@code in} and append the
-	 * result to the specified {@code out}.
+	 * Encodes characters in the specified char buffer {@code in} and appends
+	 * the result to the specified {@code out}.
 	 * 
 	 * @param in
 	 *            the char buffer to be encoded
@@ -102,8 +103,8 @@ public interface ICharsetCodec {
 	public void encode(CharBuffer in, BytesBuilder out);
 
 	/**
-	 * Encode the characters from the given sequence of char buffers and append
-	 * the result to the specified {@code out}.
+	 * Encodes the characters from the given sequence of char buffers and
+	 * appends the result to the specified {@code out}.
 	 * 
 	 * @param in
 	 *            an array of {@code CharBuffer}s containing the characters to
@@ -114,9 +115,9 @@ public interface ICharsetCodec {
 	public void encode(CharBuffer[] in, BytesBuilder out);
 
 	/**
-	 * Encode the characters from the subsequence of the specified {@code in}
-	 * starting at {@code offset} ending at {@code (offset + length)} and append
-	 * the result to the specified {@code out}.
+	 * Encodes the characters from the subsequence of the specified {@code in}
+	 * starting at {@code offset} ending at {@code (offset + length)} and
+	 * appends the result to the specified {@code out}.
 	 * 
 	 * @param in
 	 *            an array of {@code CharBuffer}s containing the characters to
@@ -133,7 +134,7 @@ public interface ICharsetCodec {
 	public void encode(CharBuffer[] in, int offset, int length, BytesBuilder out);
 
 	/**
-	 * Encode the specified {@code chars} and return the result.
+	 * Encodes the specified {@code chars} and returns the result.
 	 * 
 	 * @param chars
 	 *            the char array to be encoded
@@ -142,8 +143,8 @@ public interface ICharsetCodec {
 	public byte[] encode(char[] chars);
 
 	/**
-	 * Encode the characters in the specified {@code chars} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and return the
+	 * Encodes the characters in the specified {@code chars} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and returns the
 	 * result.
 	 * 
 	 * @param chars
@@ -158,8 +159,8 @@ public interface ICharsetCodec {
 	public byte[] encode(char[] chars, int offset, int length);
 
 	/**
-	 * Encode the characters in the specified char buffer {@code in} and return
-	 * the result.
+	 * Encodes the characters in the specified char buffer {@code in} and
+	 * returns the result.
 	 * 
 	 * @param in
 	 *            the char buffer to be encoded
@@ -168,8 +169,8 @@ public interface ICharsetCodec {
 	public byte[] encode(CharBuffer in);
 
 	/**
-	 * Encode the characters from the given sequence of char buffers and return
-	 * the result.
+	 * Encodes the characters from the given sequence of char buffers and
+	 * returns the result.
 	 * 
 	 * @param in
 	 *            an array of {@code CharBuffer}s containing the characters to
@@ -179,9 +180,9 @@ public interface ICharsetCodec {
 	public byte[] encode(CharBuffer[] in);
 
 	/**
-	 * Encode the characters from the subsequence of the specified {@code in}
-	 * starting at {@code offset} ending at {@code (offset + length)} and return
-	 * the result.
+	 * Encodes the characters from the subsequence of the specified {@code in}
+	 * starting at {@code offset} ending at {@code (offset + length)} and
+	 * returns the result.
 	 * 
 	 * @param in
 	 *            an array of {@code CharBuffer}s containing the characters to
@@ -197,7 +198,7 @@ public interface ICharsetCodec {
 	public byte[] encode(CharBuffer[] in, int offset, int length);
 
 	/**
-	 * Encode the specified {@code str} and return the result.
+	 * Encodes the specified {@code str} and returns the result.
 	 * 
 	 * @param str
 	 *            the {@code String} to be encoded
@@ -206,8 +207,8 @@ public interface ICharsetCodec {
 	public byte[] toBytes(String str);
 
 	/**
-	 * Encode the substring of the specified {@code str} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and return the
+	 * Encodes the substring of the specified {@code str} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and returns the
 	 * result.
 	 * 
 	 * @param str
@@ -222,8 +223,8 @@ public interface ICharsetCodec {
 	public byte[] toBytes(String str, int offset, int length);
 
 	/**
-	 * Decode the bytes in the specified {@code in} and append the result to the
-	 * specified {@code out}.
+	 * Decodes the bytes in the specified {@code in} and appends the result to
+	 * the specified {@code out}.
 	 * 
 	 * @param in
 	 *            the {@code BytesBuilder} holding the bytes to be decoded
@@ -233,9 +234,9 @@ public interface ICharsetCodec {
 	public void decode(BytesBuilder in, StringBuilder out);
 
 	/**
-	 * Decode the subsequence of the specified {@code in} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and append the result
-	 * to the specified {@code out}.
+	 * Decodes the subsequence of the specified {@code in} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and appends the
+	 * result to the specified {@code out}.
 	 * 
 	 * @param in
 	 *            the {@code BytesBuilder} holding the bytes to be decoded
@@ -247,10 +248,11 @@ public interface ICharsetCodec {
 	 * @param out
 	 *            the {@code StrBuilder} to append the decoded characters
 	 */
-	public void decode(BytesBuilder in, int offset, int length, StringBuilder out);
+	public void decode(BytesBuilder in, int offset, int length,
+			StringBuilder out);
 
 	/**
-	 * Decode the specified bytes {@code in} and append the result to the
+	 * Decodes the specified bytes {@code in} and appends the result to the
 	 * specified {@code out}.
 	 * 
 	 * @param in
@@ -261,9 +263,9 @@ public interface ICharsetCodec {
 	public void decode(byte[] in, StringBuilder out);
 
 	/**
-	 * Decode the bytes in the specified byte array {@code in} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and append the result
-	 * to the specified {@code out}.
+	 * Decodes the bytes in the specified byte array {@code in} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and appends the
+	 * result to the specified {@code out}.
 	 * 
 	 * @param in
 	 *            the byte array to be decoded
@@ -278,7 +280,7 @@ public interface ICharsetCodec {
 	public void decode(byte[] in, int offset, int length, StringBuilder out);
 
 	/**
-	 * Decode the specified bytes {@code in} and append the result to the
+	 * Decodes the specified bytes {@code in} and appends the result to the
 	 * specified {@code out}.
 	 * 
 	 * @param in
@@ -289,7 +291,7 @@ public interface ICharsetCodec {
 	public void decode(ByteBuffer in, StringBuilder out);
 
 	/**
-	 * Decode the bytes from the given sequence of byte buffers and append the
+	 * Decodes the bytes from the given sequence of byte buffers and appends the
 	 * result to the specified {@code out}.
 	 * 
 	 * @param in
@@ -301,9 +303,9 @@ public interface ICharsetCodec {
 	public void decode(ByteBuffer[] in, StringBuilder out);
 
 	/**
-	 * Decode the bytes from the subsequence of the specified {@code in}
-	 * starting at {@code offset} ending at {@code (offset + length)} and append
-	 * the result to the specified {@code out}.
+	 * Decodes the bytes from the subsequence of the specified {@code in}
+	 * starting at {@code offset} ending at {@code (offset + length)} and
+	 * appends the result to the specified {@code out}.
 	 * 
 	 * @param in
 	 *            an array of {@code ByteBuffer}s containing the bytes to be
@@ -316,10 +318,11 @@ public interface ICharsetCodec {
 	 * @param out
 	 *            the {@code StrBuilder} to append the decoded characters
 	 */
-	public void decode(ByteBuffer[] in, int offset, int length, StringBuilder out);
+	public void decode(ByteBuffer[] in, int offset, int length,
+			StringBuilder out);
 
 	/**
-	 * Decode the specified bytes {@code in} and return the result.
+	 * Decodes the specified bytes {@code in} and returns the result.
 	 * 
 	 * @param in
 	 *            the byte array to be decoded
@@ -328,8 +331,8 @@ public interface ICharsetCodec {
 	public char[] decode(byte[] in);
 
 	/**
-	 * Decode the bytes in the specified byte array {@code in} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and return the
+	 * Decodes the bytes in the specified byte array {@code in} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and returns the
 	 * result.
 	 * 
 	 * @param in
@@ -344,7 +347,7 @@ public interface ICharsetCodec {
 	public char[] decode(byte[] in, int offset, int length);
 
 	/**
-	 * Decode the bytes in the specified byte buffer {@code in} and return the
+	 * Decodes the bytes in the specified byte buffer {@code in} and returns the
 	 * result.
 	 * 
 	 * @param in
@@ -354,7 +357,7 @@ public interface ICharsetCodec {
 	public char[] decode(ByteBuffer in);
 
 	/**
-	 * Decode the bytes from the given sequence of byte buffers and return the
+	 * Decodes the bytes from the given sequence of byte buffers and returns the
 	 * result.
 	 * 
 	 * @param in
@@ -365,9 +368,9 @@ public interface ICharsetCodec {
 	public char[] decode(ByteBuffer[] in);
 
 	/**
-	 * Decode the bytes from the subsequence of the specified {@code in}
-	 * starting at {@code offset} ending at {@code (offset + length)} and return
-	 * the result.
+	 * Decodes the bytes from the subsequence of the specified {@code in}
+	 * starting at {@code offset} ending at {@code (offset + length)} and
+	 * returns the result.
 	 * 
 	 * @param in
 	 *            an array of {@code ByteBuffer}s containing the bytes to be
@@ -382,7 +385,7 @@ public interface ICharsetCodec {
 	public char[] decode(ByteBuffer[] in, int offset, int length);
 
 	/**
-	 * Decode the specified bytes {@code in} and return the resultant
+	 * Decodes the specified bytes {@code in} and returns the resultant
 	 * {@code String}.
 	 * 
 	 * @param in
@@ -392,8 +395,8 @@ public interface ICharsetCodec {
 	public String toString(byte[] in);
 
 	/**
-	 * Decode the bytes in the specified byte array {@code in} starting at
-	 * {@code offset} ending at {@code (offset + length)}, and return the
+	 * Decodes the bytes in the specified byte array {@code in} starting at
+	 * {@code offset} ending at {@code (offset + length)}, and returns the
 	 * resultant {@code String}.
 	 * 
 	 * @param in
@@ -408,7 +411,7 @@ public interface ICharsetCodec {
 	public String toString(byte[] in, int offset, int length);
 
 	/**
-	 * Decode the bytes in the specified {@code in} and return the resultant
+	 * Decodes the bytes in the specified {@code in} and returns the resultant
 	 * {@code String}.
 	 * 
 	 * @param in
@@ -418,7 +421,7 @@ public interface ICharsetCodec {
 	public String toString(ByteBuffer in);
 
 	/**
-	 * Decode the bytes in the specified byte buffer {@code in} and return the
+	 * Decodes the bytes in the specified byte buffer {@code in} and returns the
 	 * resultant {@code String}.
 	 * 
 	 * @param in
@@ -429,9 +432,9 @@ public interface ICharsetCodec {
 	public String toString(ByteBuffer[] in);
 
 	/**
-	 * Decode the bytes from the subsequence of the specified {@code in}
-	 * starting at {@code offset} ending at {@code (offset + length)} and return
-	 * the resultant {@code String}.
+	 * Decodes the bytes from the subsequence of the specified {@code in}
+	 * starting at {@code offset} ending at {@code (offset + length)} and
+	 * returns the resultant {@code String}.
 	 * 
 	 * @param in
 	 *            an array of {@code ByteBuffer}s containing the bytes to be
@@ -446,7 +449,7 @@ public interface ICharsetCodec {
 	public String toString(ByteBuffer[] in, int offset, int length);
 
 	/**
-	 * Return a charset encoder in the thread local cache, or create a new one
+	 * Returns a charset encoder in the thread local cache, or creates a new one
 	 * to return if none in the cache.
 	 * 
 	 * @return a charset encoder
@@ -454,7 +457,7 @@ public interface ICharsetCodec {
 	public CharsetEncoder getEncoder();
 
 	/**
-	 * Release the charset encoder to the thread local cache.
+	 * Releases the charset encoder to the thread local cache.
 	 * 
 	 * @param encoder
 	 *            the charset encoder to be cached
@@ -462,7 +465,7 @@ public interface ICharsetCodec {
 	public void releaseEncoder(CharsetEncoder encoder);
 
 	/**
-	 * Return a charset decoder in the thread local cache, or create a new one
+	 * Returns a charset decoder in the thread local cache, or creates a new one
 	 * to return if none in the cache.
 	 * 
 	 * @return a charset decoder
@@ -470,7 +473,7 @@ public interface ICharsetCodec {
 	public CharsetDecoder getDecoder();
 
 	/**
-	 * Release the charset decoder to the thread local cache.
+	 * Releases the charset decoder to the thread local cache.
 	 * 
 	 * @param decoder
 	 *            the charset decoder to be cached

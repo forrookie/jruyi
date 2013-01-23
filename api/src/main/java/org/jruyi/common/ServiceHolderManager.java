@@ -35,7 +35,7 @@ public final class ServiceHolderManager {
 	public interface IFactory {
 
 		/**
-		 * Create a new {@code IServiceHolderManager} object.
+		 * Creates a new {@code IServiceHolderManager} object.
 		 * 
 		 * @param context
 		 *            a bundle context bound to the service holder manager for
@@ -54,7 +54,7 @@ public final class ServiceHolderManager {
 	}
 
 	/**
-	 * Create a new {@code IServiceHolderManager} object.
+	 * Creates a new {@code IServiceHolderManager} object.
 	 * 
 	 * @param context
 	 *            a bundle context bound to the service holder manager for

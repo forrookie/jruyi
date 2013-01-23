@@ -60,21 +60,21 @@ public interface ITimeoutNotifier {
 	public static final int CLOSED = 0x08;
 
 	/**
-	 * Return the subject this notifier concerns.
+	 * Returns the subject this notifier concerns.
 	 * 
 	 * @return the subject
 	 */
 	public Object getSubject();
 
 	/**
-	 * Return the current state of this notifier.
+	 * Returns the current state of this notifier.
 	 * 
 	 * @return the current state of this notifier
 	 */
 	public int state();
 
 	/**
-	 * Schedule a notification to be sent out in {@code timeout} seconds. The
+	 * Schedules a notification to be sent out in {@code timeout} seconds. The
 	 * previous schedule will be dropped.
 	 * 
 	 * @param timeout
@@ -86,26 +86,26 @@ public interface ITimeoutNotifier {
 	public boolean schedule(int timeout);
 
 	/**
-	 * Cancel the notifier.
+	 * Cancels the notifier.
 	 * 
 	 * @return false if either timeout or closed, otherwise true
 	 */
 	public boolean cancel();
 
 	/**
-	 * Reset this notifier to be able to be scheduled again if it timed out.
+	 * Resets this notifier to be able to be scheduled again if it timed out.
 	 * 
 	 * @return true if this notifier timed out, otherwise false
 	 */
 	public boolean reset();
 
 	/**
-	 * Close this notifier.
+	 * Closes this notifier.
 	 */
 	public void close();
 
 	/**
-	 * Set the listener that is interested in the notification.
+	 * Sets the listener that is interested in the notification.
 	 * 
 	 * @param listener
 	 *            the notification receiver

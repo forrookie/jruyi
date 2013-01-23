@@ -22,14 +22,14 @@ package org.jruyi.me;
 public interface IProducer {
 
 	/**
-	 * Create a message able to be put into the message queue for routing.
+	 * Creates a message able to be put into the message queue for routing.
 	 * 
 	 * @return a message
 	 */
 	public IMessage createMessage();
 
 	/**
-	 * Put the specified {@code message} into the message queue for routing.
+	 * Puts the specified {@code message} into the message queue for routing.
 	 * 
 	 * @param message
 	 *            the message to be put into the message queue

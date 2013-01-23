@@ -23,11 +23,11 @@ import java.util.Map;
  * @see Ruyi
  */
 public final class Ruyi {
-	
+
 	private static final Ruyi INST = new Ruyi();
 
 	/**
-	 * Get the singleton instance of this class.
+	 * Gets the singleton instance of this class.
 	 * 
 	 * @return the {@code Ruyi} singleton instance
 	 */
@@ -36,8 +36,8 @@ public final class Ruyi {
 	}
 
 	/**
-	 * Set the JRuyi system's properties to the given {@code properties}. The new
-	 * properties will take effect after a new start.
+	 * Sets the JRuyi system's properties to the given {@code properties}. The
+	 * new properties will take effect after a new start.
 	 * 
 	 * @param properties
 	 *            the properties to set
@@ -46,7 +46,7 @@ public final class Ruyi {
 	}
 
 	/**
-	 * Start the JRuyi system.
+	 * Starts the JRuyi system.
 	 * 
 	 * @throws Exception
 	 *             if any error happens
@@ -55,7 +55,7 @@ public final class Ruyi {
 	}
 
 	/**
-	 * Stop the JRuyi system.
+	 * Stops the JRuyi system.
 	 * 
 	 * @throws Exception
 	 *             if any error happens
@@ -64,7 +64,7 @@ public final class Ruyi {
 	}
 
 	/**
-	 * Start the JRuyi system and wait for stopping.
+	 * Starts the JRuyi system and wait for stopping.
 	 * 
 	 * @throws Exception
 	 *             if any error happens
@@ -73,7 +73,7 @@ public final class Ruyi {
 	}
 
 	/**
-	 * Get the value of the given JRuyi property {@code name}.
+	 * Gets the value of the given JRuyi property {@code name}.
 	 * 
 	 * @return the property value
 	 * @param name

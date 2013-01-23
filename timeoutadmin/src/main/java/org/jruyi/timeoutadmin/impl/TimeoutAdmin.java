@@ -214,7 +214,7 @@ public final class TimeoutAdmin implements Runnable, ITimeoutAdmin {
 	}
 
 	private int getEffectiveIndex(int index) {
-		return index & (m_capacityMask);
+		return (index & m_capacityMask);
 	}
 
 	private ReentrantLock getLock(int index) {
@@ -223,9 +223,10 @@ public final class TimeoutAdmin implements Runnable, ITimeoutAdmin {
 
 	private void spin() {
 		int hand = m_hand;
+		int nextHand = hand + 1;
 		BiListNode<TimeoutEvent>[] dial = m_dial;
 		BiListNode<TimeoutEvent> begin = dial[hand];
-		BiListNode<TimeoutEvent> end = dial[hand + 1];
+		BiListNode<TimeoutEvent> end = dial[nextHand];
 		BiListNode<TimeoutEvent> node = null;
 
 		while ((node = begin.next()) != end) {
@@ -242,6 +243,6 @@ public final class TimeoutAdmin implements Runnable, ITimeoutAdmin {
 		}
 
 		// spin
-		m_hand = getEffectiveIndex(hand + 1);
+		m_hand = getEffectiveIndex(nextHand);
 	}
 }

@@ -26,8 +26,8 @@ import java.util.Set;
 
 /**
  * A substitution class to {@code Hashtable} to be used for {@code Dictionary}
- * properties in OSGi, for synchronization is not necessary and does a penalty to
- * the performance.
+ * properties in OSGi, for synchronization is not necessary and does a penalty
+ * to the performance.
  */
 public final class Properties extends Dictionary<String, Object> implements
 		Map<String, Object>, Cloneable, Serializable, IDumpable {
@@ -73,18 +73,46 @@ public final class Properties extends Dictionary<String, Object> implements
 		}
 	}
 
+	/**
+	 * Constructs an empty {@code Properties} with the specified initial
+	 * capacity and load factor.
+	 * 
+	 * @param initialCapacity
+	 *            the initial capacity
+	 * @param loadFactor
+	 *            the load factor
+	 */
 	public Properties(int initialCapacity, float loadFactor) {
 		m_map = new HashMap<String, Object>(initialCapacity, loadFactor);
 	}
 
+	/**
+	 * Constructs an empty {@code Properties} with the default initial capacity
+	 * (16) and the default load factor (0.75).
+	 */
 	public Properties() {
 		m_map = new HashMap<String, Object>();
 	}
 
+	/**
+	 * Constructs an empty {@code Properties} with the specified initial
+	 * capacity and the default load factor (0.75).
+	 * 
+	 * @param initialCapacity
+	 *            the initial capacity
+	 */
 	public Properties(int initialCapacity) {
 		m_map = new HashMap<String, Object>(initialCapacity);
 	}
 
+	/**
+	 * Constructs a new {@code Properties} with the same mappings as the
+	 * specified {@code map}. The {@code Properties} is created with default
+	 * load factor (0.75) and an initial capacity sufficient to hold the
+	 * mappings in the specified {@code map}.
+	 * 
+	 * @param map
+	 */
 	public Properties(Map<? extends String, ?> map) {
 		m_map = new HashMap<String, Object>(map);
 	}

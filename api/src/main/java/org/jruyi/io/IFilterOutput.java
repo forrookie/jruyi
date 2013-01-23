@@ -22,7 +22,7 @@ package org.jruyi.io;
 public interface IFilterOutput {
 
 	/**
-	 * Add the specified {@code out} to the output queue whose elements are to
+	 * Adds the specified {@code out} to the output queue whose elements are to
 	 * be passed to the next filter one by one.
 	 * 
 	 * @param out

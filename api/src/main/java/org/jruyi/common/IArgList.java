@@ -23,7 +23,7 @@ package org.jruyi.common;
 public interface IArgList extends IDumpable, ICloseable {
 
 	/**
-	 * Return the argument at the specified {@code index}.
+	 * Returns the argument at the specified {@code index}.
 	 * 
 	 * @param index
 	 *            the index of the argument to return
@@ -32,7 +32,7 @@ public interface IArgList extends IDumpable, ICloseable {
 	public Object arg(int index);
 
 	/**
-	 * Return the number of arguments in this list.
+	 * Returns the number of arguments in this list.
 	 * 
 	 * @return the number of arguments in this list
 	 */

@@ -68,7 +68,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Get a string builder with a minimum capacity of {@code 16}.
+	 * Gets a string builder with a minimum capacity of {@code 16}.
 	 * 
 	 * @return a {@code StringBuilder} object.
 	 * @see #capacity()
@@ -82,7 +82,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Get a string builder with the specified minimum capacity.
+	 * Gets a string builder with the specified minimum capacity.
 	 * 
 	 * @param capacity
 	 *            the desired minimum capacity.
@@ -101,7 +101,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Get a string builder that is initialized with the contents of the
+	 * Gets a string builder that is initialized with the contents of the
 	 * specified {@code CharSequence}. The minimum capacity of the string
 	 * builder is the length of the {@code cs} plus {@code 16}.
 	 * 
@@ -123,8 +123,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Get a string builder initialized to the contents of the specified string.
-	 * The minimum capacity of the string builder is the length of the
+	 * Gets a string builder initialized to the contents of the specified
+	 * string. The minimum capacity of the string builder is the length of the
 	 * {@code str} plus {@code 16}.
 	 * 
 	 * @param str
@@ -145,7 +145,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Release this string builder to the thread local cache so that it can be
+	 * Releases this string builder to the thread local cache so that it can be
 	 * reused before being GC'ed.
 	 * 
 	 * <p>
@@ -159,7 +159,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the current length.
+	 * Returns the current length.
 	 * 
 	 * @return the number of characters currently held in this string builder
 	 */
@@ -169,7 +169,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the number of characters that can be held without growing.
+	 * Returns the number of characters that can be held without growing.
 	 * 
 	 * @return the current capacity
 	 */
@@ -178,11 +178,11 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Ensure that this object has a minimum capacity available before requiring
-	 * the underlying buffer to be expanded. The general policy of this method
-	 * is that if the {@code minCapacity} is greater than the current
-	 * {@link #capacity()}, then the capacity will be expanded to the larger
-	 * value of either the {@code minCapacity} or the current capacity
+	 * Ensures that this object has a minimum capacity available before
+	 * requiring the underlying buffer to be expanded. The general policy of
+	 * this method is that if the {@code minCapacity} is greater than the
+	 * current {@link #capacity()}, then the capacity will be expanded to the
+	 * larger value of either the {@code minCapacity} or the current capacity
 	 * multiplied by two plus two. Although this is the general policy, there is
 	 * no guarantee that the capacity will change.
 	 * 
@@ -195,7 +195,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a new {@code String} that contains a subsequence of characters
+	 * Returns a new {@code String} that contains a subsequence of characters
 	 * currently contained in this character sequence with leading and trailing
 	 * whitespace omitted.
 	 * 
@@ -217,7 +217,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Trim off any extra capacity beyond the current length.
+	 * Trims off any extra capacity beyond the current length.
 	 */
 	public void trimToSize() {
 		if (m_length < m_value.length) {
@@ -228,7 +228,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Set the current length to the specified {@code newLength}. If the new
+	 * Sets the current length to the specified {@code newLength}. If the new
 	 * length is greater than the current length, then the new characters at the
 	 * end of this object are filled with {@code '\0'}.
 	 * 
@@ -247,7 +247,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the character at the specified {@code index}.
+	 * Returns the character at the specified {@code index}.
 	 * 
 	 * @param index
 	 *            the index of the desired {@code char} value.
@@ -265,7 +265,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the Unicode code point value at the specified {@code index}.
+	 * Returns the Unicode code point value at the specified {@code index}.
 	 * 
 	 * @param index
 	 *            the index to the {@code char} value
@@ -289,7 +289,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the Unicode code point value preceding the given {@code index}.
+	 * Returns the Unicode code point value preceding the given {@code index}.
 	 * 
 	 * @param index
 	 *            the index following the code point to be returned
@@ -313,7 +313,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the number of Unicode code points between {@code beginIndex} and
+	 * Returns the number of Unicode code points between {@code beginIndex} and
 	 * {@code endIndex}.
 	 * 
 	 * @param beginIndex
@@ -344,7 +344,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index that is offset {@code codePointOffset} code points from
+	 * Returns the index that is offset {@code codePointOffset} code points from
 	 * {@code index}.
 	 * 
 	 * @param index
@@ -421,7 +421,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Set the character {@code c} at the specified {@code index}.
+	 * Sets the character {@code c} at the specified {@code index}.
 	 * 
 	 * @param index
 	 *            the index of the character to set.
@@ -439,7 +439,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code Object} argument.
+	 * Appends the string representation of the {@code Object} argument.
 	 * <p>
 	 * If the argument is an instance of {@code IDumpable}, then {@code append(
 	 * IDumpable)} is invoked. Otherwise the argument is converted to a string
@@ -461,7 +461,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the contents of the specified string. If the string is
+	 * Appends the contents of the specified string. If the string is
 	 * {@code null}, then the string {@code "null"} is appended.
 	 * 
 	 * @param str
@@ -482,8 +482,9 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the contents of the specified {@code StringBuffer}. If the
-	 * StringBuffer is {@code null}, then the string {@code "null"} is appended.
+	 * Appends the contents of the specified {@code StringBuffer}. If the
+	 * {@code StringBuffer} is {@code null}, then the string {@code "null"} is
+	 * appended.
 	 * 
 	 * @param sb
 	 *            the <tt>StringBuffer</tt> to append
@@ -503,7 +504,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the contents of the specified {@code java.lang.StringBuilder}. If
+	 * Appends the contents of the specified {@code java.lang.StringBuilder}. If
 	 * the string builder is {@code null}, then the string {@code "null"} is
 	 * appended.
 	 * 
@@ -525,8 +526,9 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the contents of the specified {@code StringBuilder}. If the string
-	 * builder is {@code null}, then the string {@code "null"} is appended.
+	 * Appends the contents of the specified {@code StringBuilder}. If the
+	 * string builder is {@code null}, then the string {@code "null"} is
+	 * appended.
 	 * 
 	 * @param sb
 	 *            the {@code StringBuilder} to append
@@ -546,7 +548,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the specified {@code CharSequence}.
+	 * Appends the string representation of the specified {@code CharSequence}.
 	 * If the {@code CharSequence} is {@code null}, then the string
 	 * {@code "null"} is appended.
 	 * 
@@ -564,7 +566,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the specified subsequence of the
+	 * Appends the string representation of the specified subsequence of the
 	 * {@code CharSequence}. If the {@code CharSequence} is {@code null}, then
 	 * the string {@code "null"} is appended.
 	 * 
@@ -605,7 +607,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append a subsequence of the specified {@code String} to this sequence.
+	 * Appends a subsequence of the specified {@code String} to this sequence.
 	 * <p>
 	 * Characters of the argument {@code str}, starting at index {@code start},
 	 * are appended, in order, to the contents of this sequence up to the
@@ -652,7 +654,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the data dumped by the specified {@code dumpable} to this
+	 * Appends the data dumped by the specified {@code dumpable} to this
 	 * {@code StringBuilder}.
 	 * 
 	 * @param dumpable
@@ -665,7 +667,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code char} array argument to
+	 * Appends the string representation of the {@code char} array argument to
 	 * this sequence.
 	 * <p>
 	 * The characters of the array argument are appended, in order, to the
@@ -691,7 +693,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of a subarray of the {@code char} array
+	 * Appends the string representation of a subarray of the {@code char} array
 	 * argument to this sequence.
 	 * <p>
 	 * Characters of the {@code char} array {@code chars}, starting at index
@@ -721,7 +723,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code boolean} argument to the
+	 * Appends the string representation of the {@code boolean} argument to the
 	 * sequence.
 	 * <p>
 	 * The argument is converted to a string as if by the method
@@ -737,7 +739,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code char} argument to this
+	 * Appends the string representation of the {@code char} argument to this
 	 * sequence.
 	 * <p>
 	 * The argument is appended to the contents of this sequence. The length of
@@ -763,7 +765,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code int} argument to this
+	 * Appends the string representation of the {@code int} argument to this
 	 * sequence.
 	 * <p>
 	 * The argument is converted to a string as if by the method
@@ -789,7 +791,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code long} argument to this
+	 * Appends the string representation of the {@code long} argument to this
 	 * sequence.
 	 * <p>
 	 * The argument is converted to a string as if by the method
@@ -815,7 +817,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code float} argument to this
+	 * Appends the string representation of the {@code float} argument to this
 	 * sequence.
 	 * <p>
 	 * The argument is converted to a string as if by the method
@@ -831,7 +833,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code double} argument to this
+	 * Appends the string representation of the {@code double} argument to this
 	 * sequence.
 	 * <p>
 	 * The argument is converted to a string as if by the method
@@ -847,7 +849,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the given byte {@code b} to this string builder as 2 hex
+	 * Appends the given byte {@code b} to this string builder as 2 hex
 	 * characters.
 	 * 
 	 * @param b
@@ -869,7 +871,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the given short {@code s} to this string builder as 4 hex
+	 * Appends the given short {@code s} to this string builder as 4 hex
 	 * characters.
 	 * 
 	 * @param s
@@ -897,7 +899,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the given int {@code i} to this string builder as 8 hex
+	 * Appends the given int {@code i} to this string builder as 8 hex
 	 * characters.
 	 * 
 	 * @param i
@@ -923,7 +925,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the given long {@code l} to this string builder as 16 hex
+	 * Appends the given long {@code l} to this string builder as 16 hex
 	 * characters.
 	 * 
 	 * @param l
@@ -971,7 +973,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the given {@code length} of bytes starting at the given
+	 * Appends the given {@code length} of bytes starting at the given
 	 * {@code offset} of the given byte array {@code b} to this string builder
 	 * as a hex dump with {@code 16} bytes per row.
 	 * 
@@ -1051,7 +1053,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code int} array to this sequence.
+	 * Appends the specified {@code int} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1079,7 +1081,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code byte} array to this sequence.
+	 * Appends the specified {@code byte} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1107,7 +1109,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code char} array to this sequence.
+	 * Appends the specified {@code char} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1135,7 +1137,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code short} array to this sequence.
+	 * Appends the specified {@code short} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1163,7 +1165,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code boolean} array to this sequence.
+	 * Appends the specified {@code boolean} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1191,7 +1193,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code long} array to this sequence.
+	 * Appends the specified {@code long} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1219,7 +1221,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code float} array to this sequence.
+	 * Appends the specified {@code float} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1247,7 +1249,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code double} array to this sequence.
+	 * Appends the specified {@code double} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1275,7 +1277,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified {@code String} array to this sequence.
+	 * Appends the specified {@code String} array to this sequence.
 	 * <p>
 	 * The given {@code array} is expanded to a character sequence as follows.
 	 * 
@@ -1303,7 +1305,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified object array to this sequence.
+	 * Appends the specified object array to this sequence.
 	 * <p>
 	 * If all the members of the given {@code array} are not of an array type,
 	 * then this array is expanded to a character sequence as follows.
@@ -1330,7 +1332,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append {@code count} characters of {@code c} to this
+	 * Appends {@code count} characters of {@code c} to this
 	 * {@code StringBuilder}.
 	 * 
 	 * @param c
@@ -1359,7 +1361,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the specified object to this sequence deeply.
+	 * Appends the specified object to this sequence deeply.
 	 * <p>
 	 * If the given {@code arg} is of an array type, then it will be appended by
 	 * calling a corresponding {@code appendArray}. Otherwise its string value
@@ -1396,7 +1398,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Remove the characters in a substring of this sequence. The substring
+	 * Removes the characters in a substring of this sequence. The substring
 	 * begins at the specified {@code start} and extends to the character at
 	 * index {@code end - 1} or to the end of the sequence if no such character
 	 * exists. If {@code start} is equal to {@code end}, no changes are made.
@@ -1426,7 +1428,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Append the string representation of the {@code codePoint} argument to
+	 * Appends the string representation of the {@code codePoint} argument to
 	 * this sequence.
 	 * 
 	 * <p>
@@ -1471,7 +1473,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Remove the character at the specified position in this sequence.
+	 * Removes the character at the specified position in this sequence.
 	 * 
 	 * @param index
 	 *            the index of the character to remove
@@ -1491,8 +1493,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Replace the characters in a substring of this sequence with characters in
-	 * the specified {@code String}. The substring begins at the specified
+	 * Replaces the characters in a substring of this sequence with characters
+	 * in the specified {@code String}. The substring begins at the specified
 	 * {@code start} and extends to the character at index {@code end - 1} or to
 	 * the end of the sequence if no such character exists. First the characters
 	 * in the substring are removed and then the specified {@code String} is
@@ -1530,7 +1532,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a new {@code String} that contains a subsequence of characters
+	 * Returns a new {@code String} that contains a subsequence of characters
 	 * currently contained in this character sequence. The substring begins at
 	 * the specified index and extends to the end of this sequence.
 	 * 
@@ -1546,7 +1548,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a new character sequence that is a subsequence of this sequence.
+	 * Returns a new character sequence that is a subsequence of this sequence.
 	 * 
 	 * <p>
 	 * An invocation of this method of the form
@@ -1582,7 +1584,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a new {@code String} that contains a subsequence of characters
+	 * Returns a new {@code String} that contains a subsequence of characters
 	 * currently contained in this sequence. The substring begins at the
 	 * specified {@code start} and extends to the character at index {@code end
 	 * - 1}.
@@ -1605,8 +1607,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of a subarray of the {@code chars} array
-	 * argument into this sequence. The subarray begins at the specified
+	 * Inserts the string representation of a subarray of the {@code chars}
+	 * array argument into this sequence. The subarray begins at the specified
 	 * {@code offset} and extends {@code len} {@code char}i. The characters of
 	 * the subarray are inserted into this sequence at the position indicated by
 	 * {@code index}. The length of this sequence increases by {@code len}
@@ -1639,8 +1641,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code Object} argument into this
-	 * character sequence.
+	 * Inserts the string representation of the {@code Object} argument into
+	 * this character sequence.
 	 * <p>
 	 * The second argument is converted to a string as if by the method
 	 * {@code String.valueOf}, and the characters of that string are then
@@ -1662,7 +1664,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string into this character sequence.
+	 * Inserts the string into this character sequence.
 	 * <p>
 	 * The characters of the {@code String} argument are inserted, in order,
 	 * into this sequence at the indicated offset, moving up any characters
@@ -1710,7 +1712,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code char} array argument into
+	 * Inserts the string representation of the {@code char} array argument into
 	 * this sequence.
 	 * <p>
 	 * The characters of the array argument are inserted into the contents of
@@ -1744,7 +1746,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the specified {@code CharSequence} into this sequence.
+	 * Inserts the specified {@code CharSequence} into this sequence.
 	 * <p>
 	 * The characters of the {@code CharSequence} argument are inserted, in
 	 * order, into this sequence at the indicated offset, moving up any
@@ -1774,7 +1776,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert a subsequence of the specified {@code CharSequence} into this
+	 * Inserts a subsequence of the specified {@code CharSequence} into this
 	 * sequence.
 	 * <p>
 	 * The subsequence of the argument {@code csq} specified by {@code start}
@@ -1822,7 +1824,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	 *             negative, or {@code start} is greater than {@code end} or
 	 *             {@code end} is greater than {@code csq.length()}
 	 */
-	public StringBuilder insert(int dstOffset, CharSequence csq, int start, int end) {
+	public StringBuilder insert(int dstOffset, CharSequence csq, int start,
+			int end) {
 		if (csq == null)
 			return insert(dstOffset, "null");
 
@@ -1845,7 +1848,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code boolean} argument into
+	 * Inserts the string representation of the {@code boolean} argument into
 	 * this sequence.
 	 * <p>
 	 * The second argument is converted to a string as if by the method
@@ -1868,7 +1871,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code char} argument into this
+	 * Inserts the string representation of the {@code char} argument into this
 	 * sequence.
 	 * <p>
 	 * The second argument is inserted into the contents of this sequence at the
@@ -1902,7 +1905,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the second {@code int} argument into
+	 * Inserts the string representation of the second {@code int} argument into
 	 * this sequence.
 	 * <p>
 	 * The second argument is converted to a string as if by the method
@@ -1939,7 +1942,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code long} argument into this
+	 * Inserts the string representation of the {@code long} argument into this
 	 * sequence.
 	 * <p>
 	 * The second argument is converted to a string as if by the method
@@ -1976,7 +1979,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code float} argument into this
+	 * Inserts the string representation of the {@code float} argument into this
 	 * sequence.
 	 * <p>
 	 * The second argument is converted to a string as if by the method
@@ -1999,8 +2002,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code double} argument into this
-	 * sequence.
+	 * Inserts the string representation of the {@code double} argument into
+	 * this sequence.
 	 * 
 	 * <p>
 	 * The second argument is converted to a string as if by the method
@@ -2024,7 +2027,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the string representation of the {@code codePoint} argument to
+	 * Inserts the string representation of the {@code codePoint} argument to
 	 * this sequence.
 	 * 
 	 * <p>
@@ -2079,7 +2082,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the {@code count} character {@code c} to this
+	 * Inserts the {@code count} character {@code c} to this
 	 * {@code StringBuilder} at {@code offset}.
 	 * 
 	 * @param offset
@@ -2114,7 +2117,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the given byte {@code b} to this string builder at the given
+	 * Inserts the given byte {@code b} to this string builder at the given
 	 * {@code offset} as 2 hex characters.
 	 * 
 	 * @param offset
@@ -2145,7 +2148,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the given short {@code s} to this string builder at the given
+	 * Inserts the given short {@code s} to this string builder at the given
 	 * {@code offset} as 4 hex characters.
 	 * 
 	 * @param offset
@@ -2180,7 +2183,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the given int {@code i} to this string builder at the given
+	 * Inserts the given int {@code i} to this string builder at the given
 	 * {@code offset} as 8 hex characters.
 	 * 
 	 * @param offset
@@ -2213,7 +2216,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Insert the given long {@code l} to this string builder at the given
+	 * Inserts the given long {@code l} to this string builder at the given
 	 * {@code offset} as 16 hex characters.
 	 * 
 	 * @param offset
@@ -2253,7 +2256,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this string of the first occurrence of the
+	 * Returns the index within this string of the first occurrence of the
 	 * specified substring.
 	 * 
 	 * @param str
@@ -2297,7 +2300,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this sequence of the first occurrence of the
+	 * Returns the index within this sequence of the first occurrence of the
 	 * specified subsequence, starting at the specified index. If no such
 	 * substring exists, then {@code -1} is returned.
 	 * 
@@ -2345,8 +2348,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this char sequence of the first occurrence of the
-	 * specified char sequence {@code chars}. If no such subsequence exists,
+	 * Returns the index within this char sequence of the first occurrence of
+	 * the specified char sequence {@code chars}. If no such subsequence exists,
 	 * then {@code -1} is returned.
 	 * 
 	 * @param chars
@@ -2384,8 +2387,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this char sequence of the first occurrence of the
-	 * specified subsequence, starting at the specified index. If no such
+	 * Returns the index within this char sequence of the first occurrence of
+	 * the specified subsequence, starting at the specified index. If no such
 	 * subsequence exists, then {@code -1} is returned.
 	 * 
 	 * @param chars
@@ -2426,7 +2429,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this sequence of the first occurrence of the
+	 * Returns the index within this sequence of the first occurrence of the
 	 * specified {@code pattern} by searching with the KMP algorithm. If no such
 	 * subsequence exists, then {@code -1} is returned.
 	 * 
@@ -2444,7 +2447,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this sequence of the first occurrence of the
+	 * Returns the index within this sequence of the first occurrence of the
 	 * specified {@code pattern}, starting at the specified {@code fromIndex}.
 	 * If no such substring exists by searching with KMP algorithm, then
 	 * {@code -1} is returned.
@@ -2465,7 +2468,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this sequence of the rightmost occurrence of the
+	 * Returns the index within this sequence of the rightmost occurrence of the
 	 * specified substring. The rightmost empty string "" is considered to occur
 	 * at the index value {@code this.length()}. The returned index is the
 	 * largest value <i>k</i> such that
@@ -2516,7 +2519,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this string of the last occurrence of the
+	 * Returns the index within this string of the last occurrence of the
 	 * specified substring. The integer returned is the largest value <i>k</i>
 	 * such that:
 	 * 
@@ -2571,9 +2574,9 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this char sequence of the rightmost occurrence of
-	 * the specified subsequence. The rightmost empty char array is considered
-	 * to occur at the index value {@code this.length()}.
+	 * Returns the index within this char sequence of the rightmost occurrence
+	 * of the specified subsequence. The rightmost empty char array is
+	 * considered to occur at the index value {@code this.length()}.
 	 * 
 	 * @param chars
 	 *            the subsequence to search for.
@@ -2608,7 +2611,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this char sequence of the last occurrence of the
+	 * Returns the index within this char sequence of the last occurrence of the
 	 * specified subsequence. If no such subsequence exists, then {@code -1} is
 	 * returned.
 	 * 
@@ -2650,8 +2653,8 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this char sequence of the rightmost occurrence of
-	 * the specified subsequence by searching with the KMP algorithm. The
+	 * Returns the index within this char sequence of the rightmost occurrence
+	 * of the specified subsequence by searching with the KMP algorithm. The
 	 * rightmost empty char array is considered to occur at the index value
 	 * {@code this.length()}.
 	 * 
@@ -2669,7 +2672,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return the index within this char sequence starting from the specified
+	 * Returns the index within this char sequence starting from the specified
 	 * {@code fromIndex} of the rightmost occurrence of the specified
 	 * subsequence by searching with the KMP algorithm. If no such subsequence
 	 * exists, then {@code -1} is returned.
@@ -2688,7 +2691,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Replace this character sequence with the reverse of the sequence. If
+	 * Replaces this character sequence with the reverse of the sequence. If
 	 * there are any surrogate pairs included in the sequence, these are treated
 	 * as single characters for the reverse operation. Thus, the order of the
 	 * high-low surrogates is never reversed.
@@ -2738,7 +2741,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a string representing the data in this sequence. A new
+	 * Returns a string representing the data in this sequence. A new
 	 * {@code String} object is allocated and initialized to contain the
 	 * character sequence currently represented by this object. This
 	 * {@code String} is then returned. Subsequent changes to this sequence do
@@ -2752,7 +2755,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a string representing the data in this sequnce. A new
+	 * Returns a string representing the data in this sequnce. A new
 	 * {@code String} object is allocated and initialized to contain the
 	 * character sequence currently represented by this object. This
 	 * {@code String} is then returned. This {@code StringBuilder} is then
@@ -2768,7 +2771,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a character array that is a copy of the data this
+	 * Returns a character array that is a copy of the data this
 	 * {@code StringBuilder} currently holds.
 	 * 
 	 * @return a copy of the data this {@code StringBuilder} currently holds
@@ -2781,7 +2784,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	}
 
 	/**
-	 * Return a {@code CharBuffer} backed by the char array in this
+	 * Returns a {@code CharBuffer} backed by the char array in this
 	 * {@code StringBuilder}. Its capacity will be {@link #capacity()}, its
 	 * position will be {@code offset}, its limit will be
 	 * {@code (offset + length)}, its mark will be undefined.
@@ -2866,7 +2869,8 @@ public final class StringBuilder implements Serializable, Appendable,
 		m_value = (char[]) ois.readObject();
 	}
 
-	void appendHexDump(byte[][] data, int[] offsets, int[] lengths, int size) {
+	void appendHexDump(IByteSequence[] data, int[] offsets, int[] lengths,
+			int size) {
 		int length = 0;
 		int n = 0;
 		for (; n < size; ++n)
@@ -2889,11 +2893,11 @@ public final class StringBuilder implements Serializable, Appendable,
 		System.arraycopy(c_cs, 0, v, n, LSL);
 		n += LSL;
 
-		byte[] b = null;
+		IByteSequence sequence = null;
 		int offset = 0;
 		int i = 0;
 		while (i < size) {
-			b = data[i];
+			sequence = data[i];
 			offset = offsets[i];
 			length = lengths[i];
 			++i;
@@ -2924,7 +2928,7 @@ public final class StringBuilder implements Serializable, Appendable,
 			int asc = n + HM_DISTANCE;
 			eof: for (m = 0; m < HM_BYTES_PERROW;) {
 				v[++n] = ' ';
-				c = b[offset] & 0xFF;
+				c = sequence.byteAt(offset) & 0xFF;
 				++offset;
 				v[++n] = bhDigits[c];
 				v[++n] = blDigits[c];
@@ -2936,7 +2940,7 @@ public final class StringBuilder implements Serializable, Appendable,
 				while (length < 1) {
 					if (i >= size)
 						break eof;
-					b = data[i];
+					sequence = data[i];
 					offset = offsets[i];
 					length = lengths[i];
 					++i;

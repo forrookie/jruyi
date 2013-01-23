@@ -162,6 +162,10 @@ public final class RuyiCmd {
 		}
 	}
 
+	public void shutdown() throws Exception {
+		m_context.getBundle(0).stop();
+	}
+
 	private void add(ListNode<String> node, String cmd) {
 		ListNode<String> prev = node;
 		while ((node = prev.next()) != null && node.get().compareTo(cmd) < 0)

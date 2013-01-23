@@ -26,7 +26,7 @@ import org.jruyi.common.IService;
 public interface IEndpoint extends IService {
 
 	/**
-	 * Inject an {@code IProducer} representing this endpoint to produce
+	 * Injects an {@code IProducer} representing this endpoint to produce
 	 * messages when this endpoint is being registered to the message queue.
 	 * 
 	 * @param producer
@@ -35,7 +35,7 @@ public interface IEndpoint extends IService {
 	public void producer(IProducer producer);
 
 	/**
-	 * Outject an {@code IConsumer} representing this endpoint to consume
+	 * Outjects an {@code IConsumer} representing this endpoint to consume
 	 * messages when this endpoint is being registered to the message queue.
 	 * 
 	 * @return an {@code IConsumer} representing this endpoint.

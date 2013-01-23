@@ -27,7 +27,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.jruyi.common.ArgList;
 import org.jruyi.common.IArgList;
-import org.jruyi.common.IBuffer;
 import org.jruyi.common.ICloseable;
 import org.jruyi.common.IDumpable;
 import org.jruyi.common.IThreadLocalCache;
@@ -35,6 +34,7 @@ import org.jruyi.common.ListNode;
 import org.jruyi.common.StrUtil;
 import org.jruyi.common.StringBuilder;
 import org.jruyi.common.ThreadLocalCache;
+import org.jruyi.io.IBuffer;
 import org.jruyi.io.IFilter;
 import org.jruyi.io.IFilterOutput;
 import org.jruyi.timeoutadmin.ITimeoutEvent;
@@ -202,12 +202,12 @@ public abstract class Channel implements IChannel, IDumpable, Runnable {
 			Channel channel = m_channel;
 			IChannelService cs = channel.channelService();
 			IBuffer in = cs.getBufferFactory().create();
-			ScatteringByteChannel rbc = channel.scatteringByteChannel();
+			ScatteringByteChannel sbc = channel.scatteringByteChannel();
 			int n = 0;
 			try {
 				int readThreshold = cs.readThreshold();
 				for (;;) {
-					n = in.readIn(rbc);
+					n = in.readIn(sbc);
 					if (n > 0) {
 						if (in.length() > readThreshold)
 							break;

@@ -26,12 +26,12 @@ package org.jruyi.common;
 public interface IServiceHolderManager<T> {
 
 	/**
-	 * Open this manager to start tracking services.
+	 * Opens this manager to start tracking services.
 	 */
 	public void open();
 
 	/**
-	 * Get the service holder holding the service identified by the specified
+	 * Gets the service holder holding the service identified by the specified
 	 * {@code id}. The use count for this holder is incremented by one.
 	 * 
 	 * @param id
@@ -41,7 +41,7 @@ public interface IServiceHolderManager<T> {
 	public IServiceHolder<T> getServiceHolder(String id);
 
 	/**
-	 * Unget the service holder holding the service identified by the specified
+	 * Ungets the service holder holding the service identified by the specified
 	 * {@code id}. The use count for this holder is decremented by one.
 	 * 
 	 * @param id
@@ -52,7 +52,7 @@ public interface IServiceHolderManager<T> {
 	public IServiceHolder<T> ungetServiceHolder(String id);
 
 	/**
-	 * Close this manager to stop tracking services.
+	 * Closes this manager to stop tracking services.
 	 */
 	public void close();
 }

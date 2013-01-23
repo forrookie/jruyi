@@ -15,12 +15,12 @@
  */
 package org.jruyi.io.filter;
 
+import org.jruyi.common.IServiceHolder;
+import org.jruyi.common.StrUtil;
+import org.jruyi.io.IBuffer;
 import org.jruyi.io.IFilter;
 import org.jruyi.io.IFilterOutput;
 import org.jruyi.io.ISession;
-import org.jruyi.common.IBufferReader;
-import org.jruyi.common.IServiceHolder;
-import org.jruyi.common.StrUtil;
 
 final class FilterDelegator implements IFilter {
 
@@ -33,7 +33,7 @@ final class FilterDelegator implements IFilter {
 	}
 
 	@Override
-	public int tellBoundary(ISession session, IBufferReader in) {
+	public int tellBoundary(ISession session, IBuffer in) {
 		return m_holder.getService().tellBoundary(session, in);
 	}
 

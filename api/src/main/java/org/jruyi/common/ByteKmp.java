@@ -25,7 +25,7 @@ public final class ByteKmp {
 	private int[] m_pmk;
 
 	/**
-	 * Construct a KMP pattern with the given {@code pattern} as the sequence to
+	 * Constructs a KMP pattern with the given {@code pattern} as the sequence to
 	 * be searched for.
 	 * 
 	 * @param pattern
@@ -36,7 +36,7 @@ public final class ByteKmp {
 	}
 
 	/**
-	 * Construct a KMP pattern with the given {@code pattern} starting at
+	 * Constructs a KMP pattern with the given {@code pattern} starting at
 	 * {@code offset} ending at {@code (offset + length)} to be searched for.
 	 * 
 	 * @param pattern
@@ -54,7 +54,7 @@ public final class ByteKmp {
 	}
 
 	/**
-	 * Return the index of the first occurrence of this KMP sequence in the
+	 * Returns the index of the first occurrence of this KMP sequence in the
 	 * given sequence {@code target} starting at {@code offset} ending at
 	 * {@code (offset + length)}.
 	 * 
@@ -102,7 +102,7 @@ public final class ByteKmp {
 	}
 
 	/**
-	 * Return the index of the rightmost occurrence of this KMP sequence in the
+	 * Returns the index of the rightmost occurrence of this KMP sequence in the
 	 * given sequence {@code target} starting at {@code offset} ending at
 	 * {@code (offset + length)}.
 	 * 
@@ -152,7 +152,7 @@ public final class ByteKmp {
 	}
 
 	/**
-	 * Return the length of this sequence.
+	 * Returns the length of this sequence.
 	 * 
 	 * @return the length of this sequence
 	 */
@@ -160,7 +160,7 @@ public final class ByteKmp {
 		return m_pattern.length;
 	}
 
-	int findIn(byte[][] target, int[] offsets, int[] lengths, int size) {
+	int findIn(IByteSequence[] target, int[] offsets, int[] lengths, int size) {
 		byte[] pattern = m_pattern;
 		int i = pattern.length;
 		if (i == 0)
@@ -172,11 +172,11 @@ public final class ByteKmp {
 		int k = 0;
 		int a = 0;
 		while (a < size) {
-			byte[] data = target[a];
+			IByteSequence sequence = target[a];
 			int b = offsets[a];
 			int y = b + lengths[a];
 			while (b < y) {
-				if (pattern[i] == data[b]) {
+				if (pattern[i] == sequence.byteAt(b)) {
 					if (i == n)
 						return k;
 					++i;
@@ -190,7 +190,7 @@ public final class ByteKmp {
 					while (b < 0)
 						b += lengths[--a];
 
-					data = target[a];
+					sequence = target[a];
 					y = offsets[a] + lengths[a];
 
 					if (i < 0)
@@ -204,7 +204,7 @@ public final class ByteKmp {
 		return -1;
 	}
 
-	int rfindIn(byte[][] target, int[] offsets, int[] lengths, int size) {
+	int rfindIn(IByteSequence[] target, int[] offsets, int[] lengths, int size) {
 		int k = 0;
 		for (int i = 0; i < size; ++i)
 			k += lengths[i];
@@ -223,12 +223,12 @@ public final class ByteKmp {
 		int[] table = getPmkTable();
 		int a = size;
 		while (--a >= 0) {
-			byte[] data = target[a];
+			IByteSequence sequence = target[a];
 			int y = offsets[a];
 			int len = lengths[a];
 			int b = y + len - 1;
 			while (b >= y) {
-				if (pattern[n - i] == data[b]) {
+				if (pattern[n - i] == sequence.byteAt(b)) {
 					if (i == n)
 						return k - n;
 					++i;
@@ -245,7 +245,7 @@ public final class ByteKmp {
 							++a;
 							len = lengths[a];
 						} while (b >= len);
-						data = target[a];
+						sequence = target[a];
 						y = offsets[a];
 						b += y;
 					}

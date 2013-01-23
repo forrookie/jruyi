@@ -15,7 +15,7 @@
  */
 package org.jruyi.io.channel;
 
-import org.jruyi.common.IBuffer;
+import org.jruyi.io.IBuffer;
 import org.jruyi.io.ISession;
 
 public interface IChannel extends ISession, ISelectableChannel {

@@ -21,14 +21,14 @@ package org.jruyi.timeoutadmin;
 public interface ITimeoutEvent {
 
 	/**
-	 * Get the subject of this event.
+	 * Gets the subject of this event.
 	 * 
 	 * @return the subject
 	 */
 	public Object getSubject();
 
 	/**
-	 * Get the time in seconds that is out.
+	 * Gets the time in seconds that is out.
 	 * 
 	 * @return the time is out
 	 */

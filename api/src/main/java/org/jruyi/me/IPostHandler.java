@@ -21,7 +21,7 @@ package org.jruyi.me;
 public interface IPostHandler {
 
 	/**
-	 * Handle the specified {@code message}.
+	 * Handles the specified {@code message}.
 	 * <p>
 	 * If this method returns false, then the specified {@code message} will be
 	 * dropped immediately.

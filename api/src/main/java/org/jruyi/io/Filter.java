@@ -15,7 +15,6 @@
  */
 package org.jruyi.io;
 
-import org.jruyi.common.IBufferReader;
 
 /**
  * This abstract class provides pass-through implementation of {@link IFilter}.
@@ -23,7 +22,7 @@ import org.jruyi.common.IBufferReader;
 public abstract class Filter implements IFilter {
 
 	/**
-	 * Return the current length of the given {@code in} as the message
+	 * Returns the current length of the given {@code in} as the message
 	 * boundary.
 	 * 
 	 * @param session
@@ -33,12 +32,12 @@ public abstract class Filter implements IFilter {
 	 * @return the message length
 	 */
 	@Override
-	public int tellBoundary(ISession session, IBufferReader in) {
+	public int tellBoundary(ISession session, IBuffer in) {
 		return in.length();
 	}
 
 	/**
-	 * Pass through the given {@code msg}.
+	 * Passes through the given {@code msg}.
 	 * 
 	 * @param session
 	 *            the current IO session
@@ -50,13 +49,14 @@ public abstract class Filter implements IFilter {
 	 * @return true
 	 */
 	@Override
-	public boolean onMsgArrive(ISession session, Object msg, IFilterOutput output) {
+	public boolean onMsgArrive(ISession session, Object msg,
+			IFilterOutput output) {
 		output.add(msg);
 		return true;
 	}
 
 	/**
-	 * Pass through the given {@code msg}.
+	 * Passes through the given {@code msg}.
 	 * 
 	 * @param session
 	 *            the current IO session
@@ -68,7 +68,8 @@ public abstract class Filter implements IFilter {
 	 * @return true
 	 */
 	@Override
-	public boolean onMsgDepart(ISession session, Object msg, IFilterOutput output) {
+	public boolean onMsgDepart(ISession session, Object msg,
+			IFilterOutput output) {
 		output.add(msg);
 		return true;
 	}

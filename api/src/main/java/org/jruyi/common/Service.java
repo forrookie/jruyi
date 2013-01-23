@@ -149,7 +149,7 @@ public abstract class Service implements IService {
 	}
 
 	/**
-	 * Start this service and the service state changes to {@code STARTED}.
+	 * Starts this service and the service state changes to {@code STARTED}.
 	 * 
 	 * @throws Exception
 	 *             If this service failed to start.
@@ -166,10 +166,11 @@ public abstract class Service implements IService {
 	}
 
 	/**
-	 * Start this service with the specified {@code options} and the service
+	 * Starts this service with the specified {@code options} and the service
 	 * state changes to {@code STARTED}.
 	 * 
-	 * @param options start options
+	 * @param options
+	 *            start options
 	 * @throws Exception
 	 *             If this service failed to start.
 	 */
@@ -185,7 +186,7 @@ public abstract class Service implements IService {
 	}
 
 	/**
-	 * Stop this service and the state changes to {@code STOPPED}.
+	 * Stops this service and the state changes to {@code STOPPED}.
 	 */
 	@Override
 	public final void stop() {
@@ -199,10 +200,11 @@ public abstract class Service implements IService {
 	}
 
 	/**
-	 * Stop this service with the specified {@code options} and the service
+	 * Stops this service with the specified {@code options} and the service
 	 * state changes to {@code STOPPED}.
 	 * 
-	 * @param options stop options
+	 * @param options
+	 *            stop options
 	 */
 	@Override
 	public final void stop(int options) {
@@ -223,7 +225,7 @@ public abstract class Service implements IService {
 	}
 
 	/**
-	 * Return the current state of this service.
+	 * Returns the current state of this service.
 	 * 
 	 * @return the current state
 	 */
@@ -243,11 +245,12 @@ public abstract class Service implements IService {
 
 	/**
 	 * A callback method for a derived class to do some customized work for
-	 * starting with options.  This default implementation just calls
+	 * starting with options. This default implementation just calls
 	 * {@code startInternal()}.
-	 *
-	 * @param options start options
-	 * @throws Exception 
+	 * 
+	 * @param options
+	 *            start options
+	 * @throws Exception
 	 *             If any error occurs
 	 */
 	protected void startInternal(int options) throws Exception {
@@ -262,10 +265,11 @@ public abstract class Service implements IService {
 
 	/**
 	 * A callback method for a derived class to do some customized work for
-	 * stopping with options.  This default implementation just calls
+	 * stopping with options. This default implementation just calls
 	 * {@code stopInternal()}.
-	 *
-	 * @param options stop options
+	 * 
+	 * @param options
+	 *            stop options
 	 */
 	protected void stopInternal(int options) {
 		stopInternal();

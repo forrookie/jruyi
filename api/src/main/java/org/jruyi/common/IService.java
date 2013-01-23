@@ -40,7 +40,7 @@ public interface IService {
 	public static final int STOPPING = 0x08;
 
 	/**
-	 * Start this service.
+	 * Starts this service.
 	 * 
 	 * @throws Exception
 	 *             thrown if this service failed to start
@@ -48,30 +48,32 @@ public interface IService {
 	public void start() throws Exception;
 
 	/**
-	 * Start this service with the specified {@code options}.  It's up to the
+	 * Starts this service with the specified {@code options}. It's up to the
 	 * service implementation to define its own start options.
-	 *
-	 * @param options start options
-	 * @throws Exception 
+	 * 
+	 * @param options
+	 *            start options
+	 * @throws Exception
 	 *             thrown if this service failed to start
 	 */
 	public void start(int options) throws Exception;
 
 	/**
-	 * Stop this service.
+	 * Stops this service.
 	 */
 	public void stop();
 
 	/**
-	 * Stop this service with the specified {@code options}.  It's up to the
+	 * Stops this service with the specified {@code options}. It's up to the
 	 * service implementation to define its own stop options.
-	 *
-	 * @param options stop options
+	 * 
+	 * @param options
+	 *            stop options
 	 */
 	public void stop(int options);
 
 	/**
-	 * Update the properties of this service.
+	 * Updates the properties of this service.
 	 * 
 	 * @param properties
 	 *            the properties to be updated to
@@ -81,7 +83,7 @@ public interface IService {
 	public void update(Map<String, ?> properties) throws Exception;
 
 	/**
-	 * Get the current state of this service.
+	 * Gets the current state of this service.
 	 * 
 	 * @return the current state of this service
 	 */
