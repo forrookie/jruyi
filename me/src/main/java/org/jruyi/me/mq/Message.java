@@ -15,6 +15,7 @@
  */
 package org.jruyi.me.mq;
 
+import java.io.Closeable;
 import java.util.Dictionary;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -26,15 +27,19 @@ import org.jruyi.common.ICloseable;
 import org.jruyi.common.IDumpable;
 import org.jruyi.common.IThreadLocalCache;
 import org.jruyi.common.Properties;
-import org.jruyi.common.StringBuilder;
 import org.jruyi.common.StrUtil;
+import org.jruyi.common.StringBuilder;
 import org.jruyi.common.ThreadLocalCache;
 import org.jruyi.me.IMessage;
 import org.jruyi.me.route.IRoutable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Message implements Runnable, IMessage, IRoutable,
 		ICloseable, IDumpable {
 
+	private static final Logger c_logger = LoggerFactory
+			.getLogger(Message.class);
 	private static final String NULL = "null";
 	private static final IThreadLocalCache<Message> c_cache = ThreadLocalCache
 			.weakLinkedCache();
@@ -222,8 +227,14 @@ public final class Message implements Runnable, IMessage, IRoutable,
 		try {
 			if (attachment != null) {
 				m_attachment = null;
-				if (attachment instanceof ICloseable)
-					((ICloseable) attachment).close();
+				if (attachment instanceof Closeable) {
+					try {
+						((Closeable) attachment).close();
+					} catch (Throwable t) {
+						c_logger.error(StrUtil.buildString(
+								"Failed to close attachment: ", attachment), t);
+					}
+				}
 			}
 		} finally {
 			c_cache.put(this);

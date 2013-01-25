@@ -15,10 +15,14 @@
  */
 package org.jruyi.io.tcpclient;
 
+import java.io.Closeable;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.jruyi.common.*;
+import org.jruyi.common.ArgList;
+import org.jruyi.common.BiListNode;
+import org.jruyi.common.IArgList;
+import org.jruyi.common.StrUtil;
 import org.jruyi.io.channel.IChannel;
 import org.jruyi.io.common.SyncQueue;
 import org.jruyi.me.IMessage;
@@ -29,7 +33,8 @@ import org.slf4j.LoggerFactory;
 
 public final class ConnPool extends TcpClient implements IRunnable {
 
-	private static final Logger c_logger = LoggerFactory.getLogger(ConnPool.class);
+	private static final Logger c_logger = LoggerFactory
+			.getLogger(ConnPool.class);
 	private Configuration m_conf;
 	private IWorker m_worker;
 	private final SyncQueue<IMessage> m_messages;
@@ -148,9 +153,16 @@ public final class ConnPool extends TcpClient implements IRunnable {
 	public void onMessageReceived(IChannel channel, Object data) {
 		if (!channel.cancelTimeout() // channel has timed out
 				|| m_conf.readTimeout() == 0 // no response is expected
-				) {
-			if (data instanceof ICloseable)
-				((ICloseable) data).close();
+		) {
+			if (data instanceof Closeable) {
+				try {
+					((Closeable) data).close();
+				} catch (Throwable t) {
+					c_logger.error(
+							StrUtil.buildString("Failed to close message: ", data),
+							t);
+				}
+			}
 			return;
 		}
 
@@ -347,7 +359,8 @@ public final class ConnPool extends TcpClient implements IRunnable {
 
 				removeNode(node);
 				// The attachement of channel is used to tell whether the bound
-				// node has been removed. So detach operation has to been synchronized.
+				// node has been removed. So detach operation has to been
+				// synchronized.
 				channel = node.get();
 				channel.detach();
 			} finally {

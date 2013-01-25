@@ -15,6 +15,7 @@
  */
 package org.jruyi.io.udpserver;
 
+import java.io.Closeable;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -29,7 +30,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.jruyi.common.ICloseable;
 import org.jruyi.common.Service;
 import org.jruyi.common.StrUtil;
 import org.jruyi.io.IBufferFactory;
@@ -50,7 +50,8 @@ import org.slf4j.LoggerFactory;
 public final class UdpServer extends Service implements IChannelService,
 		IConsumer, IEndpoint {
 
-	private static final Logger c_logger = LoggerFactory.getLogger(UdpServer.class);
+	private static final Logger c_logger = LoggerFactory
+			.getLogger(UdpServer.class);
 	private String m_caption;
 	private Configuration m_conf;
 	private IProducer m_producer;
@@ -170,8 +171,14 @@ public final class UdpServer extends Service implements IChannelService,
 				c_logger.warn(StrUtil.buildString(this,
 						" failed to send(channel closed): ", message));
 
-				if (data instanceof ICloseable)
-					((ICloseable) data).close();
+				if (data instanceof Closeable) {
+					try {
+						((Closeable) data).close();
+					} catch (Throwable t) {
+						c_logger.error(StrUtil.buildString(
+								"Faield to close message: ", data), t);
+					}
+				}
 
 				return;
 			}

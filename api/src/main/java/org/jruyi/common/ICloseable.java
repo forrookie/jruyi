@@ -18,7 +18,7 @@ package org.jruyi.common;
 import java.io.Closeable;
 
 /**
- * A closeable object indicates that it can be closed to release resources it
+ * A closeable object indicates that it need be closed to release resources it
  * holds.
  */
 public interface ICloseable extends Closeable {

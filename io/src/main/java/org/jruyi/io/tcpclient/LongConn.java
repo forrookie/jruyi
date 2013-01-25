@@ -15,9 +15,9 @@
  */
 package org.jruyi.io.tcpclient;
 
+import java.io.Closeable;
 import java.util.Map;
 
-import org.jruyi.common.ICloseable;
 import org.jruyi.common.StrUtil;
 import org.jruyi.io.IoConstants;
 import org.jruyi.io.SessionAction;
@@ -79,9 +79,16 @@ public final class LongConn extends TcpClient {
 	public void onMessageReceived(IChannel channel, Object data) {
 		if (channel.cancelTimeout())
 			enqueue(channel, data);
-		else if (data instanceof ICloseable)
+		else if (data instanceof Closeable) {
 			// channel has timed out
-			((ICloseable) data).close();
+			try {
+				((Closeable) data).close();
+			} catch (Throwable t) {
+				c_logger.error(
+						StrUtil.buildString("Failed to close message: ", data),
+						t);
+			}
+		}
 	}
 
 	@Override

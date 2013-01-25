@@ -15,6 +15,7 @@
  */
 package org.jruyi.io.channel;
 
+import java.io.Closeable;
 import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.channels.SelectableChannel;
@@ -127,8 +128,14 @@ public abstract class Channel implements IChannel, IDumpable, Runnable {
 			for (int i = 0; i < size; ++i) {
 				Object msg = msgs[i];
 				if (msg != null) {
-					if (msg instanceof ICloseable)
-						((ICloseable) msg).close();
+					if (msg instanceof Closeable) {
+						try {
+							((Closeable) msg).close();
+						} catch (Throwable t) {
+							c_logger.error(StrUtil.buildString(
+									"Failed to close message: ", msg), t);
+						}
+					}
 					msgs[i] = null;
 				}
 			}
@@ -321,8 +328,14 @@ public abstract class Channel implements IChannel, IDumpable, Runnable {
 						ListNode<IArgList> node = head.next();
 						head.close();
 						Object msg = node.get();
-						if (msg instanceof ICloseable)
-							((ICloseable) msg).close();
+						if (msg instanceof Closeable) {
+							try {
+								((Closeable) msg).close();
+							} catch (Throwable t) {
+								c_logger.error(StrUtil.buildString(
+										"Failed to close message: ", msg), t);
+							}
+						}
 						node.set(null);
 						head = node;
 					} while (head != tail);

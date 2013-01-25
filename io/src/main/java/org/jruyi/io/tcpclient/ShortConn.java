@@ -15,10 +15,10 @@
  */
 package org.jruyi.io.tcpclient;
 
+import java.io.Closeable;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.jruyi.common.ICloseable;
 import org.jruyi.common.StrUtil;
 import org.jruyi.io.channel.IChannel;
 import org.jruyi.me.IMessage;
@@ -27,7 +27,8 @@ import org.slf4j.LoggerFactory;
 
 public final class ShortConn extends TcpClient {
 
-	private static final Logger c_logger = LoggerFactory.getLogger(ShortConn.class);
+	private static final Logger c_logger = LoggerFactory
+			.getLogger(ShortConn.class);
 	private static final Method[] EMTPY_MANDATORY_PROPS = new Method[0];
 	private TcpClientConf m_conf;
 
@@ -72,9 +73,16 @@ public final class ShortConn extends TcpClient {
 				message.attach(data);
 				enqueue(message);
 			}
-		} else if (data instanceof ICloseable)
+		} else if (data instanceof Closeable) {
 			// if false, channel has timed out.
-			((ICloseable) data).close();
+			try {
+				((Closeable) data).close();
+			} catch (Throwable t) {
+				c_logger.error(
+						StrUtil.buildString("Failed to close message: ", data),
+						t);
+			}
+		}
 	}
 
 	@Override

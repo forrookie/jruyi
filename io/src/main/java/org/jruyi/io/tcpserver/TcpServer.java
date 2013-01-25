@@ -15,6 +15,7 @@
  */
 package org.jruyi.io.tcpserver;
 
+import java.io.Closeable;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -30,7 +31,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.jruyi.common.ICloseable;
 import org.jruyi.common.Service;
 import org.jruyi.common.StrUtil;
 import org.jruyi.io.IBufferFactory;
@@ -185,8 +185,14 @@ public final class TcpServer extends Service implements IChannelService,
 				c_logger.warn(StrUtil.buildString(this,
 						" failed to send(channel closed): ", message));
 
-				if (data instanceof ICloseable)
-					((ICloseable) data).close();
+				if (data instanceof Closeable) {
+					try {
+						((Closeable) data).close();
+					} catch (Throwable t) {
+						c_logger.error(StrUtil.buildString(
+								"Failed to close message: ", data), t);
+					}
+				}
 
 				// TODO: need notify failure on writing out?
 				return;
@@ -222,7 +228,7 @@ public final class TcpServer extends Service implements IChannelService,
 
 		if (m_channels == null)
 			m_channels = new ConcurrentHashMap<Object, IChannel>(
-				conf.initCapacityOfChannelMap());
+					conf.initCapacityOfChannelMap());
 
 		ServerSocketChannel ssc = ServerSocketChannel.open();
 		try {
@@ -276,7 +282,7 @@ public final class TcpServer extends Service implements IChannelService,
 			writeLock.unlock();
 		}
 
-		if (options == 0) 
+		if (options == 0)
 			closeChannels();
 
 		c_logger.info(StrUtil.buildString(this, " stopped"));
