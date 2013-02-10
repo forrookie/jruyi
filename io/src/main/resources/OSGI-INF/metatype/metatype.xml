@@ -21,8 +21,11 @@
 	xsi:schemaLocation="http://www.osgi.org/xmlns/metatype/v1.1.0 http://www.osgi.org/xmlns/metatype/v1.1.0/metatype.xsd">
 
 	<OCD id="buffer" name="Buffer Factory" description="The factory to create buffers">
-		<AD id="unitCapacity" name="Unit Capacity" type="Integer" default="8192"
-			min="8" description="The capacity of a single buffer unit"/>
+		<AD id="unitCapacity" name="Unit Capacity" type="Integer" default="8192" min="8" description="The capacity of a single buffer unit"/>
+	</OCD>
+
+	<OCD id="channelAdmin" name="Channel Admin">
+		<AD id="numberOfSelectorThreads" name="Number Of Selector Threads" type="Integer" required="false" min="1"/>
 	</OCD>
 
 	<OCD id="tcpServer" name="TCP Server">
@@ -202,6 +205,10 @@
 
 	<Designate factoryPid="jruyi.io.buffer">
 		<Object ocdref="buffer"/>
+	</Designate>
+
+	<Designate pid="jruyi.io.channeladmin">
+		<Object ocdref="channelAdmin"/>
 	</Designate>
 
 	<Designate pid="jruyi.io.tcpserver" factoryPid="jruyi.io.tcpserver">

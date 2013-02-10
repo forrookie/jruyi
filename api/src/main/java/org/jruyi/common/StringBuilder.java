@@ -38,7 +38,7 @@ public final class StringBuilder implements Serializable, Appendable,
 	private static final int HM_BYTES_PERROW = 16;
 	private static final int HM_DISTANCE = 3 * (HM_BYTES_PERROW + 1);
 	private static final int LSL = StrUtil.getLineSeparator().length();
-	private static final char[] c_cs = StrUtil.getLineSeparator().toCharArray();
+	private static final char[] c_ls = StrUtil.getLineSeparator().toCharArray();
 	private static final char[] c_bhDigits = new char[256];
 	private static final char[] c_blDigits = new char[256];
 	private static final IThreadLocalCache<StringBuilder> c_cache = ThreadLocalCache
@@ -1004,9 +1004,6 @@ public final class StringBuilder implements Serializable, Appendable,
 		char[] bhDigits = c_bhDigits;
 		char[] blDigits = c_blDigits;
 
-		System.arraycopy(c_cs, 0, v, n, LSL);
-		n += LSL;
-
 		int addr = 0;
 		while (length > 0) {
 			int c = addr >>> 24;
@@ -1041,7 +1038,7 @@ public final class StringBuilder implements Serializable, Appendable,
 				v[++n] = ' ';
 			} while (++m <= HM_BYTES_PERROW);
 
-			System.arraycopy(c_cs, 0, v, ++i, LSL);
+			System.arraycopy(c_ls, 0, v, ++i, LSL);
 			n = i + LSL;
 
 			addr += HM_BYTES_PERROW;
@@ -2890,9 +2887,6 @@ public final class StringBuilder implements Serializable, Appendable,
 		char[] bhDigits = c_bhDigits;
 		char[] blDigits = c_blDigits;
 
-		System.arraycopy(c_cs, 0, v, n, LSL);
-		n += LSL;
-
 		IByteSequence sequence = null;
 		int offset = 0;
 		int i = 0;
@@ -2953,7 +2947,7 @@ public final class StringBuilder implements Serializable, Appendable,
 				v[++n] = ' ';
 			} while (++m <= HM_BYTES_PERROW);
 
-			System.arraycopy(c_cs, 0, v, ++asc, LSL);
+			System.arraycopy(c_ls, 0, v, ++asc, LSL);
 			n = asc + LSL;
 
 			addr += HM_BYTES_PERROW;

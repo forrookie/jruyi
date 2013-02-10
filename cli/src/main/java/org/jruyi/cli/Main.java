@@ -70,7 +70,7 @@ public final class Main {
 		try {
 			init();
 
-			if (args.length > 0 && INST.processCommandLines(args))
+			if (args.length > 0 && !INST.processCommandLines(args))
 				return;
 
 			Runtime.getRuntime().addShutdownHook(new ShutdownHook());
@@ -141,15 +141,13 @@ public final class Main {
 
 		Options options = new Options();
 		options.addOption("?", "help", false, null);
-		options.addOption("v", "version", false, null);
 		options.addOption("h", "host", true, null);
 		options.addOption("p", "port", true, null);
 		options.addOption("t", "timeout", true, null);
-		options.addOption("r", "run", true, null);
+		options.addOption("f", "file", false, null);
 
 		CommandLine line = new PosixParser().parse(options, args);
 
-		String command = null;
 		Option[] opts = line.getOptions();
 		for (Option option : opts) {
 			String opt = option.getOpt();
@@ -168,27 +166,42 @@ public final class Main {
 				String v = option.getValue();
 				if (v != null)
 					m_timeout = Integer.parseInt(v) * 1000;
-			} else if (opt.equals("r")) {
-				String v = option.getValue();
-				if (v != null && (v = v.trim()).length() > 0)
-					command = v;
+			} else if (opt.equals("f")) {
+				args = line.getArgs();
+				if (args == null || args.length < 1)
+					System.out.println("Please specify SCRIPT.");
+				else
+					run(args);
+
+				return false;
 			} else
 				throw new Exception("Unknown option: " + option);
 		}
-		
-		String[] scripts = line.getArgs();
-		if (command == null && (scripts == null || scripts.length < 1))
-			return false;
 
-		run(command, scripts);
-		return true;
+		args = line.getArgs();
+		if (args == null || args.length < 1)
+			return true;
+
+		String command = args[0];
+		int n = args.length;
+		if (n > 1) {
+			StringBuilder builder = new StringBuilder(256);
+			builder.append(command);
+			for (int i = 1; i < n; ++i)
+				builder.append(' ').append(args[i]);
+			command = builder.toString();
+		}
+
+		run(command);
+		return false;
 	}
 
 	private void printHelp() {
 		String programName = System.getProperty("program.name");
 		System.out.println();
-		System.out.println("Usage: " + programName
-				+ " [options] [script] [script1] ...");
+		System.out.println("Usage1: " + programName + " COMMAND ...");
+		System.out.println("Usage2: " + programName
+				+ " [options] [SCRIPT] [SCRIPT1] ...");
 		System.out.println();
 		System.out.println("options:");
 		System.out
@@ -200,11 +213,22 @@ public final class Main {
 		System.out
 				.println("    -t, --timeout=<seconds>   the time to wait for response");
 		System.out
-				.println("    -r, --run=<command>       run the specified command");
+				.println("    -f, --file                execute ruyi script files");
 		System.out.println();
 	}
 
-	private void run(String command, String[] scripts) throws Exception {
+	private void run(String command) throws Exception {
+		Session session = m_session;
+		session.open(m_host, m_port, m_timeout);
+		try {
+			session.recv(DummyWriter.INST);
+			session.send("prompt=''\r\n" + command);
+		} finally {
+			session.close();
+		}
+	}
+
+	private void run(String[] scripts) throws Exception {
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
 		try {
@@ -212,8 +236,6 @@ public final class Main {
 
 			String cmd = "prompt=''";
 			session.send(cmd);
-			if (command != null)
-				session.send(command);
 
 			if (scripts == null || scripts.length < 1)
 				return;

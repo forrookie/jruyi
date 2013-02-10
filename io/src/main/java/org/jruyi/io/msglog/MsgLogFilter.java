@@ -45,7 +45,8 @@ public final class MsgLogFilter extends Filter {
 	@Override
 	public boolean onMsgArrive(ISession session, Object msg,
 			IFilterOutput output) {
-		c_logger.info(StrUtil.buildString(session, " inbound >>", msg));
+		c_logger.info(StrUtil.buildString(session, " inbound >>",
+				StrUtil.getLineSeparator(), msg));
 		output.add(msg);
 		return true;
 	}
@@ -53,7 +54,8 @@ public final class MsgLogFilter extends Filter {
 	@Override
 	public boolean onMsgDepart(ISession session, Object msg,
 			IFilterOutput output) {
-		c_logger.info(StrUtil.buildString(session, " outbound <<", msg));
+		c_logger.info(StrUtil.buildString(session, " outbound <<",
+				StrUtil.getLineSeparator(), msg));
 		output.add(msg);
 		return true;
 	}

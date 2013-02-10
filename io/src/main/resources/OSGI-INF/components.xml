@@ -33,7 +33,7 @@
 		</service>
 	</component>
 
-	<component name="jruyi.io.channel" configuration-policy="ignore">
+	<component name="jruyi.io.channeladmin">
 		<implementation class="org.jruyi.io.channel.ChannelAdmin"/>
 		<service>
 			<provide interface="org.jruyi.io.channel.IChannelAdmin"/>

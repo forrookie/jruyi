@@ -264,7 +264,10 @@ public final class ChannelAdmin implements IChannelAdmin {
 	protected void activate(Map<String, ?> properties) throws Exception {
 		c_logger.info("Activating ChannelAdmin...");
 
-		int i = Runtime.getRuntime().availableProcessors();
+		Integer numberOfSelectorThreads = (Integer) properties
+				.get("numberOfSelectorThreads");
+		int i = numberOfSelectorThreads == null || numberOfSelectorThreads < 1 ? Runtime
+				.getRuntime().availableProcessors() : numberOfSelectorThreads;
 		int count = 1;
 		while (i > count)
 			count <<= 1;
