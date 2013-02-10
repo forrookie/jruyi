@@ -199,7 +199,7 @@ public final class Main {
 	private void printHelp() {
 		String programName = System.getProperty("program.name");
 		System.out.println();
-		System.out.println("Usage1: " + programName + " COMMAND ...");
+		System.out.println("Usage1: " + programName + " COMMAND");
 		System.out.println("Usage2: " + programName
 				+ " [options] [SCRIPT] [SCRIPT1] ...");
 		System.out.println();
