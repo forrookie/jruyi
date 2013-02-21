@@ -22,7 +22,7 @@
 		<implementation class="org.jruyi.clid.CliProcessor"/>
 		<service>
 			<provide interface="org.jruyi.io.IFilter"/>
-			<provide interface="org.jruyi.me.IProcessor"/>
+			<provide interface="org.jruyi.me.IEndpoint"/>
 		</service>
 		<property name="jruyi.me.endpoint.id" value="jruyi.clid.proc"/>
 		<property name="jruyi.io.filter.id" value="jruyi.clid.filter"/>
@@ -33,12 +33,6 @@
 			interface="org.apache.felix.service.command.CommandProcessor"
 			bind="setCommandProcessor"
 			unbind="unsetCommandProcessor"/>
-		<reference
-			name="buffer"
-			interface="org.jruyi.io.IBufferFactory"
-			policy="dynamic"
-			bind="setBufferFactory"
-			unbind="unsetBufferFactory"/>
 		<reference
 			name="tcpServerFactory"
 			interface="org.osgi.service.component.ComponentFactory"

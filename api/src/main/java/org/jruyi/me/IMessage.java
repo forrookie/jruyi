@@ -165,4 +165,12 @@ public interface IMessage extends ICloseable {
 	 * @return the attachment that is detached
 	 */
 	public Object detach();
+
+	/**
+	 * Returns a new message instance with the same properties and storage as
+	 * this one.
+	 * 
+	 * @return the new message as described
+	 */
+	public IMessage duplicate();
 }

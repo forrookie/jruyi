@@ -258,7 +258,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().append(obj0).append(obj1).toStringAndRelease()}
+	 * {@code StringBuilder.get().append(obj0).append(obj1).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -280,7 +280,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().append(obj0)...append(obj2).toStringAndRelease()}
+	 * {@code StringBuilder.get().append(obj0)...append(obj2).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -306,7 +306,7 @@ public final class StrUtil {
 	 * returns the constructed {@code String}.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().append(obj0)...append(obj3).toStringAndRelease()}
+	 * {@code StringBuilder.get().append(obj0)...append(obj3).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -336,7 +336,7 @@ public final class StrUtil {
 	 * returns the constructed {@code String}.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().append(obj0)...append(obj4).toStringAndRelease()}
+	 * {@code StringBuilder.get().append(obj0)...append(obj4).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -370,7 +370,7 @@ public final class StrUtil {
 	 * The {@code String} is constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().append(obj0)...append(obj5).toStringAndRelease()}
+	 * {@code StringBuilder.get().append(obj0)...append(obj5).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -406,7 +406,7 @@ public final class StrUtil {
 	 * The {@code String} is constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().append(obj0)...append(obj6).toStringAndRelease()}
+	 * {@code StringBuilder.get().append(obj0)...append(obj6).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -440,7 +440,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().append(obj).append(objs[0])...append(objs[objs.length -1]).toStringAndRelease()}
+	 * {@code StringBuilder.get().append(obj).append(objs[0])...append(objs[objs.length -1]).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj
@@ -466,7 +466,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().deeplyAppend(obj).toStringAndRelease()}
+	 * {@code StringBuilder.get().deeplyAppend(obj).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj
@@ -489,7 +489,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().deeplyAppend(obj0).deeplyAppend(obj1).toStringAndRelease()}
+	 * {@code StringBuilder.get().deeplyAppend(obj0).deeplyAppend(obj1).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -511,7 +511,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj2).toStringAndRelease()}
+	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj2).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -536,7 +536,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj3).toStringAndRelease()}
+	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj3).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -564,7 +564,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj4).toStringAndRelease()}
+	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj4).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -595,7 +595,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj5).toStringAndRelease()}
+	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj5).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0
@@ -628,7 +628,7 @@ public final class StrUtil {
 	 * Returns a {@code String} constructed as follows.
 	 * 
 	 * <pre>
-	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj6).toStringAndRelease()}
+	 * {@code StringBuilder.get().deeplyAppend(obj0)...deeplyAppend(obj6).toStringAndClose()}
 	 * </pre>
 	 * 
 	 * @param obj0

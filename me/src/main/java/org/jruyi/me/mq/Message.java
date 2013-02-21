@@ -61,9 +61,28 @@ public final class Message implements Runnable, IMessage, IRoutable,
 		return message;
 	}
 
+	private Message get(Map<String, Object> properties,
+			Map<Object, Object> storage) {
+		Message message = c_cache.take();
+		if (message == null)
+			message = new Message(properties, storage);
+		else {
+			message.m_properties.putAll(properties);
+			message.m_storage.putAll(storage);
+		}
+
+		message.m_id = c_counter.incrementAndGet();
+		return message;
+	}
+
 	private Message() {
 		m_properties = new Properties();
 		m_storage = new IdentityHashMap<Object, Object>();
+	}
+
+	private Message(Map<String, Object> properties, Map<Object, Object> storage) {
+		m_properties = new Properties(properties);
+		m_storage = new IdentityHashMap<Object, Object>(storage);
 	}
 
 	@Override
@@ -169,6 +188,11 @@ public final class Message implements Runnable, IMessage, IRoutable,
 	@Override
 	public Dictionary<String, ?> getRoutingInfo() {
 		return m_properties;
+	}
+
+	@Override
+	public IMessage duplicate() {
+		return get(m_properties, m_storage);
 	}
 
 	@Override

@@ -153,17 +153,17 @@ public final class BundleConverter implements Converter {
 	private String getState(int state) {
 		switch (state) {
 		case Bundle.ACTIVE:
-			return "ACTIVE";
+			return "Active";
 		case Bundle.INSTALLED:
-			return "INSTALLED";
+			return "Installed";
 		case Bundle.RESOLVED:
-			return "RESOLVED";
+			return "Resolved";
 		case Bundle.STARTING:
-			return "STARTING";
+			return "Starting";
 		case Bundle.STOPPING:
-			return "STOPPING";
+			return "Stopping";
 		}
 
-		return "UNKNOWN";
+		return "Unknown";
 	}
 }

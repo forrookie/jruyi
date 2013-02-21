@@ -1,6 +1,6 @@
-Usage: scr:disable <componentId>
+Usage: scr:disable <component-id>
 
 Disable the given component if not already disabled. If the component is
 already destroyed or disabled, this command has no effect.
 
-'componentId' may be either the ID of a component or the component's name.
+'component-id' may be either the ID of a component or the component's name.

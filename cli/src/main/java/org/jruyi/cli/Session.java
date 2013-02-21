@@ -29,12 +29,14 @@ import java.nio.charset.CharsetDecoder;
 
 public final class Session {
 
-	private static final String LINE_TERMINATOR = System.getProperty("line.separator");
+	private static final String LINE_TERMINATOR = System
+			.getProperty("line.separator");
 	private final byte[] m_bytes = new byte[4 * 1024];
 	private final char[] m_chars = new char[4 * 1024];
 	private final CharBuffer m_cb = CharBuffer.wrap(m_chars);
 	private final ByteBuffer m_bb = ByteBuffer.wrap(m_bytes);
-	private final CharsetDecoder m_decoder = Charset.forName("UTF-8").newDecoder();
+	private final CharsetDecoder m_decoder = Charset.forName("UTF-8")
+			.newDecoder();
 	private Socket m_socket;
 	private InputStream m_in;
 	private OutputStream m_out;
@@ -70,51 +72,50 @@ public final class Session {
 	}
 
 	public boolean recv(Writer writer) throws Exception {
-		int len = readLength();
-		if (len < 0) {
-			closeOnEof(writer);
-			return false;
-		}
-
-		if (len == 0)
-			return true;
-
-		InputStream in = m_in;
-		ByteBuffer bb = m_bb;
-		CharBuffer cb = m_cb;
-		CharsetDecoder decoder = m_decoder;
-		byte[] bytes = m_bytes;
-		char[] chars = m_chars;
-
-		decoder.reset();
-		int n = len <= bytes.length ? len : bytes.length;
-		int offset = 0;
-		while (len > 0) {
-			if ((n = in.read(bytes, offset, n)) < 0) {
+		int len = 0;
+		while ((len = readLength()) != 0) {
+			if (len < 0) {
 				closeOnEof(writer);
 				return false;
 			}
 
-			len -= n;
-			bb.position(0);
-			bb.limit(offset + n);
+			InputStream in = m_in;
+			ByteBuffer bb = m_bb;
+			CharBuffer cb = m_cb;
+			CharsetDecoder decoder = m_decoder;
+			byte[] bytes = m_bytes;
+			char[] chars = m_chars;
+
+			decoder.reset();
+			int n = len <= bytes.length ? len : bytes.length;
+			int offset = 0;
+			while (len > 0) {
+				if ((n = in.read(bytes, offset, n)) < 0) {
+					closeOnEof(writer);
+					return false;
+				}
+
+				len -= n;
+				bb.position(0);
+				bb.limit(offset + n);
+				cb.clear();
+				decoder.decode(bb, cb, len < 1);
+				writer.write(chars, 0, cb.position());
+
+				bb.compact();
+				offset = bb.position();
+
+				n = bytes.length - offset;
+				if (len < n)
+					n = len;
+			}
+
 			cb.clear();
-			decoder.decode(bb, cb, len < 1);
-			writer.write(chars, 0, cb.position());
-
-			bb.compact();
-			offset = bb.position();
-
-			n = bytes.length - offset;
-			if (len < n)
-				n = len;
+			decoder.flush(cb);
+			if ((n = cb.position()) > 0)
+				writer.write(chars, 0, n);
+			writer.flush();
 		}
-
-		cb.clear();
-		decoder.flush(cb);
-		if ((n = cb.position()) > 0)
-			writer.write(chars, 0, n);
-		writer.flush();
 		return true;
 	}
 

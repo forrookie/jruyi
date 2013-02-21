@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.jruyi.common.BiListNode;
+import org.jruyi.common.IService;
 import org.jruyi.common.IServiceHolderManager;
 import org.jruyi.common.ServiceHolderManager;
 import org.jruyi.common.StrUtil;
@@ -151,7 +152,8 @@ public final class MessageQueue implements ITimeoutListener {
 		setHandlers(endpoint, props);
 
 		original.producer(endpoint);
-		original.start();
+		if (original instanceof IService)
+			((IService) original).start();
 
 		m_refEps.put(original, endpoint);
 		endpoints.put(id, endpoint);
@@ -163,7 +165,8 @@ public final class MessageQueue implements ITimeoutListener {
 		if (endpoint != null) {
 			m_endpoints.remove(endpoint.id());
 
-			original.stop();
+			if (original instanceof IService)
+				((IService) original).stop();
 			endpoint.closeProducer();
 		}
 	}

@@ -1,12 +1,12 @@
-Usage1: bundle:update <ID> <URL>
+Usage1: bundle:update <bundle-id> <bundle-url>
 
 Update the specified bundle from the specified location.
 
-Usage2: bundle:update <ID> [ID1] ...
+Usage2: bundle:update <bundle-id> ...
 
 Update the specified bundles from their Bundle-UpdateLocation manifest header,
 if present, or their original locations.
 
-Usage3: bundle:update <URL>
+Usage3: bundle:update <bundle-url>
 
 Update the bundle with the specified location.

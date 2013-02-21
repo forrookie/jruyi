@@ -19,7 +19,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import org.jruyi.cmd.util.Util;
 import org.jruyi.common.StrUtil;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -122,7 +124,7 @@ public final class BundleCmd {
 		if (bundle == null)
 			return StrUtil.buildString("Bundle Not Found: ", bundleId);
 
-		if (isBundleId(arg)) {
+		if (Util.isBundleId(arg)) {
 			bundle.update();
 			bundle = m_context.getBundle(Long.parseLong(arg));
 			if (bundle == null)
@@ -142,7 +144,7 @@ public final class BundleCmd {
 	}
 
 	public String update(String arg) throws Exception {
-		Bundle bundle = isBundleId(arg) ? m_context.getBundle(Long
+		Bundle bundle = Util.isBundleId(arg) ? m_context.getBundle(Long
 				.parseLong(arg)) : m_context.getBundle(arg);
 		if (bundle == null)
 			return StrUtil.buildString("Bundle Not Found: ", arg);
@@ -170,8 +172,7 @@ public final class BundleCmd {
 		return null;
 	}
 
-	private static boolean isBundleId(String str) {
-		char c = str.charAt(0);
-		return c >= '0' && c <= '9';
+	private void searchBundles(List<Bundle> bundles, String name, String version) {
+
 	}
 }

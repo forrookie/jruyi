@@ -15,15 +15,13 @@
  */
 package org.jruyi.me;
 
-import org.jruyi.common.IService;
-
 /**
  * An entity produces/consumes messages. A producer representing this endpoint
  * will be passed in on its being registered to JRuyi message queue. Likewise, a
  * consumer must be provided to JRuyi message queue on registering if this
  * endpoint wants to consume messages.
  */
-public interface IEndpoint extends IService {
+public interface IEndpoint {
 
 	/**
 	 * Injects an {@code IProducer} representing this endpoint to produce

@@ -56,4 +56,20 @@
 			unbind="unsetRoutingTable"/>
 	</component>
 	
+	<component name="jruyi.cmd.obr" configuration-policy="ignore">
+		<implementation class="org.jruyi.cmd.obr.BundleRepository"/>
+		<service>
+			<provide interface="org.jruyi.cmd.obr.BundleRepository"/>
+		</service>
+		<property name="osgi.command.scope" value="obr"/>
+		<property name="osgi.command.function">
+			deploy
+			info
+			list
+			repos
+		</property>
+		<reference name="ra"
+			interface="org.apache.felix.bundlerepository.RepositoryAdmin"/>
+	</component>
+
 </components>

@@ -28,7 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
 import org.apache.felix.service.command.Converter;
-import org.jruyi.common.CharsetCodec;
 import org.jruyi.common.IService;
 import org.jruyi.common.IntStack;
 import org.jruyi.common.Properties;
@@ -36,14 +35,15 @@ import org.jruyi.common.StrUtil;
 import org.jruyi.common.StringBuilder;
 import org.jruyi.io.Codec;
 import org.jruyi.io.IBuffer;
-import org.jruyi.io.IBufferFactory;
 import org.jruyi.io.IFilter;
 import org.jruyi.io.IFilterOutput;
 import org.jruyi.io.ISession;
 import org.jruyi.io.IoConstants;
 import org.jruyi.io.SessionEvent;
+import org.jruyi.me.IConsumer;
+import org.jruyi.me.IEndpoint;
 import org.jruyi.me.IMessage;
-import org.jruyi.me.IProcessor;
+import org.jruyi.me.IProducer;
 import org.jruyi.me.IRoutingTable;
 import org.jruyi.me.MeConstants;
 import org.osgi.framework.BundleContext;
@@ -53,7 +53,7 @@ import org.osgi.service.component.ComponentInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class CliProcessor implements IProcessor, IFilter {
+public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(CliProcessor.class);
@@ -67,16 +67,14 @@ public final class CliProcessor implements IProcessor, IFilter {
 	private static final String CLID_OUT = "jruyi.clid.out";
 	private static final String WELCOME = "welcome";
 	private static final String PROMPT = "prompt";
-	private static final byte[] CRLF = { '\r', '\n' };
-	private static final int HEAD_RESERVE_SIZE = 4;
 	private BundleContext m_context;
 	private CommandProcessor m_cp;
-	private IBufferFactory m_bf;
 	private ComponentInstance m_tcpServer;
 	private Properties m_conf;
 	private ConcurrentHashMap<Long, CommandSession> m_css;
-	private byte[] m_welcome;
+	private String m_welcome;
 	private String m_prompt;
+	private IProducer m_producer;
 
 	@Override
 	public int tellBoundary(ISession session, IBuffer in) {
@@ -105,18 +103,34 @@ public final class CliProcessor implements IProcessor, IFilter {
 	@Override
 	public boolean onMsgDepart(ISession session, Object msg,
 			IFilterOutput output) {
-		IBuffer data = (IBuffer) msg;
-		int n = data.length();
-		data.prepend((byte) (n & 0x7F));
-		while ((n >>= 7) > 0)
-			data.prepend((byte) ((n & 0x7F) | 0x80));
+		@SuppressWarnings("unchecked")
+		LinkedQueue<IBuffer> queue = (LinkedQueue<IBuffer>) msg;
+		IBuffer data = queue.poll();
+		if (data == null)
+			return false;
 
-		output.add(data);
+		IBuffer out = data;
+		while ((data = queue.poll()) != null) {
+			data.drainTo(out);
+			data.close();
+		}
+
+		output.add(out);
 		return true;
 	}
 
 	@Override
-	public void process(IMessage message) {
+	public void producer(IProducer producer) {
+		m_producer = producer;
+	}
+
+	@Override
+	public IConsumer consumer() {
+		return this;
+	}
+
+	@Override
+	public void onMessage(IMessage message) {
 		Object sessionEvent = message
 				.removeProperty(IoConstants.MP_SESSION_EVENT);
 		if (sessionEvent == SessionEvent.OPENED) {
@@ -129,37 +143,31 @@ public final class CliProcessor implements IProcessor, IFilter {
 			return;
 		}
 
-		IBuffer buffer = (IBuffer) message.attachment();
+		IBuffer buffer = (IBuffer) message.detach();
 		String cmdline = buffer.remaining() > 0 ? buffer.read(Codec.utf_8())
 				: null;
 		buffer.drain();
-		buffer.reserveHead(HEAD_RESERVE_SIZE);
 
 		ISession session = (ISession) message
 				.getProperty(IoConstants.MP_PASSIVE_SESSION);
 		CommandSession cs = m_css.get(session.id());
 
 		if (cmdline != null) {
-
 			cmdline = filterProps(cmdline, cs, m_context);
-
 			BufferStream bs = (BufferStream) session.get(CLID_OUT);
+			bs.message(message);
 			bs.buffer(buffer);
-
 			try {
 				Object result = cs.execute(cmdline);
 				if (result != null)
-					buffer.write(cs.format(result, Converter.INSPECT),
-							Codec.utf_8_sequence());
+					bs.write(cs.format(result, Converter.INSPECT));
 			} catch (Exception e) {
 				c_logger.warn(cmdline, e);
-				buffer.write(e.getMessage(), Codec.utf_8());
+				bs.write(e.getMessage());
 			}
 
-			bs.buffer(null);
+			bs.writeOut((String) cs.get(PROMPT));
 		}
-
-		writeOut(buffer, (String) cs.get(PROMPT));
 	}
 
 	protected void setCommandProcessor(CommandProcessor cp) {
@@ -168,15 +176,6 @@ public final class CliProcessor implements IProcessor, IFilter {
 
 	protected void unsetCommandProcessor(CommandProcessor cp) {
 		m_cp = null;
-	}
-
-	protected void setBufferFactory(IBufferFactory bf) {
-		m_bf = bf;
-	}
-
-	protected void unsetBufferFactory(IBufferFactory bf) {
-		if (m_bf == bf)
-			m_bf = null;
 	}
 
 	protected void modified(Map<String, ?> properties) throws Exception {
@@ -279,19 +278,14 @@ public final class CliProcessor implements IProcessor, IFilter {
 		ISession session = (ISession) message
 				.getProperty(IoConstants.MP_PASSIVE_SESSION);
 
-		BufferStream bs = new BufferStream();
+		BufferStream bs = new BufferStream(m_producer);
 		PrintStream out = new PrintStream(bs);
 		CommandSession cs = m_cp.createSession(null, out, out);
 		cs.put(PROMPT, m_prompt);
+		cs.put(WELCOME, m_welcome);
 
 		session.put(CLID_OUT, bs);
 		m_css.put(session.id(), cs);
-
-		IBuffer buffer = m_bf.create();
-		buffer.reserveHead(HEAD_RESERVE_SIZE);
-		buffer.write(m_welcome, Codec.byteArray()).write(m_prompt,
-				Codec.utf_8());
-		message.attach(buffer);
 	}
 
 	private void onSessionClosed(IMessage message) {
@@ -302,12 +296,6 @@ public final class CliProcessor implements IProcessor, IFilter {
 			cs.close();
 	}
 
-	private void writeOut(IBuffer out, String prompt) {
-		if (out.size() > 0 && !out.endsWith(CRLF))
-			out.write(CRLF, Codec.byteArray());
-		out.write(prompt, Codec.utf_8());
-	}
-
 	private void loadBrandingInfo(String url, BundleContext context)
 			throws Exception {
 		java.util.Properties brandingInfo = loadBrandingProps(CliProcessor.class
@@ -315,10 +303,8 @@ public final class CliProcessor implements IProcessor, IFilter {
 		if (url != null)
 			brandingInfo.putAll(loadBrandingProps(new URL(url).openStream()));
 
-		m_welcome = CharsetCodec.get(CharsetCodec.UTF_8)
-				.toBytes(
-						StrUtil.filterProps(brandingInfo.getProperty(WELCOME),
-								context));
+		m_welcome = StrUtil.filterProps(brandingInfo.getProperty(WELCOME),
+				context);
 		m_prompt = StrUtil.filterProps(brandingInfo.getProperty(PROMPT),
 				context);
 	}

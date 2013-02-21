@@ -582,7 +582,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		Blob blob = Blob.get();
 		try {
 			for (BiListNode<IUnit> node = head; node != last; node = node
-					.next()) {
+							.next()) {
 				IUnit temp = node.get();
 				blob.add(temp, temp.start(), temp.size());
 			}
@@ -622,7 +622,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		Blob blob = Blob.get();
 		try {
 			for (BiListNode<IUnit> node = head; node != last; node = node
-					.next()) {
+							.next()) {
 				IUnit temp = node.get();
 				blob.add(temp, temp.start(), temp.size());
 			}
@@ -1224,7 +1224,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 	@Override
 	public IBuffer write(byte b) {
 		IUnit unit = lastUnit();
-		if (unit.appendable()) {
+		if (!unit.appendable()) {
 			unit = create();
 			append(unit);
 		}
@@ -1819,9 +1819,9 @@ public final class Buffer implements IBuffer, IUnitChain {
 		while (unit.isEmpty()) {
 			if (node == tail)
 				return 0;
-			m_positionNode = node;
 			node = node.next();
 			unit = node.get();
+			m_positionNode = node;
 		}
 
 		int n = 0;
@@ -1881,7 +1881,8 @@ public final class Buffer implements IBuffer, IUnitChain {
 		int index = start + leftIndex;
 		int length = bytes.length;
 
-		next: for (; index < end; ++index) {
+		next:
+		for (; index < end; ++index) {
 			leftIndex = index;
 			int rightIndex = index + length;
 			if (rightIndex > end)
@@ -1920,7 +1921,8 @@ public final class Buffer implements IBuffer, IUnitChain {
 		int end = start + rightIndex;
 		int length = bytes.length;
 
-		next: for (; end > start; --end) {
+		next:
+		for (; end > start; --end) {
 			rightIndex = end;
 			int leftIndex = end - length;
 			if (leftIndex < start)

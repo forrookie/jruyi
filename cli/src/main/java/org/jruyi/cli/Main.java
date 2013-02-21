@@ -125,7 +125,7 @@ public final class Main {
 		Console console = System.console();
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
-		session.recv(console.writer());
+		session.send("$welcome");
 
 		String cmdLine = null;
 		do {
@@ -213,7 +213,7 @@ public final class Main {
 		System.out
 				.println("    -t, --timeout=<seconds>   the time to wait for response");
 		System.out
-				.println("    -f, --file                execute ruyi script files");
+				.println("    -f, --file                execute ruyi script file");
 		System.out.println();
 	}
 
@@ -221,7 +221,6 @@ public final class Main {
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
 		try {
-			session.recv(DummyWriter.INST);
 			session.send("prompt=''\r\n" + command);
 		} finally {
 			session.close();
@@ -232,8 +231,6 @@ public final class Main {
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
 		try {
-			session.recv(DummyWriter.INST);
-
 			String cmd = "prompt=''";
 			session.send(cmd);
 
