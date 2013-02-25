@@ -1,17 +1,17 @@
 /**
  * Copyright 2012 JRuyi.org
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.jruyi.cmd.obr;
 
@@ -26,58 +26,80 @@ import org.apache.felix.bundlerepository.RepositoryAdmin;
 import org.apache.felix.bundlerepository.Requirement;
 import org.apache.felix.bundlerepository.Resolver;
 import org.apache.felix.bundlerepository.Resource;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.ConfigurationPolicy;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceStrategy;
+import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.service.command.CommandProcessor;
+import org.apache.felix.service.command.Descriptor;
 import org.apache.felix.service.command.Parameter;
+import org.jruyi.cmd.internal.RuyiCmd;
 import org.jruyi.cmd.util.Util;
-import org.jruyi.common.StrUtil;
 import org.jruyi.common.StringBuilder;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
 import org.osgi.service.component.ComponentContext;
 
-public final class BundleRepository {
+@Service(Obr.class)
+@Component(name = "jruyi.cmd.obr", policy = ConfigurationPolicy.IGNORE)
+@Properties({
+		@Property(name = CommandProcessor.COMMAND_SCOPE, value = "obr"),
+		@Property(name = CommandProcessor.COMMAND_FUNCTION, value = { "deploy",
+				"info", "list", "repos" }) })
+@Reference(name = "ra", referenceInterface = RepositoryAdmin.class, strategy = ReferenceStrategy.LOOKUP)
+public final class Obr {
 
 	private static final char VERSION_SEPARATOR = '@';
 	private ComponentContext m_context;
 
-	public String repos(String action, String[] args) throws Exception {
-
+	@Descriptor("Manage OSGi bundle repositories")
+	public void repos(
+			@Descriptor("( add | list | refresh | remove )") String action,
+			@Descriptor("space-delimited list of repository URLs") String[] args)
+			throws Exception {
 		RepositoryAdmin ra = (RepositoryAdmin) m_context.locateService("ra");
 
 		int n = args.length;
 		if (n > 0) {
-			for (int i = 0; i < n; ++i) {
-				if (action.equals("add"))
-					ra.addRepository(args[i]);
-				else if (action.equals("refresh")) {
-					ra.removeRepository(args[i]);
-					ra.addRepository(args[i]);
-				} else if (action.equals("remove"))
-					ra.removeRepository(args[i]);
-				else
-					return StrUtil.buildString(
-							"Unknown repository operation: ", action);
-			}
-		} else {
-			Repository[] repos = ra.listRepositories();
-			if (repos == null || (n = repos.length) < 1)
-				return "No repository URLs are set.";
-
-			StringBuilder builder = StringBuilder.get();
-			try {
+			if (action.equals("add")) {
 				for (int i = 0; i < n; ++i)
-					builder.append(repos[i].getURI()).append("\r\n");
-				return builder.toString();
-			} finally {
-				builder.close();
+					ra.addRepository(args[i]);
+			} else if (action.equals("refresh")) {
+				for (int i = 0; i < n; ++i) {
+					ra.removeRepository(args[i]);
+					ra.addRepository(args[i]);
+				}
+			} else if (action.equals("remove")) {
+				for (int i = 0; i < n; ++i)
+					ra.removeRepository(args[i]);
+			} else {
+				System.err.print("Unknown Repository Action: ");
+				System.err.println(action);
 			}
-		}
+		} else if (action.equals("list")) {
+			Repository[] repos = ra.listRepositories();
+			if (repos == null || (n = repos.length) < 1) {
+				System.out.println("No repository URLs are set.");
+				return;
+			}
 
-		return null;
+			for (int i = 0; i < n; ++i)
+				System.out.println(repos[i].getURI());
+		} else
+			RuyiCmd.INST.help("obr:repos");
 	}
 
-	public void info(String[] args) throws Exception {
-		if (args == null)
+	@Descriptor("Retrieve resource description from repository")
+	public void info(
+			@Descriptor("( <bundle-name> | <symbolic-name> | <bundle-id> )[@<version>] ...") String[] args)
+			throws Exception {
+		if (args == null || args.length == 0) {
+			RuyiCmd.INST.help("obr:info");
 			return;
+		}
 
 		RepositoryAdmin ra = (RepositoryAdmin) m_context.locateService("ra");
 		for (String targetName : args) {
@@ -104,9 +126,11 @@ public final class BundleRepository {
 		}
 	}
 
+	@Descriptor("List repository resources")
 	public void list(
 			@Parameter(names = { "-v", "--verbose" }, presentValue = "true", absentValue = "false") boolean verbose,
-			String[] args) throws Exception {
+			@Descriptor("Optional strings used for name matching") String[] args)
+			throws Exception {
 		RepositoryAdmin ra = (RepositoryAdmin) m_context.locateService("ra");
 		Resource[] resources;
 		// Create a filter that will match presentation name or symbolic name.
@@ -141,11 +165,13 @@ public final class BundleRepository {
 		String label = resource.getPresentationName();
 		if (label == null)
 			System.out.print(name);
-		else if (verbose) {
+		else {
 			System.out.print(label);
-			System.out.print(" [");
-			System.out.print(name);
-			System.out.print("]");
+			if (verbose) {
+				System.out.print(" [");
+				System.out.print(name);
+				System.out.print("]");
+			}
 		}
 		System.out.print(" (");
 		System.out.print(resource.getVersion());
@@ -153,6 +179,7 @@ public final class BundleRepository {
 		boolean dots = false;
 		String previous = name;
 		for (int i = 1, n = resources.length; i < n; ++i) {
+			resource = resources[i];
 			name = resource.getSymbolicName();
 			if (name.equals(previous)) {
 				if (verbose) {
@@ -169,11 +196,13 @@ public final class BundleRepository {
 				label = resource.getPresentationName();
 				if (label == null)
 					System.out.print(name);
-				else if (verbose) {
+				else {
 					System.out.print(label);
-					System.out.print(" [");
-					System.out.print(name);
-					System.out.print("]");
+					if (verbose) {
+						System.out.print(" [");
+						System.out.print(name);
+						System.out.print("]");
+					}
 				}
 				System.out.print(" (");
 				System.out.print(resource.getVersion());
@@ -185,7 +214,8 @@ public final class BundleRepository {
 	public void deploy(
 			@Parameter(names = { "-s", "--start" }, presentValue = "true", absentValue = "false") boolean start,
 			@Parameter(names = { "-ro", "--required-only" }, presentValue = "true", absentValue = "false") boolean requiredOnly,
-			String[] args) throws Exception {
+			@Descriptor("( <bundle-name> | <symbolic-name> | <bundle-id> )[@<version>] ...") String[] args)
+			throws Exception {
 		RepositoryAdmin ra = (RepositoryAdmin) m_context.locateService("ra");
 		Resolver resolver = ra.resolver();
 		if (args != null) {
@@ -298,8 +328,8 @@ public final class BundleRepository {
 			if (targetVersion != null)
 				builder.append("(&");
 
-			builder.append(targetId);
 			builder.append("(|(presentationname=");
+			builder.append(targetId);
 			builder.append(")(symbolicname=");
 			builder.append(targetId);
 			builder.append("))");

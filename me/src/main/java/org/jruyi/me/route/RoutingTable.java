@@ -20,11 +20,16 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.ConfigurationPolicy;
+import org.apache.felix.scr.annotations.Service;
 import org.jruyi.common.StrUtil;
 import org.jruyi.me.IRouteSet;
 import org.jruyi.me.IRoutingTable;
 import org.osgi.framework.BundleContext;
 
+@Service
+@Component(name = "jruyi.me.route", policy = ConfigurationPolicy.IGNORE, createPid = false)
 public final class RoutingTable implements IRoutingTable, IRouterManager {
 
 	private static final String ROUTINGTABLE_DIR = "org.jruyi.me.routingtable.dir";

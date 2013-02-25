@@ -26,7 +26,8 @@ import org.jruyi.me.IProducer;
 final class BufferStream extends OutputStream {
 
 	private static final int FLUSH_THRESHOLD = 8088;
-	private static final byte[] CRLF = { '\r', '\n' };
+	private static final byte[] CR = { '\r' };
+	private static final byte[] LF = { '\n' };
 	private static final int HEAD_RESERVE_SIZE = 4;
 	private final IProducer m_producer;
 	private final LinkedQueue<IBuffer> m_queue;
@@ -99,8 +100,10 @@ final class BufferStream extends OutputStream {
 		IMessage message = m_message;
 		m_message = null;
 
-		if (!out.isEmpty() && !out.endsWith(CRLF))
-			out.write(CRLF, Codec.byteArray());
+		if (!out.isEmpty() && !out.endsWith(CR) && !out.endsWith(LF)) {
+			out.write(CR[0]);
+			out.write(LF[0]);
+		}
 
 		if (!prompt.isEmpty())
 			out.write(prompt, Codec.utf_8());

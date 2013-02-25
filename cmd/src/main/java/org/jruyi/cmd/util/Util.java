@@ -24,4 +24,9 @@ public final class Util {
 		char c = str.charAt(0);
 		return c >= '0' && c <= '9';
 	}
+
+	public static void printFill(char c, int count) {
+		while (count-- > 0)
+			System.out.print(c);
+	}
 }

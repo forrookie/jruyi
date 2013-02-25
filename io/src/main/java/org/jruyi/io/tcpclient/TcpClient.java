@@ -282,10 +282,13 @@ public abstract class TcpClient extends Service implements IEndpoint,
 	}
 
 	final void connect() {
-		new TcpChannel(this).connect(configuration().connectTimeout());
+		@SuppressWarnings("resource")
+		TcpChannel channel = new TcpChannel(this);
+		channel.connect(configuration().connectTimeout());
 	}
 
 	final void connect(Object attachment) {
+		@SuppressWarnings("resource")
 		TcpChannel channel = new TcpChannel(this);
 		channel.attach(attachment);
 		channel.connect(configuration().connectTimeout());

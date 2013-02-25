@@ -856,6 +856,7 @@ public abstract class Channel implements IChannel, IDumpable, Runnable {
 		return true;
 	}
 
+	@SuppressWarnings("resource")
 	private boolean onAccumulate(int k, IFilter[] filters, MsgArrayList inMsgs,
 			MsgArrayList outMsgs, IBuffer in) {
 		IFilter filter = filters[k];

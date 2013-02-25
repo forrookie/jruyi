@@ -15,9 +15,9 @@
  */
 package org.jruyi.me.route;
 
-import java.util.Dictionary;
+import java.util.Map;
 
 public interface IRoutable {
 
-	public Dictionary<String, ?> getRoutingInfo();
+	public Map<String, ?> getRoutingInfo();
 }

@@ -98,6 +98,7 @@ public final class TcpAcceptor implements ITcpAcceptor, Runnable {
 						SocketChannel socketChannel = ((ServerSocketChannel) key
 								.channel()).accept();
 
+						@SuppressWarnings("resource")
 						TcpChannel channel = new TcpChannel(server,
 								socketChannel);
 						worker.run(channel.onAccept());

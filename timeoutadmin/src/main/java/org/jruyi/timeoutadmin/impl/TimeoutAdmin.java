@@ -18,16 +18,28 @@ package org.jruyi.timeoutadmin.impl;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferencePolicy;
+import org.apache.felix.scr.annotations.Service;
 import org.jruyi.common.BiListNode;
 import org.jruyi.timeoutadmin.ITimeoutAdmin;
 import org.jruyi.timeoutadmin.ITimeoutNotifier;
 import org.jruyi.workshop.IWorker;
 
+@Service(ITimeoutAdmin.class)
+@Component(name = "jruyi.timeoutadmin", createPid = false)
 public final class TimeoutAdmin implements Runnable, ITimeoutAdmin {
 
 	// 30 minutes.
 	private static final int DEFAULT_SCALE = 30 * 60;
 	private static final int DEFAULT_LOCK_NUM = 32;
+
+	@Property(intValue = DEFAULT_SCALE)
+	private static final String P_SCALE = "scale";
+
 	// the maximum timeout in a single schedule
 	private int m_scale;
 	// minus - 1 from which MUST be a power of 2 and greater than m_scale.
@@ -40,8 +52,10 @@ public final class TimeoutAdmin implements Runnable, ITimeoutAdmin {
 	private BiListNode<TimeoutEvent>[] m_dial;
 	private LinkedList<TimeoutEvent> m_list;
 	private ReentrantLock[] m_locks;
-	private IWorker m_worker;
 	private Thread m_thread;
+
+	@Reference(name = "worker", bind = "setWorker", unbind = "unsetWorker", policy = ReferencePolicy.DYNAMIC)
+	private IWorker m_worker;
 
 	@Override
 	public ITimeoutNotifier createNotifier(Object subject) {
@@ -84,10 +98,10 @@ public final class TimeoutAdmin implements Runnable, ITimeoutAdmin {
 			m_worker = null;
 	}
 
+	@Activate
 	protected void activate(Map<String, ?> properties) {
-		String v = (String) properties.get("scale");
-		int scale = DEFAULT_SCALE;
-		if (v == null || (scale = Integer.parseInt(v)) < 5)
+		int scale = (Integer) properties.get(P_SCALE);
+		if (scale < 5)
 			scale = DEFAULT_SCALE;
 
 		int capacity = 1;

@@ -1,17 +1,17 @@
 /**
  * Copyright 2012 JRuyi.org
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.jruyi.clid;
 
@@ -25,6 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Modified;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceStrategy;
+import org.apache.felix.scr.annotations.References;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
 import org.apache.felix.service.command.Converter;
@@ -53,22 +60,42 @@ import org.osgi.service.component.ComponentInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Service({ IEndpoint.class, IFilter.class })
+@Component(name = "jruyi.clid")
+@org.apache.felix.scr.annotations.Properties({
+		@Property(name = MeConstants.EP_ID, value = "jruyi.clid.proc", propertyPrivate = true),
+		@Property(name = IoConstants.FILTER_ID, value = "jruyi.clid.filter", propertyPrivate = true) })
+@References({
+		@Reference(name = "rt", referenceInterface = IRoutingTable.class, strategy = ReferenceStrategy.LOOKUP),
+		@Reference(name = "tsf", referenceInterface = ComponentFactory.class, target = "(component.name=jruyi.io.tcpserver.factory)", strategy = ReferenceStrategy.LOOKUP) })
 public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(CliProcessor.class);
+
 	private static final String BRANDING_URL = "jruyi.clid.branding.url";
 	private static final String BINDADDR = "jruyi.clid.bindAddr";
 	private static final String PORT = "jruyi.clid.port";
 	private static final String SESSIONIDLETIMEOUT = "jruyi.clid.sessionIdleTimeout";
+
 	private static final String NOTIFY_SESSION_EVENTS = "notifySessionEvents";
 	private static final String SRC_ID = "jruyi.clid.tcpsvr";
 	private static final String THIS_ID = "jruyi.clid.proc";
 	private static final String CLID_OUT = "jruyi.clid.out";
 	private static final String WELCOME = "welcome";
 	private static final String PROMPT = "prompt";
-	private BundleContext m_context;
+
+	private static final String P_BIND_ADDR = "bindAddr";
+	private static final String P_PORT = "port";
+	@Property(intValue = 300)
+	private static final String P_SESSION_IDLE_TIMEOUT = "sessionIdleTimeout";
+	@Property(boolValue = false)
+	private static final String P_DEBUG = "debug";
+
+	@Reference(name = "cp", bind = "setCommandProcessor", unbind = "unsetCommandProcessor")
 	private CommandProcessor m_cp;
+
+	private BundleContext m_context;
 	private ComponentInstance m_tcpServer;
 	private Properties m_conf;
 	private ConcurrentHashMap<Long, CommandSession> m_css;
@@ -163,7 +190,14 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 					bs.write(cs.format(result, Converter.INSPECT));
 			} catch (Exception e) {
 				c_logger.warn(cmdline, e);
-				bs.write(e.getMessage());
+				String msg = e.getMessage();
+				if (msg == null)
+					msg = e.toString();
+				try {
+					bs.write(msg);
+				} catch (Throwable t) {
+					c_logger.warn("Unexpected Error", t);
+				}
 			}
 
 			bs.writeOut((String) cs.get(PROMPT));
@@ -178,6 +212,7 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 		m_cp = null;
 	}
 
+	@Modified
 	protected void modified(Map<String, ?> properties) throws Exception {
 		IService inst = (IService) m_tcpServer.getInstance();
 		inst.update(normalizeConf(properties));
@@ -191,32 +226,31 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 				bundleContext);
 
 		Properties conf = normalizeConf(properties);
-		if (conf.get("bindAddr") == null) {
+		if (conf.get(P_BIND_ADDR) == null) {
 			String bindAddr = context.getBundleContext().getProperty(BINDADDR);
 			if (bindAddr == null || (bindAddr = bindAddr.trim()).length() < 1)
 				bindAddr = "localhost";
-			conf.put("bindAddr", bindAddr);
+			conf.put(P_BIND_ADDR, bindAddr);
 		}
 
-		if (conf.get("port") == null) {
+		if (conf.get(P_PORT) == null) {
 			String v = context.getBundleContext().getProperty(PORT);
 			Integer port = v == null ? 6060 : Integer.valueOf(v);
-			conf.put("port", port);
+			conf.put(P_PORT, port);
 		}
 
-		if (conf.get("sessionIdleTimeout") == null) {
+		if (conf.get(P_SESSION_IDLE_TIMEOUT) == null) {
 			String v = context.getBundleContext().getProperty(
 					SESSIONIDLETIMEOUT);
 			Integer sessionIdleTimeout = v == null ? 300 : Integer.valueOf(v);
-			conf.put("sessionIdleTimeout", sessionIdleTimeout);
+			conf.put(P_SESSION_IDLE_TIMEOUT, sessionIdleTimeout);
 		}
 
 		ComponentFactory factory = (ComponentFactory) context
-				.locateService("tcpServerFactory");
+				.locateService("tsf");
 		m_tcpServer = factory.newInstance(conf);
 
-		IRoutingTable rt = (IRoutingTable) context
-				.locateService("routingTable");
+		IRoutingTable rt = (IRoutingTable) context.locateService("rt");
 		rt.getRouteSet(SRC_ID).setRoute(THIS_ID);
 		rt.getRouteSet(THIS_ID).setRoute(SRC_ID);
 
@@ -241,8 +275,7 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 		m_tcpServer = null;
 		m_conf = null;
 
-		IRoutingTable rt = (IRoutingTable) context
-				.locateService("routingTable");
+		IRoutingTable rt = (IRoutingTable) context.locateService("rt");
 		rt.getRouteSet(SRC_ID).clear();
 		rt.getRouteSet(THIS_ID).clear();
 
@@ -260,7 +293,7 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 		} else
 			conf.putAll(properties);
 
-		String[] filters = (Boolean) conf.get("debug") ? new String[] {
+		String[] filters = (Boolean) conf.get(P_DEBUG) ? new String[] {
 				"jruyi.clid.filter", "jruyi.io.msglog.filter" }
 				: new String[] { "jruyi.clid.filter" };
 		conf.put(MeConstants.EP_ID, SRC_ID);

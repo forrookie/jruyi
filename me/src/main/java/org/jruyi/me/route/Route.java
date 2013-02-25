@@ -16,6 +16,7 @@
 package org.jruyi.me.route;
 
 import java.util.Dictionary;
+import java.util.Map;
 
 import org.jruyi.common.IDumpable;
 import org.jruyi.common.StringBuilder;
@@ -47,7 +48,12 @@ final class Route implements IRoute, IDumpable {
 		}
 
 		@Override
-		public boolean match(ServiceReference reference) {
+		public boolean match(ServiceReference<?> reference) {
+			return true;
+		}
+
+		@Override
+		public boolean matches(Map<String, ?> map) {
 			return true;
 		}
 
@@ -111,8 +117,8 @@ final class Route implements IRoute, IDumpable {
 				.append(m_to).append("):").append(m_filter).append(']');
 	}
 
-	boolean match(Dictionary<String, ?> routingInfo) {
-		return m_filter.matchCase(routingInfo);
+	boolean matches(Map<String, ?> routingInfo) {
+		return m_filter.matches(routingInfo);
 	}
 
 	void setFilter(String filter) throws InvalidSyntaxException {

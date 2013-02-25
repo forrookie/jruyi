@@ -91,7 +91,7 @@ public final class BiListNode<E> implements ICloseable {
 	 * 
 	 * @return an instance of {@code BiListNode}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "resource" })
 	public static <E> BiListNode<E> create() {
 		Stack stack = Stack.get();
 		return (BiListNode<E>) (stack.isEmpty() ? new BiListNode<Object>()

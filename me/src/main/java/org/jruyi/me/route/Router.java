@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Dictionary;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.jruyi.common.StrUtil;
@@ -77,9 +77,9 @@ final class Router implements IRouter {
 	@Override
 	public IRoute route(IRoutable routable) {
 		Route[] res = routes();
-		Dictionary<String, ?> routingInfo = routable.getRoutingInfo();
+		Map<String, ?> routingInfo = routable.getRoutingInfo();
 		for (Route entry : res) {
-			if (entry.match(routingInfo))
+			if (entry.matches(routingInfo))
 				return entry;
 		}
 

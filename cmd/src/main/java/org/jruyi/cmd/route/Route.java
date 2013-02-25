@@ -17,16 +17,29 @@ package org.jruyi.cmd.route;
 
 import java.util.ArrayList;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.ConfigurationPolicy;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.Descriptor;
-import org.jruyi.common.StrUtil;
 import org.jruyi.me.IRoute;
 import org.jruyi.me.IRouteSet;
 import org.jruyi.me.IRoutingTable;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkUtil;
 
+@Service(Route.class)
+@Component(name = "jruyi.cmd.route", policy = ConfigurationPolicy.IGNORE)
+@Properties({
+		@Property(name = CommandProcessor.COMMAND_SCOPE, value = "route"),
+		@Property(name = CommandProcessor.COMMAND_FUNCTION, value = { "clear",
+				"delete", "list", "set" }) })
 public final class Route {
 
+	@Reference(name = "rt", bind = "setRoutingTable", unbind = "unsetRoutingTable")
 	private IRoutingTable m_rt;
 
 	@Descriptor("Create/Update a route")
@@ -46,8 +59,7 @@ public final class Route {
 	}
 
 	@Descriptor("List route(s)")
-	public Object list(@Descriptor("[from] [to]") String[] args)
-			throws Exception {
+	public void list(@Descriptor("[from] [to]") String[] args) throws Exception {
 		if (args == null || args.length < 1) {
 			IRouteSet[] routeSets = m_rt.getAllRouteSets();
 			ArrayList<IRoute[]> routeSetList = new ArrayList<IRoute[]>(
@@ -67,26 +79,34 @@ public final class Route {
 				n += array.length;
 			}
 
-			return routes;
+			printRoutes(routes);
 		} else if (args.length < 2) {
 			IRouteSet routeSet = m_rt.queryRouteSet(args[0]);
-			if (routeSet == null)
-				return StrUtil.buildString("No route(s) found: from=",
-						args[0]);
+			if (routeSet == null) {
+				System.err.print("No Route(s) Found: from=");
+				System.err.println(args[0]);
+				return;
+			}
 
-			return routeSet.getRoutes();
+			printRoutes(routeSet.getRoutes());
 		} else {
 			IRouteSet routeSet = m_rt.queryRouteSet(args[0]);
-			if (routeSet == null)
-				return StrUtil.buildString("No route(s) found: from=",
-						args[0]);
+			if (routeSet == null) {
+				System.err.print("No Route(s) Found: from=");
+				System.err.println(args[0]);
+				return;
+			}
 
 			IRoute route = routeSet.getRoute(args[1]);
-			if (route == null)
-				return StrUtil.buildString("Route not found: from=",
-						args[0], ", to=", args[1]);
+			if (route == null) {
+				System.err.print("Route Not Found: from=");
+				System.err.print(args[0]);
+				System.err.print(", to=");
+				System.err.println(args[1]);
+				return;
+			}
 
-			return route;
+			printRoute(route);
 		}
 	}
 
@@ -120,5 +140,19 @@ public final class Route {
 
 	protected void unsetRoutingTable(IRoutingTable rt) {
 		m_rt = null;
+	}
+
+	private static void printRoute(IRoute route) {
+		System.out.print('[');
+		System.out.print(route.from());
+		System.out.print("] -> [");
+		System.out.print(route.to());
+		System.out.print("]: ");
+		System.out.println(route.filter());
+	}
+
+	private static void printRoutes(IRoute[] routes) {
+		for (IRoute route : routes)
+			printRoute(route);
 	}
 }

@@ -26,10 +26,10 @@ final class Processor extends Endpoint {
 
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(Processor.class);
-	private final ServiceReference m_reference;
+	private final ServiceReference<IProcessor> m_reference;
 	private IProcessor m_processor;
 
-	Processor(String id, MessageQueue mq, ServiceReference reference) {
+	Processor(String id, MessageQueue mq, ServiceReference<IProcessor> reference) {
 		super(id, mq);
 		m_reference = reference;
 	}

@@ -16,7 +16,6 @@
 package org.jruyi.me.mq;
 
 import java.io.Closeable;
-import java.util.Dictionary;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -186,7 +185,7 @@ public final class Message implements Runnable, IMessage, IRoutable,
 	}
 
 	@Override
-	public Dictionary<String, ?> getRoutingInfo() {
+	public Map<String, ?> getRoutingInfo() {
 		return m_properties;
 	}
 

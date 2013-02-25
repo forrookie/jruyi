@@ -414,6 +414,7 @@ public final class Keystore implements ISslContextInfo {
 				: KeyStore.getInstance(conf.keyStoreType(), v);
 
 		File file = new File(keyStoreUrl);
+		@SuppressWarnings("resource")
 		InputStream in = file.exists() ? new FileInputStream(file) : new URL(
 				keyStoreUrl).openStream();
 		try {
@@ -449,6 +450,7 @@ public final class Keystore implements ISslContextInfo {
 				: KeyStore.getInstance(conf.trustStoreType(), v);
 
 		File file = new File(trustStoreUrl);
+		@SuppressWarnings("resource")
 		InputStream in = file.exists() ? new FileInputStream(file) : new URL(
 				trustStoreUrl).openStream();
 		try {

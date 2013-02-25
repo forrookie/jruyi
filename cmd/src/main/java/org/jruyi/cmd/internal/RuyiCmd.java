@@ -34,7 +34,6 @@ import org.osgi.framework.ServiceReference;
 public final class RuyiCmd {
 
 	public static final RuyiCmd INST = new RuyiCmd();
-	private static final byte[] CRLF = { '\r', '\n' };
 	private BundleContext m_context;
 
 	public void context(BundleContext context) {
@@ -59,8 +58,7 @@ public final class RuyiCmd {
 
 		ListNode<String> node = head.next();
 		while (node != null) {
-			System.out.print(node.get());
-			System.out.write(CRLF);
+			System.out.println(node.get());
 			head.next(node.next());
 			node.close();
 			node = head.next();
@@ -72,7 +70,8 @@ public final class RuyiCmd {
 	public void help(String command) throws Exception {
 		int i = command.indexOf(':');
 		if (i == command.length() - 1) {
-			System.out.print(StrUtil.buildString("Illegal Command: ", command));
+			System.err.print("Illegal Command: ");
+			System.err.println(command);
 			return;
 		}
 
@@ -94,8 +93,8 @@ public final class RuyiCmd {
 		ServiceReference<?>[] references = context.getAllServiceReferences(
 				null, filter);
 		if (references == null || references.length < 1) {
-			System.out.print(StrUtil
-					.buildString("Command Not Found: ", command));
+			System.err.print("Command Not Found: ");
+			System.err.println(command);
 			return;
 		}
 
@@ -152,10 +151,8 @@ public final class RuyiCmd {
 		try {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				if (matcher.reset(line).find() ^ invertMatch) {
-					System.out.print(line);
-					System.out.write(CRLF);
-				}
+				if (matcher.reset(line).find() ^ invertMatch)
+					System.out.println(line);
 			}
 		} finally {
 			reader.close();

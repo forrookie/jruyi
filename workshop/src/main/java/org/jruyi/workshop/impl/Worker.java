@@ -19,6 +19,10 @@ import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Modified;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Service;
 import org.jruyi.common.IArgList;
 import org.jruyi.common.StrUtil;
 import org.jruyi.workshop.IRunnable;
@@ -26,15 +30,24 @@ import org.jruyi.workshop.IWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Service
+@Component(name = "jruyi.workshop", createPid = false)
 public final class Worker implements IWorker {
 
-	private static final String P_CORE_POOLSIZE = "corePoolSize";
-	private static final String P_MAX_POOLSIZE = "maxPoolSize";
-	private static final String P_KEEPALIVE_TIME = "keepAliveTime";
-	private static final String P_QUEUE_CAPACITY = "queueCapacity";
-	private static final String P_TERM_WAITTIME = "terminationWaitTime";
 	private static final Logger c_logger = LoggerFactory
 			.getLogger(Worker.class);
+
+	@Property(intValue = 10)
+	private static final String P_CORE_POOLSIZE = "corePoolSize";
+	@Property(intValue = 200)
+	private static final String P_MAX_POOLSIZE = "maxPoolSize";
+	@Property(intValue = 10)
+	private static final String P_KEEPALIVE_TIME = "keepAliveTime";
+	@Property(intValue = 2000)
+	private static final String P_QUEUE_CAPACITY = "queueCapacity";
+	@Property(intValue = 300)
+	private static final String P_TERM_WAITTIME = "terminationWaitTime";
+
 	private ThreadPoolExecutor m_executor;
 	private int m_queueCapacity;
 	private int m_terminationWaitTime = 300;
@@ -49,6 +62,7 @@ public final class Worker implements IWorker {
 		m_executor.execute(Task.get(job, argList));
 	}
 
+	@Modified
 	protected void modified(Map<String, ?> properties) throws Exception {
 		int corePoolSize = (Integer) properties.get(P_CORE_POOLSIZE);
 		int maxPoolSize = (Integer) properties.get(P_MAX_POOLSIZE);

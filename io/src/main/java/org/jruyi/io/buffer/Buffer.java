@@ -278,6 +278,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		return indexOf(bytes, 0);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public int indexOf(byte[] bytes, int fromIndex) {
 		if (fromIndex < 0)
@@ -444,6 +445,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		return -1;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public int lastIndexOf(byte[] bytes) {
 		int length = bytes.length;
@@ -499,6 +501,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		return -1;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public int lastIndexOf(byte[] bytes, int fromIndex) {
 		int length = bytes.length;
@@ -655,6 +658,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		return false;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public boolean endsWith(byte[] bytes) {
 		int n = bytes.length;
@@ -796,6 +800,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		return slice;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void drain() {
 		BiListNode<IUnit> head = m_head;
@@ -1656,6 +1661,7 @@ public final class Buffer implements IBuffer, IUnitChain {
 		}
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void close() {
 		final BiListNode<IUnit> head = m_head;
