@@ -179,9 +179,9 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 				.getProperty(IoConstants.MP_PASSIVE_SESSION);
 		CommandSession cs = m_css.get(session.id());
 
+		BufferStream bs = (BufferStream) session.get(CLID_OUT);
 		if (cmdline != null) {
 			cmdline = filterProps(cmdline, cs, m_context);
-			BufferStream bs = (BufferStream) session.get(CLID_OUT);
 			bs.message(message);
 			bs.buffer(buffer);
 			try {
@@ -199,9 +199,8 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 					c_logger.warn("Unexpected Error", t);
 				}
 			}
-
-			bs.writeOut((String) cs.get(PROMPT));
 		}
+		bs.writeOut((String) cs.get(PROMPT));
 	}
 
 	protected void setCommandProcessor(CommandProcessor cp) {

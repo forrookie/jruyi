@@ -76,6 +76,7 @@
 		<fileSet>
 			<directory>..</directory>
 			<outputDirectory>/</outputDirectory>
+			<lineEnding>keep</lineEnding>
 			<includes>
 				<include>LICENSE</include>
 				<include>NOTICE</include>
@@ -84,6 +85,7 @@
 		<fileSet>
 			<directory>src/main/assembly/bin</directory>
 			<outputDirectory>bin</outputDirectory>
+			<lineEnding>keep</lineEnding>
 			<filtered>true</filtered>
 			<includes>
 				<include>*.bat</include>
@@ -92,6 +94,7 @@
 		<fileSet>
 			<directory>src/main/assembly/bin</directory>
 			<outputDirectory>bin</outputDirectory>
+			<lineEnding>keep</lineEnding>
 			<filtered>true</filtered>
 			<excludes>
 				<exclude>*.bat</exclude>
@@ -101,6 +104,7 @@
 		<fileSet>
 			<directory>src/main/assembly/conf</directory>
 			<outputDirectory>inst/default/conf</outputDirectory>
+			<lineEnding>keep</lineEnding>
 			<filtered>true</filtered>
 			<includes>
 				<include>bootstrap.xml</include>
@@ -109,6 +113,7 @@
 		<fileSet>
 			<directory>src/main/assembly/conf</directory>
 			<outputDirectory>inst/default/conf</outputDirectory>
+			<lineEnding>keep</lineEnding>
 			<excludes>
 				<exclude>bootstrap.xml</exclude>
 			</excludes>

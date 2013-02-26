@@ -17,6 +17,7 @@ package org.jruyi.cmd.obr;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.apache.felix.bundlerepository.Capability;
@@ -214,6 +215,7 @@ public final class Obr {
 	public void deploy(
 			@Parameter(names = { "-s", "--start" }, presentValue = "true", absentValue = "false") boolean start,
 			@Parameter(names = { "-ro", "--required-only" }, presentValue = "true", absentValue = "false") boolean requiredOnly,
+			@Parameter(names = { "-f", "--force" }, presentValue = "true", absentValue = "false") boolean force,
 			@Descriptor("( <bundle-name> | <symbolic-name> | <bundle-id> )[@<version>] ...") String[] args)
 			throws Exception {
 		RepositoryAdmin ra = (RepositoryAdmin) m_context.locateService("ra");
@@ -247,12 +249,16 @@ public final class Obr {
 			System.out.println("Target resource(s):");
 			printUnderlineString(19);
 			printResources(resources);
+			HashSet<String> bundlesToUninstall = null;
 			resources = resolver.getRequiredResources();
 			if (resources != null && resources.length > 0) {
 				System.out.println();
 				System.out.println("Required resource(s):");
 				printUnderlineString(21);
 				printResources(resources);
+				if (force)
+					bundlesToUninstall = addToUninstall(bundlesToUninstall,
+							resources);
 			}
 			if (!requiredOnly) {
 				resources = resolver.getOptionalResources();
@@ -261,8 +267,14 @@ public final class Obr {
 					System.out.println("Optional resource(s):");
 					printUnderlineString(21);
 					printResources(resources);
+					if (force)
+						bundlesToUninstall = addToUninstall(bundlesToUninstall,
+								resources);
 				}
 			}
+
+			if (bundlesToUninstall != null)
+				uninstall(bundlesToUninstall);
 
 			System.out.println();
 			System.out.println("Deploying...");
@@ -419,6 +431,33 @@ public final class Obr {
 			System.out.print(" (");
 			System.out.print(resource.getVersion());
 			System.out.println(")");
+		}
+	}
+
+	private static HashSet<String> addToUninstall(
+			HashSet<String> bundlesToUninstall, Resource[] resources) {
+		if (bundlesToUninstall == null)
+			bundlesToUninstall = new HashSet<String>();
+		for (Resource resource : resources)
+			bundlesToUninstall.add(resource.getSymbolicName());
+		return bundlesToUninstall;
+	}
+
+	private void uninstall(HashSet<String> bundlesToUninstall) {
+		Bundle[] bundles = m_context.getBundleContext().getBundles();
+		if (bundles == null)
+			return;
+
+		for (Bundle bundle : bundles) {
+			if (bundlesToUninstall.contains(bundle.getSymbolicName())) {
+				try {
+					bundle.uninstall();
+				} catch (Exception e) {
+					System.err.print("Failed to uninstall: ");
+					System.err.println(bundle.toString());
+					System.err.println(e.toString());
+				}
+			}
 		}
 	}
 }
