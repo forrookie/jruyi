@@ -125,7 +125,7 @@ public final class Main {
 		Console console = System.console();
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
-		session.send("$welcome");
+		session.recv(console.writer());
 
 		String cmdLine = null;
 		do {
@@ -221,6 +221,7 @@ public final class Main {
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
 		try {
+			session.recv(DummyWriter.INST);
 			session.send("prompt=''\r\n" + command);
 		} finally {
 			session.close();
@@ -231,8 +232,8 @@ public final class Main {
 		Session session = m_session;
 		session.open(m_host, m_port, m_timeout);
 		try {
-			String cmd = "prompt=''";
-			session.send(cmd);
+			session.recv(DummyWriter.INST);
+			session.send("prompt=''");
 
 			if (scripts == null || scripts.length < 1)
 				return;

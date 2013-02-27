@@ -34,7 +34,7 @@ import org.apache.felix.scr.annotations.References;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
-import org.apache.felix.service.command.Converter;
+import org.jruyi.common.CharsetCodec;
 import org.jruyi.common.IService;
 import org.jruyi.common.IntStack;
 import org.jruyi.common.Properties;
@@ -99,7 +99,7 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 	private ComponentInstance m_tcpServer;
 	private Properties m_conf;
 	private ConcurrentHashMap<Long, CommandSession> m_css;
-	private String m_welcome;
+	private byte[] m_welcome;
 	private String m_prompt;
 	private IProducer m_producer;
 
@@ -180,24 +180,18 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 		CommandSession cs = m_css.get(session.id());
 
 		BufferStream bs = (BufferStream) session.get(CLID_OUT);
+		bs.message(message);
+		bs.buffer(buffer);
 		if (cmdline != null) {
 			cmdline = filterProps(cmdline, cs, m_context);
-			bs.message(message);
-			bs.buffer(buffer);
 			try {
-				Object result = cs.execute(cmdline);
-				if (result != null)
-					bs.write(cs.format(result, Converter.INSPECT));
-			} catch (Exception e) {
-				c_logger.warn(cmdline, e);
-				String msg = e.getMessage();
+				cs.execute(cmdline);
+			} catch (Throwable t) {
+				c_logger.warn(cmdline, t);
+				String msg = t.getMessage();
 				if (msg == null)
-					msg = e.toString();
-				try {
-					bs.write(msg);
-				} catch (Throwable t) {
-					c_logger.warn("Unexpected Error", t);
-				}
+					msg = t.toString();
+				bs.write(msg);
 			}
 		}
 		bs.writeOut((String) cs.get(PROMPT));
@@ -314,10 +308,14 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 		PrintStream out = new PrintStream(bs);
 		CommandSession cs = m_cp.createSession(null, out, out);
 		cs.put(PROMPT, m_prompt);
-		cs.put(WELCOME, m_welcome);
 
 		session.put(CLID_OUT, bs);
 		m_css.put(session.id(), cs);
+
+		bs.buffer(session.createBuffer());
+		bs.message(message);
+		bs.write(m_welcome);
+		bs.writeOut(m_prompt);
 	}
 
 	private void onSessionClosed(IMessage message) {
@@ -330,15 +328,14 @@ public final class CliProcessor implements IConsumer, IEndpoint, IFilter {
 
 	private void loadBrandingInfo(String url, BundleContext context)
 			throws Exception {
-		java.util.Properties brandingInfo = loadBrandingProps(CliProcessor.class
+		java.util.Properties branding = loadBrandingProps(CliProcessor.class
 				.getResourceAsStream("branding.properties"));
 		if (url != null)
-			brandingInfo.putAll(loadBrandingProps(new URL(url).openStream()));
+			branding.putAll(loadBrandingProps(new URL(url).openStream()));
 
-		m_welcome = StrUtil.filterProps(brandingInfo.getProperty(WELCOME),
-				context);
-		m_prompt = StrUtil.filterProps(brandingInfo.getProperty(PROMPT),
-				context);
+		m_welcome = CharsetCodec.get(CharsetCodec.UTF_8).toBytes(
+				StrUtil.filterProps(branding.getProperty(WELCOME), context));
+		m_prompt = StrUtil.filterProps(branding.getProperty(PROMPT), context);
 	}
 
 	private static java.util.Properties loadBrandingProps(InputStream in)

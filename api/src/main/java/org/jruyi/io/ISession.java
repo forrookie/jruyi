@@ -108,6 +108,14 @@ public interface ISession {
 	public Object inquiry(Object id);
 
 	/**
+	 * Creates an empty buffer using the buffer factory associated with
+	 * this session.
+	 *
+	 * @return an empty buffer
+	 */
+	public IBuffer createBuffer();
+
+	/**
 	 * Tests whether this session is closed.
 	 * 
 	 * @return {@code true} if this session is closed, otherwise {@code false}

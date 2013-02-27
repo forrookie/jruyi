@@ -15,7 +15,6 @@
  */
 package org.jruyi.clid;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 import org.jruyi.io.Codec;
@@ -49,11 +48,11 @@ final class BufferStream extends OutputStream {
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() {
 	}
 
 	@Override
-	public void flush() throws IOException {
+	public void flush() {
 		IBuffer buffer = m_buffer;
 		if (buffer.isEmpty())
 			return;
@@ -77,19 +76,19 @@ final class BufferStream extends OutputStream {
 	}
 
 	@Override
-	public void write(byte[] b, int off, int len) throws IOException {
+	public void write(byte[] b, int off, int len) {
 		m_buffer.write(b, off, len, Codec.byteArray());
 		checkFlush();
 	}
 
 	@Override
-	public void write(byte[] b) throws IOException {
+	public void write(byte[] b) {
 		m_buffer.write(b, Codec.byteArray());
 		checkFlush();
 	}
 
 	@Override
-	public void write(int b) throws IOException {
+	public void write(int b) {
 		m_buffer.write((byte) b);
 		checkFlush();
 	}
@@ -126,7 +125,7 @@ final class BufferStream extends OutputStream {
 			buffer.prepend((byte) ((n & 0x7F) | 0x80));
 	}
 
-	private void checkFlush() throws IOException {
+	private void checkFlush() {
 		if (m_buffer.size() >= FLUSH_THRESHOLD)
 			flush();
 	}

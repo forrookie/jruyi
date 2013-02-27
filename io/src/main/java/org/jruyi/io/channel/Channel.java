@@ -584,6 +584,11 @@ public abstract class Channel implements IChannel, IDumpable, Runnable {
 	}
 
 	@Override
+	public IBuffer createBuffer() {
+		return m_channelService.getBufferFactory().create();
+	}
+
+	@Override
 	public final void write(Object msg, boolean close) {
 		try {
 			if (msg != null) {
